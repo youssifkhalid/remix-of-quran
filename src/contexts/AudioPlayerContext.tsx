@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useRef, useState, useCallback, type ReactNode } from "react";
 import type { Surah } from "@/lib/quran";
 import type { Reciter } from "@/lib/quran";
+import { announceAudioSource, onOtherAudioSource } from "@/lib/audio-bus";
 
 export interface PlayerTrack {
   surah: Surah;
@@ -95,6 +96,7 @@ export function AudioPlayerProvider({ children }: { children: ReactNode }) {
     const track = queue[index];
     if (!track) return;
     const audio = getAudio();
+    announceAudioSource("quran");
     audio.src = track.audioUrl;
     audio.playbackRate = state.speed;
     audio.play().catch(() => setState((s) => ({ ...s, playing: false, loading: false, error: "تعذّر تشغيل الملف الصوتي" })));
@@ -111,6 +113,10 @@ export function AudioPlayerProvider({ children }: { children: ReactNode }) {
     }));
     updateMediaSession(track);
   }, [getAudio, state.speed, updateMediaSession]);
+
+  useEffect(() => {
+    return onOtherAudioSource("quran", () => getAudio().pause());
+  }, [getAudio]);
 
   useEffect(() => {
     const audio = getAudio();
