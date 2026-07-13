@@ -288,57 +288,43 @@
    ═══════════════════════════════════════════════════════════════════ */
 
 @keyframes page-in {
-  from { opacity: 0; transform: translateY(16px) scale(0.99); }
-  to   { opacity: 1; transform: translateY(0)   scale(1); }
+  from { opacity: 0; transform: translate3d(0, 8px, 0); }
+  to   { opacity: 1; transform: translate3d(0, 0, 0); }
 }
 @utility fade-up {
-  animation: page-in 0.45s var(--ease-spring) both;
+  animation: page-in 0.28s var(--ease-smooth) both;
+  will-change: opacity;
 }
 
 @keyframes slide-in-right {
-  from { opacity: 0; transform: translateX(24px); }
-  to   { opacity: 1; transform: translateX(0); }
+  from { opacity: 0; transform: translate3d(16px, 0, 0); }
+  to   { opacity: 1; transform: translate3d(0, 0, 0); }
 }
 @utility slide-in {
-  animation: slide-in-right 0.40s var(--ease-spring) both;
+  animation: slide-in-right 0.30s var(--ease-smooth) both;
 }
 
 @keyframes slide-up-sheet {
-  from { transform: translateY(100%); opacity: 0; }
-  to   { transform: translateY(0);    opacity: 1; }
+  from { transform: translate3d(0, 100%, 0); opacity: 0; }
+  to   { transform: translate3d(0, 0, 0);    opacity: 1; }
 }
 @utility slide-up {
-  animation: slide-up-sheet 0.38s var(--ease-spring) both;
+  animation: slide-up-sheet 0.30s var(--ease-smooth) both;
 }
 
-/* Stagger children */
-.stagger > * {
-  animation: page-in 0.45s var(--ease-spring) both;
+/* Stagger removed from list children to prevent per-row tearing.
+   Only the container animates; children stay static. */
+.stagger { animation: page-in 0.28s var(--ease-smooth) both; }
+
+/* Respect reduced motion — kills all decorative animations */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
 }
 
-.stagger > *:nth-child(1) {
-  animation-delay: 0.05s;
-}
-
-.stagger > *:nth-child(2) {
-  animation-delay: 0.10s;
-}
-
-.stagger > *:nth-child(3) {
-  animation-delay: 0.15s;
-}
-
-.stagger > *:nth-child(4) {
-  animation-delay: 0.20s;
-}
-
-.stagger > *:nth-child(5) {
-  animation-delay: 0.25s;
-}
-
-.stagger > *:nth-child(6) {
-  animation-delay: 0.30s;
-}
 
 /* ═══════════════════════════════════════════════════════════════════
    ANIMATIONS — MICRO INTERACTIONS
