@@ -67,7 +67,7 @@ function Home() {
   return (
     <div className="fade-up">
       {/* ── HERO PRAYER SECTION ── */}
-      <header className="relative overflow-hidden rounded-b-[2.5rem] gradient-hero text-primary-foreground pattern-islamic px-5 pt-8 pb-10 shadow-elevated">
+      <header className="relative overflow-hidden rounded-b-[2.5rem] gradient-hero text-primary-foreground pattern-islamic px-5 pt-6 pb-8 shadow-elevated">
         <div aria-hidden className="absolute inset-0 opacity-20" style={{background:"radial-gradient(circle at 70% 20%, var(--gold) 0%, transparent 50%)"}}/>
         <div className="relative">
           <div className="flex items-start justify-between">
@@ -78,15 +78,15 @@ function Home() {
               </p>
             </div>
             <Link to="/settings"
-              className="flex items-center gap-1.5 rounded-full glass-dark px-3 py-1.5 text-[10px] backdrop-blur">
+              className="flex items-center gap-1.5 rounded-full glass-dark px-3 py-1.5 text-[10px]">
               <Settings className="h-3 w-3"/>
               {hijri.data?.weekday?.ar ?? "الإعدادات"}
             </Link>
           </div>
 
-          <div className="mt-5 text-center">
+          <div className="mt-4 text-center">
             <p className="text-[11px] opacity-60">الصلاة القادمة</p>
-            <h1 className="font-quran text-5xl mt-1 text-gradient-gold">
+            <h1 className="font-quran text-4xl mt-1 text-gradient-gold">
               {next ? PRAYER_NAMES_AR[next.name] : coords ? "…" : "فعّل الموقع"}
             </h1>
             {next && (
@@ -98,7 +98,7 @@ function Home() {
           </div>
 
           {/* 5 prayers strip */}
-          <div className="mt-5 grid grid-cols-5 gap-1.5 rounded-2xl bg-black/20 backdrop-blur p-2">
+          <div className="mt-5 grid grid-cols-5 gap-1.5 rounded-2xl bg-background/20 p-2">
             {prayer.data
               ? (["Fajr","Dhuhr","Asr","Maghrib","Isha"] as const).map(k => (
                   <Link to="/prayer" key={k}
@@ -227,7 +227,6 @@ function Home() {
 
       {/* ── DAILY AYAH ── */}
       <section className="mx-4 mt-6 rounded-3xl bg-card border border-border/60 shadow-soft p-5 relative overflow-hidden">
-        <div aria-hidden className="absolute -top-10 -right-10 h-32 w-32 rounded-full bg-gold/10 blur-2xl"/>
         <div className="flex items-center gap-2 mb-3">
           <span className="grid h-8 w-8 place-items-center rounded-xl gradient-gold text-gold-foreground">
             <MoonStar className="h-4 w-4"/>
@@ -251,7 +250,7 @@ function Home() {
 
       {/* ── HADITH OF DAY ── */}
       <section className="mx-4 mt-4 rounded-3xl gradient-primary text-primary-foreground p-5 shadow-elevated relative overflow-hidden">
-        <div aria-hidden className="absolute inset-0 opacity-10" style={{background:"radial-gradient(circle at 80% 20%, white 0%, transparent 50%)"}}/>
+          <div aria-hidden className="absolute inset-0 opacity-10" style={{background:"radial-gradient(circle at 80% 20%, var(--on-hero) 0%, transparent 50%)"}}/>
         <div className="flex items-center gap-2 mb-3 relative">
           <BookOpen className="h-4 w-4"/>
           <h2 className="text-sm font-semibold opacity-90">حديث اليوم</h2>
@@ -266,7 +265,9 @@ function Home() {
       {/* ── DUA OF DAY ── */}
       <section className="mx-4 mt-4 mb-6 rounded-3xl bg-card border border-gold/25 shadow-soft p-5">
         <div className="flex items-center gap-2 mb-3">
-          <span className="grid h-8 w-8 place-items-center rounded-xl bg-gold/15 text-gold">🤲</span>
+          <span className="grid h-8 w-8 place-items-center rounded-xl bg-gold/15 text-gold">
+            <Heart className="h-4 w-4" />
+          </span>
           <h2 className="text-sm font-semibold">دعاء اليوم</h2>
         </div>
         <p className="font-quran text-xl leading-loose">{dua}</p>

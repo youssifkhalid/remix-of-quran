@@ -175,13 +175,27 @@
    BASE STYLES
    ═══════════════════════════════════════════════════════════════════ */
 @layer base {
-  * { border-color: var(--color-border); }
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    border-color: var(--color-border);
+    min-width: 0;
+  }
 
   html {
     -webkit-tap-highlight-color: transparent;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
     scroll-behavior: smooth;
+    overflow-x: hidden;
+    background: var(--color-background);
+  }
+
+  html,
+  body {
+    width: 100%;
+    min-height: 100%;
   }
 
   html[dir="rtl"] body { font-family: var(--font-sans); }
@@ -194,6 +208,29 @@
     font-feature-settings: "ss01", "kern";
     overscroll-behavior: none;
     -webkit-overflow-scrolling: touch;
+    overflow-x: hidden;
+    margin: 0;
+  }
+
+  #root,
+  #__root {
+    min-height: 100dvh;
+    overflow-x: clip;
+  }
+
+  img,
+  svg,
+  video,
+  canvas {
+    max-width: 100%;
+  }
+
+  a,
+  button,
+  input,
+  textarea,
+  select {
+    -webkit-tap-highlight-color: transparent;
   }
 
   button,
@@ -242,15 +279,17 @@
 
   .font-quran {
     font-family: var(--font-arabic);
-    font-size: 1.75rem;
-    line-height: 2.3;
+    font-size: inherit;
+    line-height: 1.8;
     letter-spacing: 0;
     font-weight: 400;
+    overflow-wrap: anywhere;
   }
 
   .text-arabic {
     font-family: var(--font-arabic);
-    line-height: 2.0;
+    line-height: 1.9;
+    overflow-wrap: anywhere;
   }
 
   ::selection {
@@ -405,7 +444,7 @@
 @utility tap-lg {
   transition: transform 150ms var(--ease-bounce), filter 150ms;
 }
-@utility tap-lg{
+.tap-lg:active {
   transform: scale(0.93);
   filter: brightness(0.92);
 }
@@ -555,7 +594,6 @@
   transition: transform 200ms var(--ease-spring), box-shadow 200ms var(--ease-spring);
 }
 .card-hover:hover{
-  transform: translateY(-2px);
   box-shadow: var(--shadow-elevated);
 }
 
@@ -583,8 +621,7 @@
   background: var(--g-primary);
   color: var(--color-primary-foreground);
   box-shadow: var(--shadow-glow);
-  transform: scale(1.10);
-  transition: all 300ms var(--ease-bounce);
+  transition: background-color 200ms var(--ease-smooth), color 200ms var(--ease-smooth), box-shadow 200ms var(--ease-smooth);
 }
 
 /* Dhikr card complete state */
@@ -803,6 +840,85 @@
 .scroll-area::-webkit-scrollbar-thumb {
   background: var(--color-border);
   border-radius: 99px;
+}
+
+/* ── Mobile shell: stable top/bottom chrome without visual overlap ── */
+:root { --mobile-shell-height: 4rem; }
+
+.mobile-shell-bar {
+  position: sticky;
+  top: 0;
+  z-index: 55;
+  display: flex;
+  min-height: var(--mobile-shell-height);
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: max(env(safe-area-inset-top), 0.5rem) 0.875rem 0.5rem;
+  background: color-mix(in oklab, var(--background) 96%, var(--surface));
+  border-bottom: 1px solid color-mix(in oklab, var(--border) 72%, transparent);
+  box-shadow: var(--shadow-xs);
+}
+
+.mobile-menu-trigger {
+  display: grid;
+  height: 2.75rem;
+  width: 2.75rem;
+  flex-shrink: 0;
+  place-items: center;
+  border-radius: 1rem;
+  background: var(--color-card);
+  color: var(--color-foreground);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-soft);
+}
+
+.mobile-shell-content {
+  min-width: 0;
+  overflow-x: clip;
+}
+
+.mobile-bottom-nav-panel {
+  min-height: 4.25rem;
+  border-radius: 1.35rem;
+  padding: 0.45rem 0.45rem 0.5rem;
+  background: color-mix(in oklab, var(--surface) 98%, var(--background));
+  border: 1px solid color-mix(in oklab, var(--border) 75%, transparent);
+  box-shadow: var(--shadow-elevated);
+}
+
+@media (max-width: 1023px) {
+  .mobile-shell-content :where(header.sticky) {
+    top: var(--mobile-shell-height);
+  }
+
+  .mobile-shell-content :where(.rounded-b-\[2\.5rem\]) {
+    border-bottom-right-radius: 1.75rem;
+    border-bottom-left-radius: 1.75rem;
+  }
+
+  a:active,
+  button:active,
+  [role="button"]:active {
+    transform: none !important;
+    filter: none !important;
+  }
+
+  .backdrop-blur,
+  .backdrop-blur-sm,
+  .backdrop-blur-md,
+  .backdrop-blur-lg,
+  .backdrop-blur-xl,
+  .blur-xl,
+  .blur-2xl,
+  .blur-3xl {
+    filter: none !important;
+    backdrop-filter: none !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  .mobile-shell-bar { display: none; }
 }
 
 /* ── Tooltip ── */

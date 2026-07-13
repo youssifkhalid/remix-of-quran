@@ -30,9 +30,9 @@ interface ConvMessage {
 type SourceType = "quran" | "hadith" | "scholar";
 
 const SOURCE_COLORS: Record<SourceType, { bg: string; text: string; border: string; icon: string }> = {
-  quran:   { bg: "bg-emerald-500/10", text: "text-emerald-700 dark:text-emerald-300", border: "border-emerald-500/30", icon: "📖" },
-  hadith:  { bg: "bg-amber-500/10",   text: "text-amber-700 dark:text-amber-300",     border: "border-amber-500/30",   icon: "📚" },
-  scholar: { bg: "bg-blue-500/10",    text: "text-blue-700 dark:text-blue-300",       border: "border-blue-500/30",    icon: "🎓" },
+  quran:   { bg: "bg-emerald-500/10", text: "text-emerald-700 dark:text-emerald-300", border: "border-emerald-500/30", icon: "ق" },
+  hadith:  { bg: "bg-amber-500/10",   text: "text-amber-700 dark:text-amber-300",     border: "border-amber-500/30",   icon: "ح" },
+  scholar: { bg: "bg-blue-500/10",    text: "text-blue-700 dark:text-blue-300",       border: "border-blue-500/30",    icon: "ع" },
 };
 
 const SOURCE_LABELS: Record<SourceType, string> = {
@@ -40,6 +40,8 @@ const SOURCE_LABELS: Record<SourceType, string> = {
   hadith: "حديث شريف",
   scholar: "قول عالم",
 };
+
+const QUESTION_ICONS = [BookOpen, Star, Sparkles, Lightbulb, BookOpen, Sparkles, Star, Lightbulb];
 
 function AIChatPage() {
   const [messages, setMessages] = useState<ConvMessage[]>([]);
@@ -196,7 +198,6 @@ function AIChatPage() {
               <div className="grid h-20 w-20 place-items-center rounded-3xl gradient-primary text-primary-foreground shadow-elevated mx-auto">
                 <Sparkles className="h-9 w-9" />
               </div>
-              <div className="absolute -inset-2 rounded-3xl gradient-primary opacity-20 blur-xl -z-10" />
             </div>
             <h2 className="font-quran text-2xl mt-4">المساعد الإسلامي</h2>
             <p className="text-sm text-muted-foreground mt-2 max-w-xs mx-auto leading-relaxed">
@@ -209,16 +210,21 @@ function AIChatPage() {
                 أسئلة مقترحة
               </p>
               <div className="grid grid-cols-2 gap-2">
-                {SUGGESTED_QUESTIONS.map((q, i) => (
-                  <button
-                    key={i}
-                    onClick={() => send(q.text)}
-                    className="text-right rounded-2xl bg-card border border-border/60 px-3 py-3 text-xs leading-relaxed shadow-soft hover:border-primary/30 hover:bg-primary/5 transition active:scale-95"
-                  >
-                    <span className="text-base">{q.emoji}</span>
-                    <p className="mt-1">{q.text}</p>
-                  </button>
-                ))}
+                {SUGGESTED_QUESTIONS.map((q, i) => {
+                  const QuestionIcon = QUESTION_ICONS[i % QUESTION_ICONS.length];
+                  return (
+                    <button
+                      key={i}
+                      onClick={() => send(q.text)}
+                      className="text-right rounded-2xl bg-card border border-border/60 px-3 py-3 text-xs leading-relaxed shadow-soft hover:border-primary/30 hover:bg-primary/5 transition active:scale-95"
+                    >
+                      <span className="grid h-7 w-7 place-items-center rounded-xl bg-primary/10 text-primary">
+                        <QuestionIcon className="h-4 w-4" />
+                      </span>
+                      <p className="mt-2">{q.text}</p>
+                    </button>
+                  );
+                })}
               </div>
             </div>
           </div>
@@ -255,7 +261,7 @@ function AIChatPage() {
                     {resp?.summary && (
                       <div className="mt-3 rounded-xl bg-gold/20 border border-gold/30 px-3 py-2">
                         <p className="text-xs font-bold text-gold-foreground">
-                          🔑 {resp.summary}
+                          {resp.summary}
                         </p>
                       </div>
                     )}
@@ -263,7 +269,7 @@ function AIChatPage() {
                     {/* Madhahib */}
                     {resp?.madhahib && (
                       <div className="mt-2 rounded-xl bg-white/10 px-3 py-2">
-                        <p className="text-[11px] opacity-90">⚖️ {resp.madhahib}</p>
+                        <p className="text-[11px] opacity-90">{resp.madhahib}</p>
                       </div>
                     )}
 
