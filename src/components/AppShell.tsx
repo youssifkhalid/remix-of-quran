@@ -3,7 +3,7 @@ import {
   BookOpen, Home, MoonStar, Sparkles, Bot, Search,
   Compass, Calculator, BookMarked, Trophy, Map,
   Settings, Heart, Star, CalendarDays, Mic2,
-  Radio, Moon, Flame, User as UserIcon, LogIn
+  Radio, Moon, Flame, LogIn, Menu, X
 } from "lucide-react";
 import { useState, useEffect, type ReactNode } from "react";
 import { AudioPlayerProvider } from "@/contexts/AudioPlayerContext";
@@ -40,6 +40,11 @@ const SECONDARY_NAV = [
     { to: "/tools",     icon: Map,          label: "أدوات إسلامية"      },
     { to: "/settings",  icon: Settings,     label: "الإعدادات"           },
   ]},
+] as const;
+
+const ALL_NAV = [
+  ...PRIMARY_NAV,
+  ...SECONDARY_NAV.flatMap((group) => group.items),
 ] as const;
 
 
@@ -119,9 +124,11 @@ function ProfilePill() {
 
 function AppShellInner({ children }: { children: ReactNode }) {
   const pathname = useRouterState({ select: s => s.location.pathname });
+  const [menuOpen, setMenuOpen] = useState(false);
   useKeyboardShortcuts();
 
   const isActive = (to: string) => to === "/" ? pathname === "/" : pathname.startsWith(to);
+  const isAiChat = pathname.startsWith("/ai-chat");
 
   return (
     <AudioPlayerProvider>
@@ -145,7 +152,7 @@ function AppShellInner({ children }: { children: ReactNode }) {
           {/* ══ DESKTOP / TABLET SIDEBAR ══ */}
           <aside className="hidden md:flex md:flex-col w-[220px] lg:w-[248px] xl:w-[272px] shrink-0
             sticky top-0 h-dvh border-l border-border/30 overflow-y-auto scroll-area
-            bg-background/80 backdrop-blur-2xl z-40">
+            bg-background/95 z-40">
 
             {/* Logo */}
             <Link to="/" className="flex items-center gap-3 px-5 pt-6 pb-5">
@@ -200,7 +207,7 @@ function AppShellInner({ children }: { children: ReactNode }) {
 
           {/* ══ MAIN CONTENT ══ */}
           <main className="flex-1 min-w-0 md:overflow-y-auto md:h-dvh scroll-area">
-            <div className="mx-auto w-full max-w-2xl pb-36 md:pb-10 pt-[env(safe-area-inset-top)] md:pt-0">
+            <div className={`mx-auto w-full pt-[env(safe-area-inset-top)] md:pt-0 ${isAiChat ? "max-w-none h-dvh pb-0" : "max-w-2xl pb-36 md:pb-10"}`}>
               {children}
             </div>
           </main>
@@ -210,8 +217,51 @@ function AppShellInner({ children }: { children: ReactNode }) {
         {/* ── Global MiniPlayer ── */}
         <MiniPlayer />
 
+        <button
+          type="button"
+          onClick={() => setMenuOpen(true)}
+          className="md:hidden fixed top-[max(env(safe-area-inset-top),0.75rem)] right-3 z-50 grid h-12 w-12 place-items-center rounded-2xl bg-card text-foreground border border-border shadow-elevated active:scale-95"
+          aria-label="فتح قائمة الصفحات"
+        >
+          <Menu className="h-5 w-5" />
+        </button>
+
+        {menuOpen && (
+          <div className="md:hidden fixed inset-0 z-[70] bg-background/95">
+            <div className="flex items-center justify-between border-b border-border px-4 py-3 pt-[max(env(safe-area-inset-top),0.75rem)]">
+              <div>
+                <p className="font-quran text-2xl leading-none">سكينة</p>
+                <p className="text-xs text-muted-foreground">كل الصفحات في مكان واحد</p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setMenuOpen(false)}
+                className="grid h-11 w-11 place-items-center rounded-2xl bg-card border border-border"
+                aria-label="إغلاق القائمة"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+            <div className="grid grid-cols-2 gap-3 overflow-y-auto p-4 pb-24">
+              {ALL_NAV.map(({ to, icon: Icon, label }: any) => (
+                <Link
+                  key={to}
+                  to={to}
+                  onClick={() => setMenuOpen(false)}
+                  className={`flex min-h-20 items-center gap-3 rounded-2xl border p-3 text-right shadow-soft ${isActive(to) ? "gradient-primary text-primary-foreground border-transparent" : "bg-card text-foreground border-border"}`}
+                >
+                  <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-primary/10 text-primary">
+                    <Icon className="h-5 w-5" />
+                  </span>
+                  <span className="text-sm font-bold leading-snug">{label}</span>
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
+
         {/* ══ MOBILE BOTTOM NAV ══ */}
-        <nav aria-label="التنقل" className="md:hidden fixed inset-x-0 bottom-0 z-50
+        {!isAiChat && <nav aria-label="التنقل" className="md:hidden fixed inset-x-0 bottom-0 z-50
           px-2 pb-[max(env(safe-area-inset-bottom),6px)] pt-1">
           <div className="flex items-end justify-between rounded-[22px] glass shadow-elevated px-1.5 py-1.5">
             {PRIMARY_NAV.map(({ to, icon: Icon, label, badge }: any) => {
@@ -240,17 +290,17 @@ function AppShellInner({ children }: { children: ReactNode }) {
               );
             })}
           </div>
-        </nav>
+        </nav>}
 
         {/* ── FAB: quick search on mobile ── */}
-        <button
+        {!isAiChat && <button
           onClick={() => window.location.href = "/search"}
           className="md:hidden fixed bottom-[5.5rem] left-3 z-40
             h-12 w-12 rounded-2xl gradient-gold text-gold-foreground shadow-gold
             grid place-items-center transition-all active:scale-90 hover:scale-105"
           aria-label="بحث سريع">
           <Search className="h-5 w-5" />
-        </button>
+        </button>}
 
       </div>
     </AudioPlayerProvider>

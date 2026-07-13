@@ -189,6 +189,32 @@
     -webkit-overflow-scrolling: touch;
   }
 
+  button,
+  input,
+  textarea,
+  select {
+    color: inherit;
+    font: inherit;
+  }
+
+  select,
+  input,
+  textarea {
+    background-color: var(--color-card);
+  }
+
+  option {
+    background-color: var(--color-card);
+    color: var(--color-card-foreground);
+  }
+
+  .dark button,
+  .dark input,
+  .dark textarea,
+  .dark select {
+    color: var(--color-foreground);
+  }
+
   .font-quran {
     font-family: var(--font-arabic);
     font-size: 1.75rem;
@@ -251,21 +277,15 @@
    GLASS EFFECTS
    ═══════════════════════════════════════════════════════════════════ */
 @utility glass {
-  background: color-mix(in oklab, var(--surface) 88%, transparent);
-  backdrop-filter: blur(12px) saturate(140%);
-  -webkit-backdrop-filter: blur(12px) saturate(140%);
+  background: color-mix(in oklab, var(--surface) 97%, transparent);
   border: 1px solid color-mix(in oklab, var(--foreground) 7%, transparent);
 }
 @utility glass-dark {
-  background: color-mix(in oklab, var(--background) 90%, transparent);
-  backdrop-filter: blur(14px) saturate(150%);
-  -webkit-backdrop-filter: blur(14px) saturate(150%);
+  background: color-mix(in oklab, var(--background) 97%, var(--surface));
   border: 1px solid color-mix(in oklab, var(--gold) 10%, transparent);
 }
 @utility glass-gold {
   background: color-mix(in oklab, var(--gold) 8%, var(--card));
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
   border: 1px solid color-mix(in oklab, var(--gold) 20%, transparent);
 }
 
@@ -292,8 +312,7 @@
   to   { opacity: 1; transform: translate3d(0, 0, 0); }
 }
 @utility fade-up {
-  animation: page-in 0.28s var(--ease-smooth) both;
-  will-change: opacity;
+  animation: none;
 }
 
 @keyframes slide-in-right {
@@ -314,7 +333,7 @@
 
 /* Stagger removed from list children to prevent per-row tearing.
    Only the container animates; children stay static. */
-.stagger { animation: page-in 0.28s var(--ease-smooth) both; }
+.stagger { animation: none; }
 
 /* Respect reduced motion — kills all decorative animations */
 @media (prefers-reduced-motion: reduce) {
@@ -698,8 +717,7 @@
 
 /* ── Card variants ── */
 .card-glass {
-  background: color-mix(in oklab, var(--card) 85%, transparent);
-  backdrop-filter: blur(20px) saturate(1.5);
+  background: color-mix(in oklab, var(--card) 98%, var(--surface));
   border: 1px solid color-mix(in oklab, var(--border) 60%, transparent);
   border-radius: var(--radius-3xl);
 }
@@ -879,13 +897,11 @@ mark.quran-mark {
 
 /* ── Glass morphism variants ── */
 @utility glass-strong {
-  background: color-mix(in oklab, var(--background) 92%, transparent);
-  backdrop-filter: blur(40px) saturate(1.8);
+  background: color-mix(in oklab, var(--background) 98%, var(--surface));
   border: 1px solid color-mix(in oklab, var(--border) 70%, transparent);
 }
 @utility glass-card {
-  background: color-mix(in oklab, var(--card) 88%, transparent);
-  backdrop-filter: blur(24px) saturate(1.4);
+  background: color-mix(in oklab, var(--card) 98%, var(--surface));
   border: 1px solid color-mix(in oklab, var(--border) 50%, transparent);
 }
 

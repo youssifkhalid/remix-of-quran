@@ -153,7 +153,7 @@ function AIChatPage() {
   };
 
   return (
-    <div className="flex flex-col min-h-[calc(100dvh-5rem)]">
+    <div className="flex h-dvh min-h-dvh flex-col bg-background">
       {/* Header */}
       <header className="sticky top-0 z-30 glass border-b border-border/40">
         <div className="px-4 py-3 flex items-center justify-between">
@@ -187,7 +187,7 @@ function AIChatPage() {
       </header>
 
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto px-3 py-4 space-y-4">
+      <div className="flex-1 overflow-y-auto px-3 py-4 md:px-8 lg:px-12 space-y-4">
 
         {/* Welcome state */}
         {messages.length === 0 && (
@@ -356,7 +356,7 @@ function AIChatPage() {
       </div>
 
       {/* Input area */}
-      <div className="sticky bottom-[5.5rem] z-30 px-3 py-2">
+      <div className="sticky bottom-0 z-30 px-3 py-2 md:px-8 lg:px-12 bg-background/95 border-t border-border">
         <div className="rounded-3xl glass shadow-elevated border border-border/50 overflow-hidden">
           {/* Quick reply chips */}
           {messages.length > 0 && !loading && (
@@ -399,9 +399,7 @@ function AIChatPage() {
             </button>
           </div>
         </div>
-        <p className="text-center text-[10px] text-muted-foreground mt-1.5">
-          Powered by Claude AI • المصادر من كتب الإسلام الموثوقة
-        </p>
+        <p className="text-center text-[10px] text-muted-foreground mt-1.5">المصادر من كتب الإسلام الموثوقة</p>
       </div>
     </div>
   );

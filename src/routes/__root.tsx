@@ -52,7 +52,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { title: "سكينة — تطبيقك الإسلامي" },
       { name: "description", content: "تطبيق إسلامي شامل: القرآن، الصلاة، الأذكار، الختمة، القبلة والتسبيح." },
       { property: "og:title", content: "سكينة" },
+      { property: "og:description", content: "تطبيق إسلامي شامل للقرآن والأذكار والصلاة والقبلة والإذاعة." },
+      { property: "og:type", content: "website" },
       { property: "og:locale", content: "ar_SA" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
@@ -92,12 +95,6 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
-
-  useEffect(() => {
-    if ("serviceWorker" in navigator) {
-      navigator.serviceWorker.register("/sw.js").catch(() => {});
-    }
-  }, []);
 
   return (
     <QueryClientProvider client={queryClient}>

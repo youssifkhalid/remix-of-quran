@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, Outlet, useRouterState } from "@tanstack/react-router";
 import { Sunrise, Sunset, Moon, BookOpen, Navigation, Utensils, Heart, Star, Shield, AlarmClock, Droplets } from "lucide-react";
 import { ADHKAR } from "@/data/adhkar";
 
@@ -9,8 +9,13 @@ export const Route = createFileRoute("/adhkar")({
       { name: "description", content: "أذكار الصباح والمساء، النوم، الوضوء، السفر، الكرب، الرقية الشرعية وأسماء الله الحسنى." },
     ],
   }),
-  component: AdhkarIndex,
+  component: AdhkarLayout,
 });
+
+function AdhkarLayout() {
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  return pathname === "/adhkar" ? <AdhkarIndex /> : <Outlet />;
+}
 
 const ICONS: Record<string, any> = {
   morning: Sunrise,

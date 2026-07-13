@@ -3,6 +3,7 @@ import { useState, useRef, useEffect, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Play, Pause, Volume2, Radio, Loader2, VolumeX, Search, AlertCircle } from "lucide-react";
 import { fetchRadioStations } from "@/lib/radio.functions";
+import { announceAudioSource, onOtherAudioSource } from "@/lib/audio-bus";
 
 export const Route = createFileRoute("/radio")({
   head: () => ({
@@ -27,6 +28,17 @@ const GRADIENTS = [
   "from-lime-600 to-emerald-700",
   "from-slate-600 to-gray-700",
 ];
+
+let sharedRadioAudio: HTMLAudioElement | null = null;
+let sharedStationId: number | null = null;
+
+function getSharedRadioAudio() {
+  if (!sharedRadioAudio && typeof Audio !== "undefined") {
+    sharedRadioAudio = new Audio();
+    sharedRadioAudio.preload = "none";
+  }
+  return sharedRadioAudio;
+}
 
 function RadioPage() {
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -53,14 +65,16 @@ function RadioPage() {
   }, [stations, q]);
 
   function getAudio() {
-    if (!audioRef.current) audioRef.current = new Audio();
+    if (!audioRef.current) audioRef.current = getSharedRadioAudio();
     return audioRef.current;
   }
 
   useEffect(() => {
     const audio = getAudio();
+    if (!audio) return;
+    if (!audio.paused && sharedStationId) setPlaying(sharedStationId);
     const onPlay = () => {
-      const id = Number(audio.dataset.stationId);
+      const id = Number(audio.dataset.stationId || sharedStationId);
       setPlaying(Number.isFinite(id) ? id : null);
       setLoading(null);
     };
@@ -80,35 +94,49 @@ function RadioPage() {
     audio.addEventListener("waiting", onWaiting);
     audio.addEventListener("canplay", onCanPlay);
     audio.addEventListener("error", onErr);
+    const removeBusListener = onOtherAudioSource("radio", () => audio.pause());
     return () => {
-      audio.pause();
-      audio.src = "";
       audio.removeEventListener("play", onPlay);
       audio.removeEventListener("pause", onPause);
       audio.removeEventListener("waiting", onWaiting);
       audio.removeEventListener("canplay", onCanPlay);
       audio.removeEventListener("error", onErr);
+      removeBusListener();
     };
   }, []);
 
   function playStation(st: { id: number; name: string; url: string }) {
     const audio = getAudio();
+    if (!audio) return;
     setError(null);
     if (playing === st.id) {
       audio.pause();
       setPlaying(null);
       return;
     }
+    announceAudioSource("radio");
     audio.pause();
     audio.src = st.url;
     audio.dataset.stationId = String(st.id);
+    sharedStationId = st.id;
     audio.volume = muted ? 0 : volume;
+    audio.muted = muted;
+    if ("mediaSession" in navigator) {
+      navigator.mediaSession.metadata = new MediaMetadata({
+        title: st.name,
+        artist: "إذاعة القرآن الكريم",
+        album: "سكينة",
+      });
+      navigator.mediaSession.setActionHandler("play", () => audio.play().catch(() => {}));
+      navigator.mediaSession.setActionHandler("pause", () => audio.pause());
+    }
     setLoading(st.id);
     audio.play().catch(() => setError("تعذّر تشغيل البث المباشر."));
   }
 
   function toggleMute() {
     const audio = getAudio();
+    if (!audio) return;
     audio.muted = !muted;
     setMuted((m) => !m);
   }
@@ -223,7 +251,7 @@ function RadioPage() {
       {/* Bottom control bar */}
       {currentStation && (
         <div className="fixed bottom-16 md:bottom-0 left-0 right-0 z-30 mx-auto max-w-3xl px-3 pb-3">
-          <div className="rounded-2xl bg-card/95 backdrop-blur border border-border shadow-elevated p-3 flex items-center gap-3">
+          <div className="rounded-2xl bg-card border border-border shadow-elevated p-3 flex items-center gap-3">
             <button
               onClick={toggleMute}
               className="grid h-9 w-9 place-items-center rounded-full bg-muted/50 hover:bg-muted transition"

@@ -1,4 +1,4 @@
-import { createFileRoute, Link, useParams } from "@tanstack/react-router";
+import { createFileRoute, Link, Outlet, useParams, useRouterState } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useMemo, useState } from "react";
 import { ChevronRight, BookmarkCheck, Play, Pause, BookOpen, Volume2, Share2, Type, ChevronDown, ChevronUp } from "lucide-react";
@@ -12,8 +12,13 @@ export const Route = createFileRoute("/quran/$id")({
       { name: "description", content: "اقرأ السورة برسم عثماني مع تلاوات لكبار القراء." },
     ],
   }),
-  component: SurahPage,
+  component: QuranSurahLayout,
 });
+
+function QuranSurahLayout() {
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  return pathname.endsWith("/tafsir") ? <Outlet /> : <SurahPage />;
+}
 
 const BOOKMARK_KEY = "sakeenah:bookmarks";
 const RECITER_KEY = "sakeenah:reciter";

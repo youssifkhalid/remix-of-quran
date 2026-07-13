@@ -1,7 +1,7 @@
 import { createFileRoute, Link, useParams } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo, useState } from "react";
-import { ChevronRight, BookOpen, AlignJustify, Loader2 } from "lucide-react";
+import { ChevronRight, BookOpen, AlignJustify, Loader2, Languages } from "lucide-react";
 import { fetchSurah } from "@/lib/quran";
 
 export const Route = createFileRoute("/quran/$id/tafsir")({
@@ -14,28 +14,36 @@ export const Route = createFileRoute("/quran/$id/tafsir")({
 const TAFSIR_EDITIONS = [
   { id: "ar.muyassar",  name: "التفسير الميسّر",        lang: "ar" },
   { id: "ar.jalalayn",  name: "تفسير الجلالين",         lang: "ar" },
-  { id: "en.sahih",     name: "Saheeh International",   lang: "en" },
-  { id: "en.pickthall", name: "Pickthall Translation",  lang: "en" },
-  { id: "en.yusufali",  name: "Yusuf Ali Translation",  lang: "en" },
+];
+
+const TRANSLATION_EDITIONS = [
+  { id: "en.sahih", name: "Saheeh International", lang: "en" },
+  { id: "en.pickthall", name: "Pickthall", lang: "en" },
+  { id: "en.yusufali", name: "Yusuf Ali", lang: "en" },
+  { id: "fr.hamidullah", name: "Français — Hamidullah", lang: "fr" },
 ];
 
 interface AyahTafsir {
   numberInSurah: number;
   text: string;
   tafsir?: string;
+  translation?: string;
 }
 
-async function fetchTafsir(surahNum: number, edition: string) {
-  const [ayahRes, tafsirRes] = await Promise.all([
-    fetch(`https://api.alquran.cloud/v1/surah/${surahNum}`).then(r => r.json()),
-    fetch(`https://api.alquran.cloud/v1/surah/${surahNum}/${edition}`).then(r => r.json()),
+async function fetchTafsir(surahNum: number, tafsirEdition: string, translationEdition: string) {
+  const [ayahRes, tafsirRes, translationRes] = await Promise.all([
+    fetch(`https://api.alquran.cloud/v1/surah/${surahNum}/quran-uthmani`).then(r => r.json()),
+    fetch(`https://api.alquran.cloud/v1/surah/${surahNum}/${tafsirEdition}`).then(r => r.json()),
+    fetch(`https://api.alquran.cloud/v1/surah/${surahNum}/${translationEdition}`).then(r => r.json()),
   ]);
   const ayahs: any[] = ayahRes?.data?.ayahs ?? [];
   const tafsirs: any[] = tafsirRes?.data?.ayahs ?? [];
+  const translations: any[] = translationRes?.data?.ayahs ?? [];
   return ayahs.map((a, i) => ({
     numberInSurah: a.numberInSurah,
     text: a.text,
     tafsir: tafsirs[i]?.text ?? "",
+    translation: translations[i]?.text ?? "",
   })) as AyahTafsir[];
 }
 
@@ -43,6 +51,7 @@ function TafsirPage() {
   const { id } = useParams({ from: "/quran/$id/tafsir" });
   const num = Math.max(1, Math.min(114, Number(id) || 1));
   const [edition, setEdition] = useState(TAFSIR_EDITIONS[0].id);
+  const [translationEdition, setTranslationEdition] = useState(TRANSLATION_EDITIONS[0].id);
   const [expanded, setExpanded] = useState<Set<number>>(new Set());
   const [expandAll, setExpandAll] = useState(false);
 
@@ -53,8 +62,8 @@ function TafsirPage() {
   });
 
   const { data, isLoading } = useQuery({
-    queryKey: ["tafsir", num, edition],
-    queryFn: () => fetchTafsir(num, edition),
+    queryKey: ["tafsir", num, edition, translationEdition],
+    queryFn: () => fetchTafsir(num, edition, translationEdition),
     staleTime: 1000 * 60 * 60,
     retry: 1,
   });
@@ -89,18 +98,27 @@ function TafsirPage() {
         </div>
 
         {/* Edition + expand controls */}
-        <div className="flex gap-2">
+        <div className="grid grid-cols-[1fr_auto] gap-2">
           <select value={edition} onChange={e => setEdition(e.target.value)}
             className="flex-1 rounded-xl bg-card border border-border px-3 py-2 text-xs outline-none">
             {TAFSIR_EDITIONS.map(t => (
               <option key={t.id} value={t.id}>{t.name}</option>
             ))}
           </select>
-          <button onClick={() => setExpandAll(e => !e)}
+          <button type="button" onClick={() => setExpandAll(e => !e)}
             className={`flex items-center gap-1.5 rounded-xl px-3 py-2 text-xs font-semibold transition shrink-0 ${expandAll ? "gradient-primary text-primary-foreground" : "bg-card border border-border"}`}>
             <AlignJustify className="h-3.5 w-3.5"/>
             {expandAll ? "طيّ الكل" : "فتح الكل"}
           </button>
+          <label className="col-span-2 flex items-center gap-2 rounded-xl bg-card border border-border px-3 py-2 text-xs">
+            <Languages className="h-3.5 w-3.5 text-primary" />
+            <select value={translationEdition} onChange={e => setTranslationEdition(e.target.value)}
+              className="min-w-0 flex-1 bg-transparent outline-none">
+              {TRANSLATION_EDITIONS.map(t => (
+                <option key={t.id} value={t.id}>ترجمة السورة: {t.name}</option>
+              ))}
+            </select>
+          </label>
         </div>
       </header>
 
@@ -132,7 +150,7 @@ function TafsirPage() {
                 </button>
 
                 {/* Tafsir */}
-                {open && ayah.tafsir && (
+                {open && (
                   <div className="border-t border-border/40 bg-muted/20 px-4 py-4 fade-up">
                     <div className="flex items-center gap-2 mb-2">
                       <span className="h-1 w-6 rounded-full gradient-gold"/>
@@ -140,10 +158,18 @@ function TafsirPage() {
                         {TAFSIR_EDITIONS.find(t => t.id === edition)?.name}
                       </p>
                     </div>
-                    <p className={`leading-relaxed ${edition.startsWith("ar") ? "font-quran text-base" : "text-sm"}`}
-                      dir={edition.startsWith("ar") ? "rtl" : "ltr"}>
-                      {ayah.tafsir}
-                    </p>
+                    {ayah.tafsir ? (
+                      <p className="font-quran text-base leading-relaxed" dir="rtl">{ayah.tafsir}</p>
+                    ) : (
+                      <p className="text-sm text-muted-foreground">لا يوجد تفسير متاح لهذه الآية حالياً.</p>
+                    )}
+
+                    {ayah.translation && (
+                      <div className="mt-4 rounded-2xl border border-border/60 bg-card p-3" dir="ltr">
+                        <p className="mb-1 text-[10px] font-bold uppercase tracking-wide text-primary">Translation</p>
+                        <p className="text-sm leading-7 text-foreground">{ayah.translation}</p>
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
