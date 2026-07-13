@@ -77,7 +77,7 @@ function HadithIndex() {
               value={q}
               onChange={(e) => setQ(e.target.value)}
               placeholder="ابحث في الأحاديث، الرواة، الكلمات الدلالية…"
-              className="flex-1 bg-transparent text-sm placeholder:text-white/50 outline-none"
+              className="flex-1 bg-transparent text-sm placeholder:text-primary-foreground/75 outline-none"
             />
             {q && <button onClick={() => setQ("")}><X className="h-4 w-4 opacity-70" /></button>}
           </div>
