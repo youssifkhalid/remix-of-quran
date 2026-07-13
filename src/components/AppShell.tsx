@@ -1,7 +1,7 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import {
   BookOpen, Home, MoonStar, Sparkles, Bot, Search,
-  Compass, Calculator, BookMarked, Trophy, Map,
+  Compass, BookMarked, Trophy, Map,
   Settings, Heart, Star, CalendarDays, Mic2,
   Radio, Moon, Flame, LogIn, Menu, X
 } from "lucide-react";
@@ -42,10 +42,12 @@ const SECONDARY_NAV = [
   ]},
 ] as const;
 
-const ALL_NAV = [
+type NavEntry = { to: string; icon: any; label: string; kbd?: string; badge?: boolean };
+
+const ALL_NAV: NavEntry[] = [
   ...PRIMARY_NAV,
-  ...SECONDARY_NAV.flatMap((group) => group.items),
-] as const;
+  ...SECONDARY_NAV.flatMap((group) => [...group.items]),
+];
 
 
 /* ─── Keyboard shortcuts ─── */
@@ -246,7 +248,7 @@ function AppShellInner({ children }: { children: ReactNode }) {
               {ALL_NAV.map(({ to, icon: Icon, label }: any) => (
                 <Link
                   key={to}
-                  to={to}
+                  to={to as any}
                   onClick={() => setMenuOpen(false)}
                   className={`flex min-h-20 items-center gap-3 rounded-2xl border p-3 text-right shadow-soft ${isActive(to) ? "gradient-primary text-primary-foreground border-transparent" : "bg-card text-foreground border-border"}`}
                 >
