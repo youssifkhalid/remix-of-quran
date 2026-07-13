@@ -9,7 +9,7 @@ import {
 } from "lucide-react";
 import { fetchDailyAyah } from "@/lib/quran";
 import { fetchPrayerTimes, fetchHijriToday, getNextPrayer, PRAYER_NAMES_AR } from "@/lib/islamic";
-import { useGeolocation } from "@/lib/geo";
+import { useGeolocation, DEFAULT_COORDS } from "@/lib/geo";
 import { DAILY_HADITH, DAILY_DUA } from "@/data/adhkar";
 
 export const Route = createFileRoute("/")({
