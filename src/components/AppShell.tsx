@@ -177,8 +177,13 @@ function AppShellInner({ children }: { children: ReactNode }) {
               </div>
             ))}
 
+            {/* Profile pill */}
+            <div className="mt-auto px-3 pt-4">
+              <ProfilePill />
+            </div>
+
             {/* Kbd shortcuts hint */}
-            <div className="mt-auto mx-3 mb-5">
+            <div className="mx-3 mt-3 mb-5">
               <div className="rounded-2xl bg-card border border-border/60 p-3 space-y-2">
                 <p className="text-[9px] font-bold text-muted-foreground/60 uppercase tracking-wider">اختصارات</p>
                 {[
