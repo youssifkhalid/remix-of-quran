@@ -30,9 +30,9 @@ interface ConvMessage {
 type SourceType = "quran" | "hadith" | "scholar";
 
 const SOURCE_COLORS: Record<SourceType, { bg: string; text: string; border: string; icon: string }> = {
-  quran:   { bg: "bg-emerald-500/10", text: "text-emerald-700 dark:text-emerald-300", border: "border-emerald-500/30", icon: "📖" },
-  hadith:  { bg: "bg-amber-500/10",   text: "text-amber-700 dark:text-amber-300",     border: "border-amber-500/30",   icon: "📚" },
-  scholar: { bg: "bg-blue-500/10",    text: "text-blue-700 dark:text-blue-300",       border: "border-blue-500/30",    icon: "🎓" },
+  quran:   { bg: "bg-emerald-500/10", text: "text-emerald-700 dark:text-emerald-300", border: "border-emerald-500/30", icon: "ق" },
+  hadith:  { bg: "bg-amber-500/10",   text: "text-amber-700 dark:text-amber-300",     border: "border-amber-500/30",   icon: "ح" },
+  scholar: { bg: "bg-blue-500/10",    text: "text-blue-700 dark:text-blue-300",       border: "border-blue-500/30",    icon: "ع" },
 };
 
 const SOURCE_LABELS: Record<SourceType, string> = {
