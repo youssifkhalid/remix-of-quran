@@ -150,7 +150,7 @@ export function AppShell({ children }: { children: ReactNode }) {
             {SECONDARY_NAV.map(group => (
               <div key={group.group} className="px-3 mt-3 mb-1 space-y-0.5">
                 <p className="text-[9px] font-bold text-muted-foreground/50 uppercase tracking-widest px-3 mb-2">{group.group}</p>
-                {(group.items as any[]).map((nav: any) => (
+                {(group.items as unknown as any[]).map((nav: any) => (
                   <SideNavItem key={nav.to} {...nav} badge={false} active={isActive(nav.to)} />
                 ))}
               </div>
