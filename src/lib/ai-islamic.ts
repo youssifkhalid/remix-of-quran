@@ -83,46 +83,64 @@ export const askIslamicAI = createServerFn({ method: "POST" })
   .validator((d: unknown) => d as { messages: AIChatMessage[] })
   .handler(async ({ data }): Promise<AIResponse> => {
     try {
-      const apiKey = process.env.ANTHROPIC_API_KEY;
+      const apiKey = process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY;
       if (!apiKey) {
-        throw new Error("ANTHROPIC_API_KEY not configured");
+        return {
+          answer:
+            "لم يتم تفعيل مفتاح Gemini API بعد. يرجى إضافة متغير البيئة GEMINI_API_KEY على Vercel أو في ملف .env.local لتمكين المساعد الإسلامي.",
+          sources: [],
+          summary: "",
+          error: "GEMINI_API_KEY not configured",
+        };
       }
 
-      const response = await fetch("https://api.anthropic.com/v1/messages", {
+      // Convert conversation to Gemini contents format
+      const contents = data.messages.map((m) => ({
+        role: m.role === "assistant" ? "model" : "user",
+        parts: [{ text: m.content }],
+      }));
+
+      const model = "gemini-2.0-flash";
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+
+      const response = await fetch(url, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "x-api-key": apiKey,
-          "anthropic-version": "2023-06-01",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          model: "claude-sonnet-4-6",
-          max_tokens: 2048,
-          system: SYSTEM_PROMPT,
-          messages: data.messages.map((m) => ({
-            role: m.role,
-            content: m.content,
-          })),
+          systemInstruction: { parts: [{ text: SYSTEM_PROMPT }] },
+          contents,
+          generationConfig: {
+            temperature: 0.6,
+            maxOutputTokens: 2048,
+            responseMimeType: "application/json",
+          },
         }),
       });
 
       if (!response.ok) {
         const err = await response.text();
-        throw new Error(`API error: ${response.status} — ${err}`);
+        throw new Error(`Gemini API ${response.status}: ${err.slice(0, 200)}`);
       }
 
       const json = await response.json();
-      const raw = json.content?.[0]?.text ?? "";
+      const raw: string =
+        json.candidates?.[0]?.content?.parts?.[0]?.text ?? "";
 
-      // Extract JSON from response
+      // Extract JSON block (Gemini honours responseMimeType but be defensive)
       const match = raw.match(/\{[\s\S]*\}/);
       if (!match) throw new Error("No JSON in response");
 
       const parsed = JSON.parse(match[0]) as AIResponse;
-      return parsed;
+      // Ensure required fields exist
+      return {
+        answer: parsed.answer ?? "",
+        sources: Array.isArray(parsed.sources) ? parsed.sources : [],
+        madhahib: parsed.madhahib,
+        summary: parsed.summary ?? "",
+      };
     } catch (e: any) {
       return {
-        answer: "عذرًا، حدث خطأ في الاتصال. يرجى المحاولة مرة أخرى.",
+        answer: "عذرًا، حدث خطأ في الاتصال بالمساعد. يرجى المحاولة مرة أخرى.",
         sources: [],
         summary: "",
         error: e?.message,
