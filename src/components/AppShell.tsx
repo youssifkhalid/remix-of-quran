@@ -251,3 +251,12 @@ function AppShellInner({ children }: { children: ReactNode }) {
     </AudioPlayerProvider>
   );
 }
+
+export function AppShell({ children }: { children: ReactNode }) {
+  return (
+    <AuthProvider>
+      <AppShellInner>{children}</AppShellInner>
+    </AuthProvider>
+  );
+}
+
