@@ -175,13 +175,27 @@
    BASE STYLES
    ═══════════════════════════════════════════════════════════════════ */
 @layer base {
-  * { border-color: var(--color-border); }
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    border-color: var(--color-border);
+    min-width: 0;
+  }
 
   html {
     -webkit-tap-highlight-color: transparent;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
     scroll-behavior: smooth;
+    overflow-x: hidden;
+    background: var(--color-background);
+  }
+
+  html,
+  body {
+    width: 100%;
+    min-height: 100%;
   }
 
   html[dir="rtl"] body { font-family: var(--font-sans); }
@@ -194,6 +208,29 @@
     font-feature-settings: "ss01", "kern";
     overscroll-behavior: none;
     -webkit-overflow-scrolling: touch;
+    overflow-x: hidden;
+    margin: 0;
+  }
+
+  #root,
+  #__root {
+    min-height: 100dvh;
+    overflow-x: clip;
+  }
+
+  img,
+  svg,
+  video,
+  canvas {
+    max-width: 100%;
+  }
+
+  a,
+  button,
+  input,
+  textarea,
+  select {
+    -webkit-tap-highlight-color: transparent;
   }
 
   button,
@@ -242,15 +279,17 @@
 
   .font-quran {
     font-family: var(--font-arabic);
-    font-size: 1.75rem;
-    line-height: 2.3;
+    font-size: inherit;
+    line-height: 1.8;
     letter-spacing: 0;
     font-weight: 400;
+    overflow-wrap: anywhere;
   }
 
   .text-arabic {
     font-family: var(--font-arabic);
-    line-height: 2.0;
+    line-height: 1.9;
+    overflow-wrap: anywhere;
   }
 
   ::selection {
