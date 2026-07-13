@@ -1,14 +1,6 @@
 import { createStart, createMiddleware } from "@tanstack/react-start";
-
-import { renderErrorPage } from "./lib/error-page";
 import { attachSupabaseAuth } from "@/integrations/supabase/auth-attacher";
-
-// NOTE: The Supabase auth-attacher middleware is intentionally NOT registered.
-// This project doesn't use Supabase auth, and the attacher would spam the
-// console with "Missing SUPABASE_URL / SUPABASE_PUBLISHABLE_KEY" errors on
-// every server function call. If Supabase auth is added later, re-import
-// `attachSupabaseAuth` from `@/integrations/supabase/auth-attacher` and put
-// it back into `functionMiddleware`.
+import { renderErrorPage } from "./lib/error-page";
 
 const errorMiddleware = createMiddleware().server(async ({ next }) => {
   try {
