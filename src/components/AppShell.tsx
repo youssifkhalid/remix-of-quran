@@ -306,7 +306,7 @@ function AppShellInner({ children }: { children: ReactNode }) {
                     <Icon className={`transition-all ${isCenter ? "h-5 w-5" : active ? "h-[19px] w-[19px]" : "h-[17px] w-[17px]"}`}
                       strokeWidth={active ? 2.5 : 2} />
                     {badge && <span className="absolute -top-0.5 -right-0.5 h-2.5 w-2.5 rounded-full bg-emerald-400 border-2 border-background animate-pulse" />}
-                    {active && !isCenter && <span className="absolute -bottom-1 left-1/2 h-1 w-1 rounded-full bg-gold" />}
+                    {active && !isCenter && <span className="absolute -bottom-1 left-[calc(50%-0.125rem)] h-1 w-1 rounded-full bg-gold" />}
                   </span>
                   <span className={`max-w-full truncate text-[9px] leading-none font-medium transition-colors ${active ? "text-foreground font-bold" : "text-muted-foreground/60"}`}>
                     {label}
