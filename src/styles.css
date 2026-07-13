@@ -887,7 +887,7 @@
   box-shadow: var(--shadow-elevated);
 }
 
-@media (max-width: 767px) {
+@media (max-width: 1023px) {
   .mobile-shell-content :where(header.sticky) {
     top: var(--mobile-shell-height);
   }
@@ -898,7 +898,7 @@
   }
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1024px) {
   .mobile-shell-bar { display: none; }
 }
 
