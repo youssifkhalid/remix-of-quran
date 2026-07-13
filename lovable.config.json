@@ -8,8 +8,8 @@
   "nodeVersion": "20",
   "environmentVariables": [
     {
-      "name": "ANTHROPIC_API_KEY",
-      "description": "مفتاح Anthropic API لميزة المساعد الإسلامي AI",
+      "name": "GEMINI_API_KEY",
+      "description": "مفتاح Google Gemini API لميزة المساعد الإسلامي AI (احصل عليه من https://aistudio.google.com/apikey)",
       "required": true,
       "secret": true
     }
