@@ -23,10 +23,14 @@ export const Route = createFileRoute("/")({
 });
 
 function Home() {
-  const [coords, setCoords] = useState<{ lat: number; lng: number } | null>(null);
+  const [coords, setCoords] = useState<{ lat: number; lng: number }>(() => {
+    if (typeof window !== "undefined") {
+      const cached = localStorage.getItem("coords");
+      if (cached) { try { return JSON.parse(cached); } catch {} }
+    }
+    return DEFAULT_COORDS;
+  });
   useEffect(() => {
-    const cached = typeof window !== "undefined" && localStorage.getItem("coords");
-    if (cached) setCoords(JSON.parse(cached));
     useGeolocation().then((c) => {
       if (c) { setCoords(c); localStorage.setItem("coords", JSON.stringify(c)); }
     });
