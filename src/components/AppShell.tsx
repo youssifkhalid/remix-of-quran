@@ -209,7 +209,28 @@ function AppShellInner({ children }: { children: ReactNode }) {
 
           {/* ══ MAIN CONTENT ══ */}
           <main className="flex-1 min-w-0 md:overflow-y-auto md:h-dvh scroll-area">
-            <div className={`mx-auto w-full pt-[env(safe-area-inset-top)] md:pt-0 ${isAiChat ? "max-w-none h-dvh pb-0" : "max-w-2xl pb-36 md:pb-10"}`}>
+            {!isAiChat && (
+              <div className="mobile-shell-bar md:hidden">
+                <Link to="/" className="flex min-w-0 items-center gap-2 text-right">
+                  <span className="grid h-10 w-10 shrink-0 place-items-center rounded-2xl gradient-primary text-primary-foreground shadow-glow">
+                    <span className="font-quran text-xl leading-none">س</span>
+                  </span>
+                  <span className="min-w-0">
+                    <span className="block font-quran text-xl leading-none">سكينة</span>
+                    <span className="block truncate text-[10px] text-muted-foreground">تطبيقك الإسلامي الشامل</span>
+                  </span>
+                </Link>
+                <button
+                  type="button"
+                  onClick={() => setMenuOpen(true)}
+                  className="mobile-menu-trigger"
+                  aria-label="فتح قائمة الصفحات"
+                >
+                  <Menu className="h-5 w-5" />
+                </button>
+              </div>
+            )}
+            <div className={`mobile-shell-content mx-auto w-full ${isAiChat ? "max-w-none h-dvh pb-0" : "max-w-2xl pb-36 md:pb-10"}`}>
               {children}
             </div>
           </main>
@@ -219,14 +240,16 @@ function AppShellInner({ children }: { children: ReactNode }) {
         {/* ── Global MiniPlayer ── */}
         <MiniPlayer />
 
-        <button
-          type="button"
-          onClick={() => setMenuOpen(true)}
-          className="md:hidden fixed top-[max(env(safe-area-inset-top),0.75rem)] right-3 z-50 grid h-12 w-12 place-items-center rounded-2xl bg-card text-foreground border border-border shadow-elevated active:scale-95"
-          aria-label="فتح قائمة الصفحات"
-        >
-          <Menu className="h-5 w-5" />
-        </button>
+        {isAiChat && (
+          <button
+            type="button"
+            onClick={() => setMenuOpen(true)}
+            className="mobile-menu-trigger md:hidden fixed left-3 top-[max(env(safe-area-inset-top),0.75rem)] z-50"
+            aria-label="فتح قائمة الصفحات"
+          >
+            <Menu className="h-5 w-5" />
+          </button>
+        )}
 
         {menuOpen && (
           <div className="md:hidden fixed inset-0 z-[70] bg-background/95">
@@ -265,27 +288,27 @@ function AppShellInner({ children }: { children: ReactNode }) {
         {/* ══ MOBILE BOTTOM NAV ══ */}
         {!isAiChat && <nav aria-label="التنقل" className="md:hidden fixed inset-x-0 bottom-0 z-50
           px-2 pb-[max(env(safe-area-inset-bottom),6px)] pt-1">
-          <div className="flex items-end justify-between rounded-[22px] glass shadow-elevated px-1.5 py-1.5">
+          <div className="mobile-bottom-nav-panel flex items-end justify-between">
             {PRIMARY_NAV.map(({ to, icon: Icon, label, badge }: any) => {
               const active = isActive(to);
               const isCenter = to === "/ai-chat";
               return (
                 <Link key={to} to={to}
-                  className="group relative flex flex-1 flex-col items-center gap-0.5 touch-manipulation"
+                  className="group relative flex min-w-0 flex-1 flex-col items-center gap-1 touch-manipulation"
                   aria-current={active ? "page" : undefined}>
                   <span className={`relative grid place-items-center rounded-2xl
                     transition-all duration-300
                     ${isCenter
-                      ? `h-12 w-12 -translate-y-2.5 shadow-elevated ${active ? "gradient-gold text-gold-foreground shadow-gold" : "gradient-primary text-primary-foreground shadow-glow"}`
-                      : `h-10 w-10 ${active ? "gradient-primary text-primary-foreground shadow-glow scale-110 -translate-y-1" : "text-muted-foreground/70"}`
+                      ? `h-11 w-11 shadow-soft ${active ? "gradient-gold text-gold-foreground" : "gradient-primary text-primary-foreground"}`
+                      : `h-10 w-10 ${active ? "gradient-primary text-primary-foreground shadow-soft" : "text-muted-foreground/70"}`
                     }`}
-                    style={{ transitionTimingFunction: "cubic-bezier(0.34,1.56,0.64,1)" }}>
+                  >
                     <Icon className={`transition-all ${isCenter ? "h-5 w-5" : active ? "h-[19px] w-[19px]" : "h-[17px] w-[17px]"}`}
                       strokeWidth={active ? 2.5 : 2} />
                     {badge && <span className="absolute -top-0.5 -right-0.5 h-2.5 w-2.5 rounded-full bg-emerald-400 border-2 border-background animate-pulse" />}
-                    {active && !isCenter && <span className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 h-1 w-1 rounded-full bg-gold" />}
+                    {active && !isCenter && <span className="absolute -bottom-1 left-1/2 h-1 w-1 rounded-full bg-gold" />}
                   </span>
-                  <span className={`text-[9px] leading-none font-medium transition-colors ${active ? "text-foreground font-bold" : "text-muted-foreground/60"}`}>
+                  <span className={`max-w-full truncate text-[9px] leading-none font-medium transition-colors ${active ? "text-foreground font-bold" : "text-muted-foreground/60"}`}>
                     {label}
                   </span>
                 </Link>
