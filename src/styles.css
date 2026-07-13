@@ -896,6 +896,25 @@
     border-bottom-right-radius: 1.75rem;
     border-bottom-left-radius: 1.75rem;
   }
+
+  a:active,
+  button:active,
+  [role="button"]:active {
+    transform: none !important;
+    filter: none !important;
+  }
+
+  .backdrop-blur,
+  .backdrop-blur-sm,
+  .backdrop-blur-md,
+  .backdrop-blur-lg,
+  .backdrop-blur-xl,
+  .blur-xl,
+  .blur-2xl,
+  .blur-3xl {
+    filter: none !important;
+    backdrop-filter: none !important;
+  }
 }
 
 @media (min-width: 1024px) {
