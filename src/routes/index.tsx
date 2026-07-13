@@ -227,7 +227,6 @@ function Home() {
 
       {/* ── DAILY AYAH ── */}
       <section className="mx-4 mt-6 rounded-3xl bg-card border border-border/60 shadow-soft p-5 relative overflow-hidden">
-        <div aria-hidden className="absolute -top-10 -right-10 h-32 w-32 rounded-full bg-gold/10 blur-2xl"/>
         <div className="flex items-center gap-2 mb-3">
           <span className="grid h-8 w-8 place-items-center rounded-xl gradient-gold text-gold-foreground">
             <MoonStar className="h-4 w-4"/>
