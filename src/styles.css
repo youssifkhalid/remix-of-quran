@@ -842,6 +842,66 @@
   border-radius: 99px;
 }
 
+/* ── Mobile shell: stable top/bottom chrome without visual overlap ── */
+:root { --mobile-shell-height: 4rem; }
+
+.mobile-shell-bar {
+  position: sticky;
+  top: 0;
+  z-index: 55;
+  display: flex;
+  min-height: var(--mobile-shell-height);
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: max(env(safe-area-inset-top), 0.5rem) 0.875rem 0.5rem;
+  background: color-mix(in oklab, var(--background) 96%, var(--surface));
+  border-bottom: 1px solid color-mix(in oklab, var(--border) 72%, transparent);
+  box-shadow: var(--shadow-xs);
+}
+
+.mobile-menu-trigger {
+  display: grid;
+  height: 2.75rem;
+  width: 2.75rem;
+  flex-shrink: 0;
+  place-items: center;
+  border-radius: 1rem;
+  background: var(--color-card);
+  color: var(--color-foreground);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-soft);
+}
+
+.mobile-shell-content {
+  min-width: 0;
+  overflow-x: clip;
+}
+
+.mobile-bottom-nav-panel {
+  min-height: 4.25rem;
+  border-radius: 1.35rem;
+  padding: 0.45rem 0.45rem 0.5rem;
+  background: color-mix(in oklab, var(--surface) 98%, var(--background));
+  border: 1px solid color-mix(in oklab, var(--border) 75%, transparent);
+  box-shadow: var(--shadow-elevated);
+}
+
+@media (max-width: 767px) {
+  .mobile-shell-content :where(header.sticky) {
+    top: var(--mobile-shell-height);
+  }
+
+  .mobile-shell-content :where(.rounded-b-\[2\.5rem\]) {
+    border-bottom-right-radius: 1.75rem;
+    border-bottom-left-radius: 1.75rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .mobile-shell-bar { display: none; }
+}
+
 /* ── Tooltip ── */
 [data-tooltip] { position: relative; }
 [data-tooltip]::after {
