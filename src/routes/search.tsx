@@ -145,7 +145,7 @@ function SearchPage() {
               <li key={i}>
                 <Link
                   to={r.to as any}
-                  params={r.params}
+                  params={r.params as any}
                   className="flex items-center gap-3 rounded-2xl bg-card hover:bg-surface-elevated p-3 shadow-soft border border-border/40 transition active:scale-[0.98]"
                 >
                   <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl gradient-gold text-gold-foreground text-xs font-bold">
@@ -172,7 +172,7 @@ function SearchPage() {
               <li key={i}>
                 <Link
                   to={r.to as any}
-                  params={r.params}
+                  params={r.params as any}
                   className="flex items-center gap-3 rounded-2xl bg-card hover:bg-surface-elevated p-3 shadow-soft border border-border/40 transition active:scale-[0.98]"
                 >
                   <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl gradient-primary text-primary-foreground">
