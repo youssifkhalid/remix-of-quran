@@ -12,11 +12,11 @@ export const Route = createFileRoute("/quran/$id/tafsir")({
 });
 
 const TAFSIR_EDITIONS = [
-  { id: "ar.muyassar",    name: "التفسير الميسّر",         lang: "ar" },
-  { id: "ar.jalalayn",   name: "تفسير الجلالين",          lang: "ar" },
-  { id: "ar.maududi",    name: "تفسير المودودي",           lang: "ar" },
-  { id: "en.sahih",      name: "Saheeh International",    lang: "en" },
-  { id: "en.yusufali",   name: "Yusuf Ali Translation",   lang: "en" },
+  { id: "ar.muyassar",  name: "التفسير الميسّر",        lang: "ar" },
+  { id: "ar.jalalayn",  name: "تفسير الجلالين",         lang: "ar" },
+  { id: "en.sahih",     name: "Saheeh International",   lang: "en" },
+  { id: "en.pickthall", name: "Pickthall Translation",  lang: "en" },
+  { id: "en.yusufali",  name: "Yusuf Ali Translation",  lang: "en" },
 ];
 
 interface AyahTafsir {
