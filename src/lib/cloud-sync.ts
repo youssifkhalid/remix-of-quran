@@ -41,7 +41,7 @@ export async function saveSettings(patch: Record<string, unknown>): Promise<void
   if (!uid) return;
   const { data } = await supabase.from("user_settings").select("data").eq("user_id", uid).maybeSingle();
   const merged = { ...((data?.data as object) ?? {}), ...patch };
-  await supabase.from("user_settings").upsert({ user_id: uid, data: merged });
+  await supabase.from("user_settings").upsert({ user_id: uid, data: merged as any });
 }
 
 /* ============ Stats (increment counters) ============ */
