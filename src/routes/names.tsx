@@ -37,7 +37,7 @@ const NAMES: Name[] = [
   { name: "سلمان", gender: "M", meaning: "السالم المعافى", origin: "عربي" },
   { name: "بلال", gender: "M", meaning: "الرطوبة والنداوة والطراوة", origin: "عربي", notes: "أول مؤذن في الإسلام" },
   { name: "خالد", gender: "M", meaning: "الدائم الخالد المستمر", origin: "عربي" },
-  { name: "عمر", gender: "M", meaning: "العمر والحياة الطويلة", origin: "عربي" },
+  
   { name: "معاذ", gender: "M", meaning: "الملاذ والعصمة", origin: "عربي" },
   { name: "سعد", gender: "M", meaning: "السعادة والحظ والبخت", origin: "عربي" },
   { name: "زيد", gender: "M", meaning: "الزيادة والنمو والكثرة", origin: "عربي" },
