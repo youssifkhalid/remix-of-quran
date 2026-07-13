@@ -149,10 +149,10 @@ function AppShellInner({ children }: { children: ReactNode }) {
         }} />
 
         {/* ─── Layout ─── */}
-        <div className="md:flex md:min-h-dvh">
+        <div className="lg:flex lg:min-h-dvh">
 
           {/* ══ DESKTOP / TABLET SIDEBAR ══ */}
-          <aside className="hidden md:flex md:flex-col w-[220px] lg:w-[248px] xl:w-[272px] shrink-0
+          <aside className="hidden lg:flex lg:flex-col lg:w-[248px] xl:w-[272px] shrink-0
             sticky top-0 h-dvh border-l border-border/30 overflow-y-auto scroll-area
             bg-background/95 z-40">
 
@@ -208,9 +208,9 @@ function AppShellInner({ children }: { children: ReactNode }) {
           </aside>
 
           {/* ══ MAIN CONTENT ══ */}
-          <main className="flex-1 min-w-0 md:overflow-y-auto md:h-dvh scroll-area">
+          <main className="flex-1 min-w-0 lg:overflow-y-auto lg:h-dvh scroll-area">
             {!isAiChat && (
-              <div className="mobile-shell-bar md:hidden">
+              <div className="mobile-shell-bar lg:hidden">
                 <Link to="/" className="flex min-w-0 items-center gap-2 text-right">
                   <span className="grid h-10 w-10 shrink-0 place-items-center rounded-2xl gradient-primary text-primary-foreground shadow-glow">
                     <span className="font-quran text-xl leading-none">س</span>
@@ -230,7 +230,7 @@ function AppShellInner({ children }: { children: ReactNode }) {
                 </button>
               </div>
             )}
-            <div className={`mobile-shell-content mx-auto w-full ${isAiChat ? "max-w-none h-dvh pb-0" : "max-w-2xl pb-36 md:pb-10"}`}>
+            <div className={`mobile-shell-content mx-auto w-full ${isAiChat ? "max-w-none h-dvh pb-0" : "max-w-2xl pb-36 lg:pb-10"}`}>
               {children}
             </div>
           </main>
@@ -244,7 +244,7 @@ function AppShellInner({ children }: { children: ReactNode }) {
           <button
             type="button"
             onClick={() => setMenuOpen(true)}
-            className="mobile-menu-trigger md:hidden fixed left-3 top-[max(env(safe-area-inset-top),0.75rem)] z-50"
+            className="mobile-menu-trigger lg:hidden fixed left-3 top-[max(env(safe-area-inset-top),0.75rem)] z-50"
             aria-label="فتح قائمة الصفحات"
           >
             <Menu className="h-5 w-5" />
@@ -252,7 +252,7 @@ function AppShellInner({ children }: { children: ReactNode }) {
         )}
 
         {menuOpen && (
-          <div className="md:hidden fixed inset-0 z-[70] bg-background/95">
+          <div className="lg:hidden fixed inset-0 z-[70] bg-background/95">
             <div className="flex items-center justify-between border-b border-border px-4 py-3 pt-[max(env(safe-area-inset-top),0.75rem)]">
               <div>
                 <p className="font-quran text-2xl leading-none">سكينة</p>
@@ -286,7 +286,7 @@ function AppShellInner({ children }: { children: ReactNode }) {
         )}
 
         {/* ══ MOBILE BOTTOM NAV ══ */}
-        {!isAiChat && <nav aria-label="التنقل" className="md:hidden fixed inset-x-0 bottom-0 z-50
+        {!isAiChat && <nav aria-label="التنقل" className="lg:hidden fixed inset-x-0 bottom-0 z-50
           px-2 pb-[max(env(safe-area-inset-bottom),6px)] pt-1">
           <div className="mobile-bottom-nav-panel flex items-end justify-between">
             {PRIMARY_NAV.map(({ to, icon: Icon, label, badge }: any) => {
@@ -320,7 +320,7 @@ function AppShellInner({ children }: { children: ReactNode }) {
         {/* ── FAB: quick search on mobile ── */}
         {!isAiChat && <button
           onClick={() => window.location.href = "/search"}
-          className="md:hidden fixed bottom-[5.5rem] left-3 z-40
+          className="lg:hidden fixed bottom-[5.5rem] left-3 z-40
             h-12 w-12 rounded-2xl gradient-gold text-gold-foreground shadow-gold
             grid place-items-center transition-all active:scale-90 hover:scale-105"
           aria-label="بحث سريع">
