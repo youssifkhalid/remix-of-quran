@@ -127,7 +127,7 @@ function ProfilePage() {
         <div className="grid grid-cols-2 gap-3">
           {statCards.map((s) => (
             <div key={s.label} className="rounded-2xl bg-card border border-border/60 p-4 shadow-soft">
-              <div className={`grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br ${s.color} text-white shadow-md mb-2`}>
+              <div className={`grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br ${s.color} text-primary-foreground shadow-md mb-2`}>
                 <s.icon className="h-5 w-5" />
               </div>
               <p className="text-2xl font-bold text-foreground count-tick" key={s.value}>{s.value.toLocaleString("ar-EG")}</p>

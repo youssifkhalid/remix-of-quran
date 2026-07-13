@@ -223,7 +223,7 @@ function WirdPage() {
             return (
               <button key={item.id} onClick={() => toggleItem(item.id)}
                 className={`w-full flex items-center gap-4 rounded-3xl p-4 shadow-soft border transition active:scale-[0.98] text-right ${done?"bg-primary/5 border-primary/25":"bg-card border-border/60"}`}>
-                <div className={`grid h-12 w-12 place-items-center rounded-2xl bg-gradient-to-br ${getColorClass(item.type)} text-white text-xl shrink-0 shadow-glow`}>
+                <div className={`grid h-12 w-12 place-items-center rounded-2xl bg-gradient-to-br ${getColorClass(item.type)} text-primary-foreground text-xl shrink-0 shadow-glow`}>
                   {item.icon}
                 </div>
                 <div className="flex-1 min-w-0">

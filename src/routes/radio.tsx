@@ -210,7 +210,7 @@ function RadioPage() {
                   }`}
                 >
                   <span
-                    className={`grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-gradient-to-br ${grad} text-white shadow-md`}
+                    className={`grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-gradient-to-br ${grad} text-primary-foreground shadow-md`}
                   >
                     {isBuffering ? (
                       <Loader2 className="h-5 w-5 animate-spin" />

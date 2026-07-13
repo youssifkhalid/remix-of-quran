@@ -202,7 +202,7 @@ function TasbeehPage() {
                 />
               </svg>
               <div className="absolute inset-0 grid place-items-center">
-                <div className={`grid place-items-center rounded-full h-48 w-48 bg-gradient-to-br ${selected?.color ?? "gradient-primary"} text-white shadow-glow`}>
+                <div className={`grid place-items-center rounded-full h-48 w-48 bg-gradient-to-br ${selected?.color ?? "gradient-primary"} text-primary-foreground shadow-glow`}>
                   <span className="text-6xl font-light tabular-nums">{count}</span>
                   <span className="text-xs opacity-75 -mt-1">من {target}</span>
                 </div>
