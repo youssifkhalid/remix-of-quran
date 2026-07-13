@@ -97,7 +97,27 @@ function SideNavItem({ to, icon: Icon, label, kbd, badge, active }: {
   );
 }
 
-export function AppShell({ children }: { children: ReactNode }) {
+function ProfilePill() {
+  const { user, loading } = useAuth();
+  if (loading) return null;
+  if (!user) {
+    return (
+      <Link to="/auth" className="flex items-center gap-2 rounded-2xl bg-primary/10 text-primary px-3 py-2 text-xs font-semibold hover:bg-primary/20 transition">
+        <LogIn className="h-4 w-4" />
+        تسجيل الدخول
+      </Link>
+    );
+  }
+  const initial = (user.email ?? "?")[0]?.toUpperCase();
+  return (
+    <Link to="/profile" className="flex items-center gap-2 rounded-2xl bg-card border border-border/60 px-2 py-2 hover:border-primary/40 transition">
+      <span className="grid h-7 w-7 place-items-center rounded-xl gradient-primary text-primary-foreground text-xs font-bold">{initial}</span>
+      <span className="text-xs font-semibold truncate max-w-[110px]">{user.email}</span>
+    </Link>
+  );
+}
+
+function AppShellInner({ children }: { children: ReactNode }) {
   const pathname = useRouterState({ select: s => s.location.pathname });
   useKeyboardShortcuts();
 
@@ -105,6 +125,7 @@ export function AppShell({ children }: { children: ReactNode }) {
 
   return (
     <AudioPlayerProvider>
+
       <div className="relative min-h-dvh bg-background text-foreground">
         {/* Ambient gradient background */}
         <div aria-hidden className="pointer-events-none fixed inset-0 -z-10" style={{
