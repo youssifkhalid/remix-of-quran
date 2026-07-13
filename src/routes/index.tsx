@@ -38,9 +38,9 @@ function Home() {
 
   const ayah   = useQuery({ queryKey: ["daily-ayah"], queryFn: fetchDailyAyah, staleTime: 1000 * 60 * 60 });
   const prayer = useQuery({
-    queryKey: ["prayer", coords?.lat, coords?.lng],
-    queryFn:  () => fetchPrayerTimes(coords!.lat, coords!.lng),
-    enabled:  !!coords, staleTime: 1000 * 60 * 30,
+    queryKey: ["prayer", coords.lat, coords.lng],
+    queryFn:  () => fetchPrayerTimes(coords.lat, coords.lng),
+    staleTime: 1000 * 60 * 30,
   });
   const hijri = useQuery({ queryKey: ["hijri"], queryFn: fetchHijriToday, staleTime: 1000 * 60 * 60 * 6 });
 
