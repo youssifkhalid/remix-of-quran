@@ -83,9 +83,12 @@ function AdhkarCategoryPage() {
           const isExpanded = expanded[i];
           return (
             <li key={i}>
-              <button
+              <div
                 onClick={() => tap(i)}
-                className={`relative w-full text-right rounded-3xl p-5 shadow-soft border transition-all active:scale-[0.99] ${
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); tap(i); } }}
+                className={`relative w-full text-right rounded-3xl p-5 shadow-soft border transition-all active:scale-[0.99] cursor-pointer select-none ${
                   done ? "bg-primary/5 border-gold/40" : "bg-card border-border/60"
                 }`}
               >
@@ -102,6 +105,7 @@ function AdhkarCategoryPage() {
                   <div className="flex items-center gap-2">
                     {d.virtue && (
                       <button
+                        type="button"
                         onClick={(e) => { e.stopPropagation(); toggleExpand(i); }}
                         className="flex items-center gap-1 text-[11px] text-muted-foreground hover:text-foreground"
                       >
@@ -110,6 +114,7 @@ function AdhkarCategoryPage() {
                       </button>
                     )}
                     <button
+                      type="button"
                       onClick={(e) => { e.stopPropagation(); share(d.text, d.virtue); }}
                       className="flex items-center gap-1 text-[11px] text-muted-foreground hover:text-foreground"
                       aria-label="مشاركة"
@@ -124,11 +129,12 @@ function AdhkarCategoryPage() {
                     {counts[i]} / {d.count}
                   </span>
                 </div>
-              </button>
+              </div>
             </li>
           );
         })}
       </ul>
+
     </div>
   );
 }
