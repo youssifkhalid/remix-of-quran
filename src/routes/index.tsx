@@ -90,14 +90,16 @@ function Home() {
 
           <div className="mt-4 text-center">
             <p className="text-[11px] opacity-60">الصلاة القادمة</p>
-            <h1 className="font-quran text-4xl mt-1 text-gradient-gold">
-              {next ? PRAYER_NAMES_AR[next.name] : coords ? "…" : "فعّل الموقع"}
+            <h1 className="font-quran text-4xl mt-1 text-gradient-gold min-h-[3rem]">
+              {next ? PRAYER_NAMES_AR[next.name] : "…"}
             </h1>
-            {next && (
+            {next ? (
               <>
                 <p className="mt-1.5 text-sm opacity-90">بعد {next.in}</p>
                 <p className="mt-1 text-3xl font-light tracking-widest">{next.at.toTimeString().slice(0,5)}</p>
               </>
+            ) : (
+              <p className="mt-1.5 text-sm opacity-60">جارٍ حساب المواقيت…</p>
             )}
           </div>
 
