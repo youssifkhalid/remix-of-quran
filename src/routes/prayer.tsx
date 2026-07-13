@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { MapPin, CheckCircle2, Circle, ChevronLeft, ChevronRight, CalendarDays, Bell, BellOff } from "lucide-react";
 import { fetchPrayerTimes, getNextPrayer, PRAYER_NAMES_AR, type PrayerTimes } from "@/lib/islamic";
-import { useGeolocation } from "@/lib/geo";
+import { useGeolocation, DEFAULT_COORDS } from "@/lib/geo";
 
 export const Route = createFileRoute("/prayer")({
   head: () => ({
@@ -26,23 +26,26 @@ function getTodayKey() {
 }
 
 function PrayerPage() {
-  const [coords, setCoords] = useState<{ lat: number; lng: number } | null>(null);
+  const [coords, setCoords] = useState<{ lat: number; lng: number }>(() => {
+    if (typeof window !== "undefined") {
+      const cached = localStorage.getItem("coords");
+      if (cached) { try { return JSON.parse(cached); } catch {} }
+    }
+    return DEFAULT_COORDS;
+  });
   const [citySearch, setCitySearch] = useState("");
   const [showMonthly, setShowMonthly] = useState(false);
   const [tab, setTab] = useState<"today" | "tracker" | "monthly">("today");
 
   useEffect(() => {
-    const cached = typeof window !== "undefined" && localStorage.getItem("coords");
-    if (cached) setCoords(JSON.parse(cached));
     useGeolocation().then((c) => {
       if (c) { setCoords(c); localStorage.setItem("coords", JSON.stringify(c)); }
     });
   }, []);
 
   const { data, isLoading } = useQuery({
-    queryKey: ["prayer", coords?.lat, coords?.lng],
-    queryFn: () => fetchPrayerTimes(coords!.lat, coords!.lng),
-    enabled: !!coords,
+    queryKey: ["prayer", coords.lat, coords.lng],
+    queryFn: () => fetchPrayerTimes(coords.lat, coords.lng),
     staleTime: 1000 * 60 * 30,
   });
 

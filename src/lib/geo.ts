@@ -1,5 +1,7 @@
+// Default: Makkah — used until the browser resolves the real location.
+export const DEFAULT_COORDS = { lat: 21.4225, lng: 39.8262, city: "مكة المكرمة" };
+
 export function useGeolocation() {
-  // simple imperative — components manage state
   return new Promise<{ lat: number; lng: number } | null>((resolve) => {
     if (typeof navigator === "undefined" || !navigator.geolocation) return resolve(null);
     navigator.geolocation.getCurrentPosition(

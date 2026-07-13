@@ -9,7 +9,7 @@ import {
 } from "lucide-react";
 import { fetchDailyAyah } from "@/lib/quran";
 import { fetchPrayerTimes, fetchHijriToday, getNextPrayer, PRAYER_NAMES_AR } from "@/lib/islamic";
-import { useGeolocation } from "@/lib/geo";
+import { useGeolocation, DEFAULT_COORDS } from "@/lib/geo";
 import { DAILY_HADITH, DAILY_DUA } from "@/data/adhkar";
 
 export const Route = createFileRoute("/")({
@@ -23,10 +23,14 @@ export const Route = createFileRoute("/")({
 });
 
 function Home() {
-  const [coords, setCoords] = useState<{ lat: number; lng: number } | null>(null);
+  const [coords, setCoords] = useState<{ lat: number; lng: number }>(() => {
+    if (typeof window !== "undefined") {
+      const cached = localStorage.getItem("coords");
+      if (cached) { try { return JSON.parse(cached); } catch {} }
+    }
+    return DEFAULT_COORDS;
+  });
   useEffect(() => {
-    const cached = typeof window !== "undefined" && localStorage.getItem("coords");
-    if (cached) setCoords(JSON.parse(cached));
     useGeolocation().then((c) => {
       if (c) { setCoords(c); localStorage.setItem("coords", JSON.stringify(c)); }
     });
@@ -34,9 +38,9 @@ function Home() {
 
   const ayah   = useQuery({ queryKey: ["daily-ayah"], queryFn: fetchDailyAyah, staleTime: 1000 * 60 * 60 });
   const prayer = useQuery({
-    queryKey: ["prayer", coords?.lat, coords?.lng],
-    queryFn:  () => fetchPrayerTimes(coords!.lat, coords!.lng),
-    enabled:  !!coords, staleTime: 1000 * 60 * 30,
+    queryKey: ["prayer", coords.lat, coords.lng],
+    queryFn:  () => fetchPrayerTimes(coords.lat, coords.lng),
+    staleTime: 1000 * 60 * 30,
   });
   const hijri = useQuery({ queryKey: ["hijri"], queryFn: fetchHijriToday, staleTime: 1000 * 60 * 60 * 6 });
 
@@ -86,14 +90,16 @@ function Home() {
 
           <div className="mt-4 text-center">
             <p className="text-[11px] opacity-60">الصلاة القادمة</p>
-            <h1 className="font-quran text-4xl mt-1 text-gradient-gold">
-              {next ? PRAYER_NAMES_AR[next.name] : coords ? "…" : "فعّل الموقع"}
+            <h1 className="font-quran text-4xl mt-1 text-gradient-gold min-h-[3rem]">
+              {next ? PRAYER_NAMES_AR[next.name] : "…"}
             </h1>
-            {next && (
+            {next ? (
               <>
                 <p className="mt-1.5 text-sm opacity-90">بعد {next.in}</p>
                 <p className="mt-1 text-3xl font-light tracking-widest">{next.at.toTimeString().slice(0,5)}</p>
               </>
+            ) : (
+              <p className="mt-1.5 text-sm opacity-60">جارٍ حساب المواقيت…</p>
             )}
           </div>
 
