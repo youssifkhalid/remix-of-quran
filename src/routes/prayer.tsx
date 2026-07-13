@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { MapPin, CheckCircle2, Circle, ChevronLeft, ChevronRight, CalendarDays, Bell, BellOff } from "lucide-react";
 import { fetchPrayerTimes, getNextPrayer, PRAYER_NAMES_AR, type PrayerTimes } from "@/lib/islamic";
-import { useGeolocation } from "@/lib/geo";
+import { useGeolocation, DEFAULT_COORDS } from "@/lib/geo";
 
 export const Route = createFileRoute("/prayer")({
   head: () => ({
