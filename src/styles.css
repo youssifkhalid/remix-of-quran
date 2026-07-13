@@ -444,7 +444,7 @@
 @utility tap-lg {
   transition: transform 150ms var(--ease-bounce), filter 150ms;
 }
-@utility tap-lg{
+.tap-lg:active {
   transform: scale(0.93);
   filter: brightness(0.92);
 }
@@ -594,7 +594,6 @@
   transition: transform 200ms var(--ease-spring), box-shadow 200ms var(--ease-spring);
 }
 .card-hover:hover{
-  transform: translateY(-2px);
   box-shadow: var(--shadow-elevated);
 }
 
@@ -622,8 +621,7 @@
   background: var(--g-primary);
   color: var(--color-primary-foreground);
   box-shadow: var(--shadow-glow);
-  transform: scale(1.10);
-  transition: all 300ms var(--ease-bounce);
+  transition: background-color 200ms var(--ease-smooth), color 200ms var(--ease-smooth), box-shadow 200ms var(--ease-smooth);
 }
 
 /* Dhikr card complete state */
