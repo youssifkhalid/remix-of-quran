@@ -14,7 +14,209 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      adhkar_progress: {
+        Row: {
+          category: string
+          count: number
+          day: string
+          id: string
+          updated_at: string
+          user_id: string
+          zikr_id: string
+        }
+        Insert: {
+          category: string
+          count?: number
+          day: string
+          id?: string
+          updated_at?: string
+          user_id: string
+          zikr_id: string
+        }
+        Update: {
+          category?: string
+          count?: number
+          day?: string
+          id?: string
+          updated_at?: string
+          user_id?: string
+          zikr_id?: string
+        }
+        Relationships: []
+      }
+      ai_conversations: {
+        Row: {
+          created_at: string
+          id: string
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          title?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      ai_messages: {
+        Row: {
+          content: string
+          conversation_id: string
+          created_at: string
+          id: string
+          payload: Json | null
+          role: string
+          user_id: string
+        }
+        Insert: {
+          content: string
+          conversation_id: string
+          created_at?: string
+          id?: string
+          payload?: Json | null
+          role: string
+          user_id: string
+        }
+        Update: {
+          content?: string
+          conversation_id?: string
+          created_at?: string
+          id?: string
+          payload?: Json | null
+          role?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ai_messages_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: false
+            referencedRelation: "ai_conversations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      bookmarks: {
+        Row: {
+          created_at: string
+          id: string
+          kind: string
+          note: string | null
+          ref: string
+          title: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          kind: string
+          note?: string | null
+          ref: string
+          title?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          kind?: string
+          note?: string | null
+          ref?: string
+          title?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          display_name: string | null
+          id: string
+          updated_at: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          display_name?: string | null
+          id: string
+          updated_at?: string
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          display_name?: string | null
+          id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      user_settings: {
+        Row: {
+          data: Json
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          data?: Json
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          data?: Json
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_stats: {
+        Row: {
+          adhkar_completed: number
+          ayat_read: number
+          fasting_days: number
+          khatmah_days: number
+          last_active: string | null
+          streak: number
+          surahs_completed: number
+          tasbih_count: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          adhkar_completed?: number
+          ayat_read?: number
+          fasting_days?: number
+          khatmah_days?: number
+          last_active?: string | null
+          streak?: number
+          surahs_completed?: number
+          tasbih_count?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          adhkar_completed?: number
+          ayat_read?: number
+          fasting_days?: number
+          khatmah_days?: number
+          last_active?: string | null
+          streak?: number
+          surahs_completed?: number
+          tasbih_count?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

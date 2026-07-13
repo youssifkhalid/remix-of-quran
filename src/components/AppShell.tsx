@@ -3,11 +3,12 @@ import {
   BookOpen, Home, MoonStar, Sparkles, Bot, Search,
   Compass, Calculator, BookMarked, Trophy, Map,
   Settings, Heart, Star, CalendarDays, Mic2,
-  Radio, Moon, Flame
+  Radio, Moon, Flame, User as UserIcon, LogIn
 } from "lucide-react";
 import { useState, useEffect, type ReactNode } from "react";
 import { AudioPlayerProvider } from "@/contexts/AudioPlayerContext";
 import { MiniPlayer } from "@/components/MiniPlayer";
+import { AuthProvider, useAuth } from "@/hooks/useAuth";
 
 /* ─── Navigation config ─── */
 const PRIMARY_NAV = [
@@ -20,18 +21,16 @@ const PRIMARY_NAV = [
 
 const SECONDARY_NAV = [
   { group: "قرآن وذكر",    items: [
-    { to: "/search",    icon: Search,      label: "البحث الشامل",    kbd: "K" },
+    { to: "/search",    icon: Search,      label: "البحث الذكي",     kbd: "K" },
     { to: "/hadith",    icon: BookOpen,    label: "مكتبة الحديث"         },
     { to: "/dua",       icon: Heart,       label: "الأدعية"              },
-    { to: "/tasbeeh",   icon: Star,        label: "المسبحة"              },
     { to: "/radio",     icon: Radio,       label: "إذاعة القرآن"         },
     { to: "/reciters",  icon: Mic2,        label: "الشيوخ والقراء"       },
   ]},
   { group: "عبادة وتخطيط", items: [
     { to: "/wird",      icon: Flame,       label: "الورد اليومي"         },
     { to: "/khatmah",   icon: Trophy,      label: "ختمة القرآن"          },
-    { to: "/fasting",   icon: Moon,        label: "تتبّع الصيام"         },
-    { to: "/rakaat",    icon: Calculator,  label: "عداد الركعات"         },
+    { to: "/fasting",   icon: Moon,        label: "صيام رمضان"           },
     { to: "/qibla",     icon: Compass,     label: "القبلة"               },
     { to: "/bookmarks", icon: BookMarked,  label: "الإشارات"             },
   ]},
@@ -42,6 +41,7 @@ const SECONDARY_NAV = [
     { to: "/settings",  icon: Settings,     label: "الإعدادات"           },
   ]},
 ] as const;
+
 
 /* ─── Keyboard shortcuts ─── */
 function useKeyboardShortcuts() {
@@ -97,7 +97,27 @@ function SideNavItem({ to, icon: Icon, label, kbd, badge, active }: {
   );
 }
 
-export function AppShell({ children }: { children: ReactNode }) {
+function ProfilePill() {
+  const { user, loading } = useAuth();
+  if (loading) return null;
+  if (!user) {
+    return (
+      <Link to="/auth" className="flex items-center gap-2 rounded-2xl bg-primary/10 text-primary px-3 py-2 text-xs font-semibold hover:bg-primary/20 transition">
+        <LogIn className="h-4 w-4" />
+        تسجيل الدخول
+      </Link>
+    );
+  }
+  const initial = (user.email ?? "?")[0]?.toUpperCase();
+  return (
+    <Link to="/profile" className="flex items-center gap-2 rounded-2xl bg-card border border-border/60 px-2 py-2 hover:border-primary/40 transition">
+      <span className="grid h-7 w-7 place-items-center rounded-xl gradient-primary text-primary-foreground text-xs font-bold">{initial}</span>
+      <span className="text-xs font-semibold truncate max-w-[110px]">{user.email}</span>
+    </Link>
+  );
+}
+
+function AppShellInner({ children }: { children: ReactNode }) {
   const pathname = useRouterState({ select: s => s.location.pathname });
   useKeyboardShortcuts();
 
@@ -105,6 +125,7 @@ export function AppShell({ children }: { children: ReactNode }) {
 
   return (
     <AudioPlayerProvider>
+
       <div className="relative min-h-dvh bg-background text-foreground">
         {/* Ambient gradient background */}
         <div aria-hidden className="pointer-events-none fixed inset-0 -z-10" style={{
@@ -156,8 +177,13 @@ export function AppShell({ children }: { children: ReactNode }) {
               </div>
             ))}
 
+            {/* Profile pill */}
+            <div className="mt-auto px-3 pt-4">
+              <ProfilePill />
+            </div>
+
             {/* Kbd shortcuts hint */}
-            <div className="mt-auto mx-3 mb-5">
+            <div className="mx-3 mt-3 mb-5">
               <div className="rounded-2xl bg-card border border-border/60 p-3 space-y-2">
                 <p className="text-[9px] font-bold text-muted-foreground/60 uppercase tracking-wider">اختصارات</p>
                 {[
@@ -230,3 +256,12 @@ export function AppShell({ children }: { children: ReactNode }) {
     </AudioPlayerProvider>
   );
 }
+
+export function AppShell({ children }: { children: ReactNode }) {
+  return (
+    <AuthProvider>
+      <AppShellInner>{children}</AppShellInner>
+    </AuthProvider>
+  );
+}
+

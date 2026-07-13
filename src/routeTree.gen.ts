@@ -21,6 +21,7 @@ import { Route as RakaatRouteImport } from './routes/rakaat'
 import { Route as RadioRouteImport } from './routes/radio'
 import { Route as QuranRouteImport } from './routes/quran'
 import { Route as QiblaRouteImport } from './routes/qibla'
+import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as PrayerRouteImport } from './routes/prayer'
 import { Route as NamesRouteImport } from './routes/names'
 import { Route as KhatmahRouteImport } from './routes/khatmah'
@@ -29,6 +30,7 @@ import { Route as FastingRouteImport } from './routes/fasting'
 import { Route as DuaRouteImport } from './routes/dua'
 import { Route as CalendarRouteImport } from './routes/calendar'
 import { Route as BookmarksRouteImport } from './routes/bookmarks'
+import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AiChatRouteImport } from './routes/ai-chat'
 import { Route as AdhkarRouteImport } from './routes/adhkar'
 import { Route as IndexRouteImport } from './routes/index'
@@ -102,6 +104,11 @@ const QiblaRoute = QiblaRouteImport.update({
   path: '/qibla',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProfileRoute = ProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PrayerRoute = PrayerRouteImport.update({
   id: '/prayer',
   path: '/prayer',
@@ -140,6 +147,11 @@ const CalendarRoute = CalendarRouteImport.update({
 const BookmarksRoute = BookmarksRouteImport.update({
   id: '/bookmarks',
   path: '/bookmarks',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AiChatRoute = AiChatRouteImport.update({
@@ -207,6 +219,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/adhkar': typeof AdhkarRouteWithChildren
   '/ai-chat': typeof AiChatRoute
+  '/auth': typeof AuthRoute
   '/bookmarks': typeof BookmarksRoute
   '/calendar': typeof CalendarRoute
   '/dua': typeof DuaRoute
@@ -215,6 +228,7 @@ export interface FileRoutesByFullPath {
   '/khatmah': typeof KhatmahRoute
   '/names': typeof NamesRoute
   '/prayer': typeof PrayerRoute
+  '/profile': typeof ProfileRoute
   '/qibla': typeof QiblaRoute
   '/quran': typeof QuranRouteWithChildren
   '/radio': typeof RadioRoute
@@ -241,6 +255,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/adhkar': typeof AdhkarRouteWithChildren
   '/ai-chat': typeof AiChatRoute
+  '/auth': typeof AuthRoute
   '/bookmarks': typeof BookmarksRoute
   '/calendar': typeof CalendarRoute
   '/dua': typeof DuaRoute
@@ -248,6 +263,7 @@ export interface FileRoutesByTo {
   '/khatmah': typeof KhatmahRoute
   '/names': typeof NamesRoute
   '/prayer': typeof PrayerRoute
+  '/profile': typeof ProfileRoute
   '/qibla': typeof QiblaRoute
   '/radio': typeof RadioRoute
   '/rakaat': typeof RakaatRoute
@@ -273,6 +289,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/adhkar': typeof AdhkarRouteWithChildren
   '/ai-chat': typeof AiChatRoute
+  '/auth': typeof AuthRoute
   '/bookmarks': typeof BookmarksRoute
   '/calendar': typeof CalendarRoute
   '/dua': typeof DuaRoute
@@ -281,6 +298,7 @@ export interface FileRoutesById {
   '/khatmah': typeof KhatmahRoute
   '/names': typeof NamesRoute
   '/prayer': typeof PrayerRoute
+  '/profile': typeof ProfileRoute
   '/qibla': typeof QiblaRoute
   '/quran': typeof QuranRouteWithChildren
   '/radio': typeof RadioRoute
@@ -309,6 +327,7 @@ export interface FileRouteTypes {
     | '/'
     | '/adhkar'
     | '/ai-chat'
+    | '/auth'
     | '/bookmarks'
     | '/calendar'
     | '/dua'
@@ -317,6 +336,7 @@ export interface FileRouteTypes {
     | '/khatmah'
     | '/names'
     | '/prayer'
+    | '/profile'
     | '/qibla'
     | '/quran'
     | '/radio'
@@ -343,6 +363,7 @@ export interface FileRouteTypes {
     | '/'
     | '/adhkar'
     | '/ai-chat'
+    | '/auth'
     | '/bookmarks'
     | '/calendar'
     | '/dua'
@@ -350,6 +371,7 @@ export interface FileRouteTypes {
     | '/khatmah'
     | '/names'
     | '/prayer'
+    | '/profile'
     | '/qibla'
     | '/radio'
     | '/rakaat'
@@ -374,6 +396,7 @@ export interface FileRouteTypes {
     | '/'
     | '/adhkar'
     | '/ai-chat'
+    | '/auth'
     | '/bookmarks'
     | '/calendar'
     | '/dua'
@@ -382,6 +405,7 @@ export interface FileRouteTypes {
     | '/khatmah'
     | '/names'
     | '/prayer'
+    | '/profile'
     | '/qibla'
     | '/quran'
     | '/radio'
@@ -409,6 +433,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdhkarRoute: typeof AdhkarRouteWithChildren
   AiChatRoute: typeof AiChatRoute
+  AuthRoute: typeof AuthRoute
   BookmarksRoute: typeof BookmarksRoute
   CalendarRoute: typeof CalendarRoute
   DuaRoute: typeof DuaRoute
@@ -417,6 +442,7 @@ export interface RootRouteChildren {
   KhatmahRoute: typeof KhatmahRoute
   NamesRoute: typeof NamesRoute
   PrayerRoute: typeof PrayerRoute
+  ProfileRoute: typeof ProfileRoute
   QiblaRoute: typeof QiblaRoute
   QuranRoute: typeof QuranRouteWithChildren
   RadioRoute: typeof RadioRoute
@@ -518,6 +544,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof QiblaRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/profile': {
+      id: '/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof ProfileRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/prayer': {
       id: '/prayer'
       path: '/prayer'
@@ -572,6 +605,13 @@ declare module '@tanstack/react-router' {
       path: '/bookmarks'
       fullPath: '/bookmarks'
       preLoaderRoute: typeof BookmarksRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/ai-chat': {
@@ -726,6 +766,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdhkarRoute: AdhkarRouteWithChildren,
   AiChatRoute: AiChatRoute,
+  AuthRoute: AuthRoute,
   BookmarksRoute: BookmarksRoute,
   CalendarRoute: CalendarRoute,
   DuaRoute: DuaRoute,
@@ -734,6 +775,7 @@ const rootRouteChildren: RootRouteChildren = {
   KhatmahRoute: KhatmahRoute,
   NamesRoute: NamesRoute,
   PrayerRoute: PrayerRoute,
+  ProfileRoute: ProfileRoute,
   QiblaRoute: QiblaRoute,
   QuranRoute: QuranRouteWithChildren,
   RadioRoute: RadioRoute,
@@ -751,13 +793,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
