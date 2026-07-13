@@ -3,11 +3,12 @@ import {
   BookOpen, Home, MoonStar, Sparkles, Bot, Search,
   Compass, Calculator, BookMarked, Trophy, Map,
   Settings, Heart, Star, CalendarDays, Mic2,
-  Radio, Moon, Flame
+  Radio, Moon, Flame, User as UserIcon, LogIn
 } from "lucide-react";
 import { useState, useEffect, type ReactNode } from "react";
 import { AudioPlayerProvider } from "@/contexts/AudioPlayerContext";
 import { MiniPlayer } from "@/components/MiniPlayer";
+import { AuthProvider, useAuth } from "@/hooks/useAuth";
 
 /* ─── Navigation config ─── */
 const PRIMARY_NAV = [
@@ -20,18 +21,16 @@ const PRIMARY_NAV = [
 
 const SECONDARY_NAV = [
   { group: "قرآن وذكر",    items: [
-    { to: "/search",    icon: Search,      label: "البحث الشامل",    kbd: "K" },
+    { to: "/search",    icon: Search,      label: "البحث الذكي",     kbd: "K" },
     { to: "/hadith",    icon: BookOpen,    label: "مكتبة الحديث"         },
     { to: "/dua",       icon: Heart,       label: "الأدعية"              },
-    { to: "/tasbeeh",   icon: Star,        label: "المسبحة"              },
     { to: "/radio",     icon: Radio,       label: "إذاعة القرآن"         },
     { to: "/reciters",  icon: Mic2,        label: "الشيوخ والقراء"       },
   ]},
   { group: "عبادة وتخطيط", items: [
     { to: "/wird",      icon: Flame,       label: "الورد اليومي"         },
     { to: "/khatmah",   icon: Trophy,      label: "ختمة القرآن"          },
-    { to: "/fasting",   icon: Moon,        label: "تتبّع الصيام"         },
-    { to: "/rakaat",    icon: Calculator,  label: "عداد الركعات"         },
+    { to: "/fasting",   icon: Moon,        label: "صيام رمضان"           },
     { to: "/qibla",     icon: Compass,     label: "القبلة"               },
     { to: "/bookmarks", icon: BookMarked,  label: "الإشارات"             },
   ]},
@@ -42,6 +41,7 @@ const SECONDARY_NAV = [
     { to: "/settings",  icon: Settings,     label: "الإعدادات"           },
   ]},
 ] as const;
+
 
 /* ─── Keyboard shortcuts ─── */
 function useKeyboardShortcuts() {
