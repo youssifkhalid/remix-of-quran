@@ -9,6 +9,7 @@ import { useState, useEffect, type ReactNode } from "react";
 import { AudioPlayerProvider } from "@/contexts/AudioPlayerContext";
 import { MiniPlayer } from "@/components/MiniPlayer";
 import { AuthProvider, useAuth } from "@/hooks/useAuth";
+import { DesignStudio } from "@/components/DesignStudio/DesignStudio";
 
 /* ─── Navigation config ─── */
 const PRIMARY_NAV = [
@@ -239,6 +240,7 @@ function AppShellInner({ children }: { children: ReactNode }) {
 
         {/* ── Global MiniPlayer ── */}
         <MiniPlayer />
+        <DesignStudio />
 
         {isAiChat && (
           <button
