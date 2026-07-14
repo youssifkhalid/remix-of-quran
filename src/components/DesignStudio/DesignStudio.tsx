@@ -172,6 +172,7 @@ function StudioPanel({ onClose }: { onClose: () => void }) {
   return (
     <div
       dir="rtl"
+      data-ds-panel
       className="fixed inset-y-0 left-0 z-[9999] flex w-[380px] max-w-[92vw] flex-col border-r border-black/10 bg-white text-slate-900 shadow-2xl"
       style={{ fontFamily: "system-ui, -apple-system, sans-serif" }}
     >
