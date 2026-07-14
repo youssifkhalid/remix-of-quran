@@ -240,6 +240,7 @@ function AppShellInner({ children }: { children: ReactNode }) {
 
         {/* ── Global MiniPlayer ── */}
         <MiniPlayer />
+        <DesignStudio />
 
         {isAiChat && (
           <button
