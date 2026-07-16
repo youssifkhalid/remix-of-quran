@@ -221,14 +221,23 @@ function AppShellInner({ children }: { children: ReactNode }) {
                     <span className="block truncate text-[10px] text-muted-foreground">تطبيقك الإسلامي الشامل</span>
                   </span>
                 </Link>
-                <button
-                  type="button"
-                  onClick={() => setMenuOpen(true)}
-                  className="mobile-menu-trigger"
-                  aria-label="فتح قائمة الصفحات"
-                >
-                  <Menu className="h-5 w-5" />
-                </button>
+                <div className="flex items-center gap-2">
+                  <Link
+                    to="/search"
+                    className="mobile-menu-trigger"
+                    aria-label="بحث سريع"
+                  >
+                    <Search className="h-5 w-5" />
+                  </Link>
+                  <button
+                    type="button"
+                    onClick={() => setMenuOpen(true)}
+                    className="mobile-menu-trigger"
+                    aria-label="فتح قائمة الصفحات"
+                  >
+                    <Menu className="h-5 w-5" />
+                  </button>
+                </div>
               </div>
             )}
             <div className={`mobile-shell-content mx-auto w-full ${isAiChat ? "max-w-none h-dvh pb-0" : "max-w-2xl pb-36 lg:pb-10"}`}>
