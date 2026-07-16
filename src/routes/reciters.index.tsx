@@ -178,8 +178,7 @@ function hashName(s: string): number {
   return Math.abs(h);
 }
 
-function ReciterAvatar({ name, size = 12, rounded = "full" }: { name: string; size?: number; rounded?: "full" | "2xl" }) {
-  // Take up to two initial letters, prefer meaningful first token
+function ReciterAvatar({ name, rounded = "full" }: { name: string; size?: number; rounded?: "full" | "2xl" }) {
   const cleaned = name.replace(/^(الشيخ|الشيخة|القارئ|القارىء|الدكتور|د\.|أ\.)\s*/u, "").trim();
   const parts = cleaned.split(/\s+/).filter(Boolean);
   const initials = (parts[0]?.[0] ?? "") + (parts[1]?.[0] ?? "");
@@ -187,7 +186,7 @@ function ReciterAvatar({ name, size = 12, rounded = "full" }: { name: string; si
   const cls = rounded === "full" ? "rounded-full" : "rounded-2xl";
   return (
     <div
-      className={`grid h-${size} w-${size} shrink-0 place-items-center ${cls} text-primary-foreground font-bold shadow-soft`}
+      className={`grid h-12 w-12 shrink-0 place-items-center ${cls} text-primary-foreground font-bold shadow-soft`}
       style={{ background: bg }}
     >
       <span className="font-quran text-base leading-none">{initials || "ق"}</span>
