@@ -393,7 +393,7 @@
   to   { opacity: 1; transform: translate3d(0, 0, 0); }
 }
 @utility fade-up {
-  animation: none;
+  animation: page-in 0.35s var(--ease-smooth) both;
 }
 
 @keyframes slide-in-right {
