@@ -60,7 +60,7 @@ function RakaatPage() {
       </header>
 
       {/* Prayer selector */}
-      <div className="px-4 mt-4 flex gap-2 overflow-x-auto pb-1 hide-scrollbar">
+      <div className="px-4 mt-4 flex gap-2 overflow-x-auto gpu-scroll pb-1 hide-scrollbar">
         {PRAYER_RAKAAT.map((p, i) => (
           <button
             key={i}

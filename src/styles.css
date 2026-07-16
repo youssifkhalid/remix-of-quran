@@ -54,121 +54,124 @@
   --ease-snap:     cubic-bezier(0.87, 0, 0.13, 1);
 }
 
-/* ── Light mode ── */
+/* ── Light mode (secondary — app is dark-first) ── */
 :root {
-  --radius: 1.1rem;
+  --radius: 0.85rem;
 
-  --background:       oklch(0.985 0.010 95);
-  --foreground:       oklch(0.105 0.030 165);
+  --background:       oklch(0.99 0.002 95);
+  --foreground:       oklch(0.14 0.004 95);
 
-  --surface:          oklch(1    0.004 95);
-  --surface-elevated: oklch(0.995 0.007 95);
+  --surface:          oklch(1    0.001 95);
+  --surface-elevated: oklch(0.97 0.002 95);
 
-  --card:             oklch(1    0.004 95);
-  --card-foreground:  oklch(0.105 0.030 165);
+  --card:             oklch(1    0.001 95);
+  --card-foreground:  oklch(0.14 0.004 95);
 
-  --popover:          oklch(1    0.004 95);
-  --popover-foreground: oklch(0.105 0.030 165);
+  --popover:          oklch(1    0.001 95);
+  --popover-foreground: oklch(0.14 0.004 95);
 
-  --primary:          oklch(0.31 0.085 162);
-  --primary-foreground: oklch(0.985 0.008 95);
-  --primary-glow:     oklch(0.52 0.13  162);
+  --primary:          oklch(0.40 0.035 155);
+  --primary-foreground: oklch(0.99 0.002 95);
+  --primary-glow:     oklch(0.55 0.045 155);
 
-  --secondary:        oklch(0.94 0.020 150);
-  --secondary-foreground: oklch(0.25 0.05 162);
+  --secondary:        oklch(0.95 0.004 95);
+  --secondary-foreground: oklch(0.20 0.006 95);
 
-  --muted:            oklch(0.93 0.014 100);
-  --muted-foreground: oklch(0.36 0.035 155);
+  --muted:            oklch(0.95 0.004 95);
+  --muted-foreground: oklch(0.46 0.006 95);
 
-  --accent:           oklch(0.92 0.040  90);
-  --accent-foreground: oklch(0.25 0.05 162);
+  --accent:           oklch(0.95 0.004 95);
+  --accent-foreground: oklch(0.20 0.006 95);
 
-  --gold:             oklch(0.74 0.130  80);
-  --gold-foreground:  oklch(0.12 0.035 165);
+  --gold:             oklch(0.68 0.075  78);
+  --gold-foreground:  oklch(0.14 0.004 95);
 
-  --on-hero:          oklch(0.985 0.008 95);
-  --on-hero-muted:    oklch(0.91 0.018 95);
+  --on-hero:          oklch(0.99 0.002 95);
+  --on-hero-muted:    oklch(0.88 0.004 95);
 
-  --destructive:      oklch(0.55 0.200  27);
-  --destructive-foreground: oklch(0.98 0.010 95);
+  --destructive:      oklch(0.55 0.16  27);
+  --destructive-foreground: oklch(0.99 0.002 95);
 
-  --border:           oklch(0.88 0.018 100);
-  --input:            oklch(0.92 0.014 100);
-  --ring:             oklch(0.52 0.130 162);
+  --border:           oklch(0.90 0.004 95);
+  --input:            oklch(0.94 0.004 95);
+  --ring:             oklch(0.55 0.045 155);
 
-  /* Gradients */
-  --g-primary: linear-gradient(135deg, oklch(0.30 0.09 162), oklch(0.44 0.12 162));
-  --g-hero:    linear-gradient(165deg, oklch(0.27 0.09 163) 0%, oklch(0.16 0.06 167) 55%, oklch(0.11 0.04 170) 100%);
-  --g-gold:    linear-gradient(135deg, oklch(0.84 0.13  85), oklch(0.66 0.14  74));
-  --g-card:    linear-gradient(180deg, oklch(1    0.004 95), oklch(0.97 0.010 95));
-  --g-teal:    linear-gradient(135deg, oklch(0.60 0.10 195), oklch(0.45 0.12 200));
-  --g-rose:    linear-gradient(135deg, oklch(0.65 0.18  15), oklch(0.50 0.20  20));
-  --g-amber:   linear-gradient(135deg, oklch(0.80 0.15  80), oklch(0.65 0.16  70));
+  /* Flat, near-solid — no chunky gradients */
+  --g-primary: linear-gradient(160deg, oklch(0.38 0.032 155), oklch(0.42 0.038 155));
+  --g-hero:    linear-gradient(165deg, oklch(0.16 0.004 95) 0%, oklch(0.10 0.004 95) 100%);
+  --g-gold:    linear-gradient(160deg, oklch(0.70 0.072 78), oklch(0.66 0.078 76));
+  --g-card:    linear-gradient(180deg, oklch(1 0.001 95), oklch(0.98 0.002 95));
+  --g-teal:    linear-gradient(160deg, oklch(0.55 0.05 195), oklch(0.50 0.055 195));
+  --g-rose:    linear-gradient(160deg, oklch(0.58 0.09  15), oklch(0.52 0.095 15));
+  --g-amber:   linear-gradient(160deg, oklch(0.70 0.08  80), oklch(0.64 0.085 76));
 
-  /* Shadows */
-  --shadow-xs:       0 1px 2px oklch(0.17 0.04 165 / 0.03);
-  --shadow-soft:     0 2px 8px oklch(0.17 0.04 165 / 0.04), 0 1px 2px oklch(0.17 0.04 165 / 0.04);
-  --shadow-elevated: 0 8px 30px -6px oklch(0.17 0.04 165 / 0.10), 0 2px 4px oklch(0.17 0.04 165 / 0.05);
-  --shadow-glow:     0 0 0 1px oklch(0.52 0.13 162 / 0.12), 0 4px 20px -4px oklch(0.52 0.13 162 / 0.30);
-  --shadow-gold:     0 4px 24px -6px oklch(0.74 0.13 80 / 0.45);
-  --shadow-hero:     0 20px 60px -15px oklch(0.17 0.04 165 / 0.20);
-  --shadow-card:     0 1px 0 oklch(0 0 0 / 0.04) inset, 0 2px 8px oklch(0.17 0.04 165 / 0.04);
+  /* Sleek hairline borders, minimal shadow */
+  --shadow-xs:       0 1px 2px oklch(0 0 0 / 0.04);
+  --shadow-soft:     0 1px 2px oklch(0 0 0 / 0.05);
+  --shadow-elevated: 0 4px 16px -6px oklch(0 0 0 / 0.10);
+  --shadow-glow:     0 0 0 1px oklch(0.55 0.045 155 / 0.14);
+  --shadow-gold:     0 0 0 1px oklch(0.68 0.075 78 / 0.20);
+  --shadow-hero:     0 8px 30px -10px oklch(0 0 0 / 0.14);
+  --shadow-card:     0 1px 2px oklch(0 0 0 / 0.04);
 }
 
-/* ── Dark mode ── */
+/* ── Dark mode — TRUE BLACK, the app's primary look ── */
 .dark {
-  --background:       oklch(0.13 0.025 165);
-  --foreground:       oklch(0.985 0.008 95);
+  --background:       #000000;
+  --foreground:       oklch(0.96 0.003 95);
 
-  --surface:          oklch(0.17 0.028 165);
-  --surface-elevated: oklch(0.21 0.032 165);
+  --surface:          oklch(0.10 0.004 95);
+  --surface-elevated: oklch(0.14 0.005 95);
 
-  --card:             oklch(0.18 0.028 165);
-  --card-foreground:  oklch(0.985 0.008 95);
+  --card:             oklch(0.09 0.004 95);
+  --card-foreground:  oklch(0.96 0.003 95);
 
-  --popover:          oklch(0.18 0.028 165);
-  --popover-foreground: oklch(0.985 0.008 95);
+  --popover:          oklch(0.09 0.004 95);
+  --popover-foreground: oklch(0.96 0.003 95);
 
-  --primary:          oklch(0.45 0.120 162);
-  --primary-foreground: oklch(0.985 0.008 95);
-  --primary-glow:     oklch(0.68 0.145 162);
+  /* Soft sage — muted, not saturated "app green" */
+  --primary:          oklch(0.62 0.045 155);
+  --primary-foreground: #000000;
+  --primary-glow:     oklch(0.68 0.05 155);
 
-  --secondary:        oklch(0.25 0.038 165);
-  --secondary-foreground: oklch(0.96 0.012 95);
+  --secondary:        oklch(0.15 0.005 95);
+  --secondary-foreground: oklch(0.94 0.004 95);
 
-  --muted:            oklch(0.23 0.030 165);
-  --muted-foreground: oklch(0.82 0.014 100);
+  --muted:            oklch(0.14 0.004 95);
+  --muted-foreground: oklch(0.62 0.006 95);
 
-  --accent:           oklch(0.29 0.048 165);
-  --accent-foreground: oklch(0.96 0.012 95);
+  --accent:           oklch(0.16 0.005 95);
+  --accent-foreground: oklch(0.94 0.004 95);
 
-  --gold:             oklch(0.79 0.140  80);
-  --gold-foreground:  oklch(0.13 0.025 165);
+  /* Muted gold — desaturated, not "chunky yellow" */
+  --gold:             oklch(0.74 0.065  78);
+  --gold-foreground:  #000000;
 
-  --on-hero:          oklch(0.985 0.008 95);
-  --on-hero-muted:    oklch(0.90 0.016 95);
+  --on-hero:          oklch(0.97 0.003 95);
+  --on-hero-muted:    oklch(0.72 0.006 95);
 
-  --destructive:      oklch(0.62 0.200  27);
-  --destructive-foreground: oklch(0.98 0.010 95);
+  --destructive:      oklch(0.60 0.16  27);
+  --destructive-foreground: oklch(0.98 0.003 95);
 
-  --border:           oklch(1 0 0 / 7%);
-  --input:            oklch(1 0 0 / 11%);
-  --ring:             oklch(0.62 0.145 162);
+  /* Hairline borders instead of heavy shadows */
+  --border:           oklch(1 0 0 / 9%);
+  --input:            oklch(1 0 0 / 12%);
+  --ring:             oklch(0.62 0.045 155);
 
-  --g-primary: linear-gradient(135deg, oklch(0.38 0.10 162), oklch(0.54 0.13 162));
-  --g-hero:    linear-gradient(165deg, oklch(0.21 0.05 165) 0%, oklch(0.15 0.04 168) 55%, oklch(0.09 0.025 170) 100%);
-  --g-gold:    linear-gradient(135deg, oklch(0.84 0.13 85), oklch(0.70 0.14 74));
-  --g-card:    linear-gradient(180deg, oklch(0.21 0.03 165), oklch(0.17 0.028 165));
-  --g-teal:    linear-gradient(135deg, oklch(0.55 0.11 195), oklch(0.40 0.12 200));
-  --g-rose:    linear-gradient(135deg, oklch(0.60 0.19 15), oklch(0.46 0.20 20));
-  --g-amber:   linear-gradient(135deg, oklch(0.78 0.15 80), oklch(0.63 0.16 70));
+  --g-primary: linear-gradient(160deg, oklch(0.56 0.045 155), oklch(0.64 0.05 155));
+  --g-hero:    linear-gradient(165deg, oklch(0.12 0.004 95) 0%, #000000 100%);
+  --g-gold:    linear-gradient(160deg, oklch(0.76 0.065 78), oklch(0.70 0.07 76));
+  --g-card:    linear-gradient(180deg, oklch(0.11 0.004 95), oklch(0.08 0.004 95));
+  --g-teal:    linear-gradient(160deg, oklch(0.50 0.055 195), oklch(0.44 0.06 195));
+  --g-rose:    linear-gradient(160deg, oklch(0.55 0.10 15), oklch(0.48 0.105 15));
+  --g-amber:   linear-gradient(160deg, oklch(0.74 0.07 78), oklch(0.68 0.075 76));
 
-  --shadow-soft:     0 2px 8px oklch(0 0 0 / 0.30), 0 1px 2px oklch(0 0 0 / 0.20);
-  --shadow-elevated: 0 8px 40px -8px oklch(0 0 0 / 0.55), 0 2px 6px oklch(0 0 0 / 0.30);
-  --shadow-glow:     0 0 0 1px oklch(0.62 0.145 162 / 0.20), 0 4px 24px -4px oklch(0.62 0.145 162 / 0.38);
-  --shadow-gold:     0 4px 24px -6px oklch(0.79 0.14 80 / 0.38);
-  --shadow-hero:     0 20px 60px -15px oklch(0 0 0 / 0.60);
-  --shadow-card:     0 1px 0 oklch(1 0 0 / 0.06) inset, 0 2px 8px oklch(0 0 0 / 0.25);
+  --shadow-soft:     0 1px 2px oklch(0 0 0 / 0.4);
+  --shadow-elevated: 0 4px 20px -8px oklch(0 0 0 / 0.6);
+  --shadow-glow:     0 0 0 1px oklch(0.62 0.045 155 / 0.22);
+  --shadow-gold:     0 0 0 1px oklch(0.74 0.065 78 / 0.28);
+  --shadow-hero:     0 12px 40px -14px oklch(0 0 0 / 0.7);
+  --shadow-card:     0 1px 2px oklch(0 0 0 / 0.35);
 }
 
 /* ═══════════════════════════════════════════════════════════════════
@@ -357,17 +360,22 @@
 /* ═══════════════════════════════════════════════════════════════════
    GLASS EFFECTS
    ═══════════════════════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════════════════════
+   SOLID SURFACE UTILITIES (renamed from "glass" — no blur, no
+   transparency, no color-mix alpha: 100% opaque hex fills only,
+   per the strict no-blend/no-blur requirement)
+   ═══════════════════════════════════════════════════════════════════ */
 @utility glass {
-  background: color-mix(in oklab, var(--surface) 97%, transparent);
-  border: 1px solid color-mix(in oklab, var(--foreground) 7%, transparent);
+  background: var(--surface-elevated);
+  border: 1px solid var(--border);
 }
 @utility glass-dark {
-  background: color-mix(in oklab, var(--background) 97%, var(--surface));
-  border: 1px solid color-mix(in oklab, var(--gold) 10%, transparent);
+  background: var(--card);
+  border: 1px solid var(--border);
 }
 @utility glass-gold {
-  background: color-mix(in oklab, var(--gold) 8%, var(--card));
-  border: 1px solid color-mix(in oklab, var(--gold) 20%, transparent);
+  background: var(--surface-elevated);
+  border: 1px solid var(--gold);
 }
 
 /* ═══════════════════════════════════════════════════════════════════
@@ -854,9 +862,8 @@
   justify-content: space-between;
   gap: 0.75rem;
   padding: max(env(safe-area-inset-top), 0.5rem) 0.875rem 0.5rem;
-  background: color-mix(in oklab, var(--background) 96%, var(--surface));
-  border-bottom: 1px solid color-mix(in oklab, var(--border) 72%, transparent);
-  box-shadow: var(--shadow-xs);
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
 }
 
 .mobile-menu-trigger {
@@ -869,7 +876,6 @@
   background: var(--color-card);
   color: var(--color-foreground);
   border: 1px solid var(--color-border);
-  box-shadow: var(--shadow-soft);
 }
 
 .mobile-shell-content {
@@ -881,9 +887,8 @@
   min-height: 4.25rem;
   border-radius: 1.35rem;
   padding: 0.45rem 0.45rem 0.5rem;
-  background: color-mix(in oklab, var(--surface) 98%, var(--background));
-  border: 1px solid color-mix(in oklab, var(--border) 75%, transparent);
-  box-shadow: var(--shadow-elevated);
+  background: var(--surface-elevated);
+  border: 1px solid var(--border);
 }
 
 @media (max-width: 1023px) {
@@ -903,21 +908,85 @@
     filter: none !important;
   }
 
+  /* Blur / backdrop-filter is the #1 cause of tiled, pixelated repaint
+     corruption on Android + low-end mobile GPUs. Strip it everywhere on
+     mobile and rely on the solid/semi-transparent fills instead. */
   .backdrop-blur,
   .backdrop-blur-sm,
   .backdrop-blur-md,
   .backdrop-blur-lg,
   .backdrop-blur-xl,
+  .backdrop-blur-2xl,
+  .backdrop-blur-3xl,
+  .blur,
+  .blur-sm,
+  .blur-md,
+  .blur-lg,
   .blur-xl,
   .blur-2xl,
   .blur-3xl {
     filter: none !important;
     backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  /* mix-blend-mode forces an expensive isolated compositing pass and is
+     a frequent trigger of the same tiling glitch. */
+  [class*="mix-blend-"] {
+    mix-blend-mode: normal !important;
   }
 }
 
 @media (min-width: 1024px) {
   .mobile-shell-bar { display: none; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   GPU / COMPOSITING STABILITY
+   Fixed, sticky and overlay chrome get their own dedicated compositor
+   layer so they are never re-rastered together with scrolling content
+   beneath them — this is the root cause of the tearing / "broken TV"
+   glitch seen on scroll and when opening menus on mobile.
+   ═══════════════════════════════════════════════════════════════════ */
+.gpu-layer {
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  will-change: transform;
+  isolation: isolate;
+}
+
+/* Ambient background: painted once, never repainted per scroll frame. */
+.ambient-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -10;
+  pointer-events: none;
+  contain: strict;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  backface-visibility: hidden;
+  will-change: transform;
+}
+
+/* Horizontal scroll containers: force their own compositor layer so
+   momentum scrolling never tears against the fixed chrome above them. */
+.gpu-scroll {
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-overflow-scrolling: touch;
+  contain: layout style paint;
+}
+
+.fixed-chrome {
+  contain: layout style paint;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  backface-visibility: hidden;
+  will-change: transform;
 }
 
 /* ── Tooltip ── */

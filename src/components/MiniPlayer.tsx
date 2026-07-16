@@ -17,8 +17,8 @@ export function MiniPlayer() {
   const pct = duration > 0 ? (progress / duration) * 100 : 0;
 
   return (
-    <div className="fixed inset-x-0 bottom-[5.5rem] z-40 px-3 pointer-events-none">
-      <div className="mx-auto max-w-screen-sm pointer-events-auto rounded-2xl glass shadow-elevated border border-border/40 overflow-hidden">
+    <div className="fixed-chrome fixed inset-x-0 bottom-[5.5rem] z-40 px-3 pointer-events-none">
+      <div className="mx-auto max-w-screen-sm pointer-events-auto rounded-2xl glass shadow-elevated border border-border overflow-hidden">
         {/* Progress bar */}
         <div
           className="h-0.5 bg-muted cursor-pointer"

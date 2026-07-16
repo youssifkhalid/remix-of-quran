@@ -79,7 +79,7 @@ function FastingPage() {
     return (
       <div className="fade-up pb-8 px-4 pt-6">
         <div className="rounded-3xl gradient-hero text-primary-foreground p-6 shadow-elevated relative overflow-hidden mb-4">
-          <div aria-hidden className="absolute -top-10 -right-10 h-40 w-40 rounded-full bg-white/10 blur-3xl" />
+          <div aria-hidden className="hidden" />
           <Moon className="h-10 w-10 mb-3 opacity-90" />
           <h1 className="font-quran heading-page">صيام رمضان</h1>
           <p className="text-sm opacity-80 mt-1">التتبّع متاح فقط خلال شهر رمضان المبارك</p>
@@ -116,7 +116,7 @@ function FastingPage() {
             { label: "متبقية", value: ramadanDays - fastedCount },
             { label: "مع السحور", value: suhoorCount },
           ].map(({ label, value }) => (
-            <div key={label} className="rounded-2xl bg-white/10 backdrop-blur py-2.5">
+            <div key={label} className="rounded-2xl bg-white/10 py-2.5">
               <p className="font-quran text-2xl">{value}</p>
               <p className="text-[10px] opacity-75">{label}</p>
             </div>

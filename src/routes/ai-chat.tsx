@@ -366,7 +366,7 @@ function AIChatPage() {
         <div className="rounded-3xl glass shadow-elevated border border-border/50 overflow-hidden">
           {/* Quick reply chips */}
           {messages.length > 0 && !loading && (
-            <div className="flex gap-2 px-3 pt-2 pb-1 overflow-x-auto hide-scrollbar">
+            <div className="flex gap-2 px-3 pt-2 pb-1 overflow-x-auto hide-scrollbar gpu-scroll">
               {["وضّح أكثر", "اذكر آراء العلماء", "ما الدليل؟", "هل هناك خلاف؟"].map((chip) => (
                 <button
                   key={chip}

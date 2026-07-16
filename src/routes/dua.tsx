@@ -118,7 +118,7 @@ function DuaPage() {
       </header>
 
       {/* Category chips */}
-      <div className="flex gap-2 px-4 overflow-x-auto hide-scrollbar py-1 mb-2">
+      <div className="flex gap-2 px-4 overflow-x-auto hide-scrollbar gpu-scroll py-1 mb-2">
         {CATEGORIES.map((c) => (
           <button key={c} onClick={() => setCat(c)}
             className={`shrink-0 rounded-full px-3 py-1.5 text-xs font-semibold transition ${cat === c ? "gradient-gold text-gold-foreground shadow-gold" : "bg-card border border-border text-muted-foreground"}`}>

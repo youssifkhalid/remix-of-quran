@@ -267,7 +267,7 @@ function PrayerPage() {
           {!data ? (
             <p className="text-center text-sm text-muted-foreground py-6">يرجى تفعيل الموقع لعرض الجدول</p>
           ) : (
-            <div className="overflow-x-auto">
+            <div className="overflow-x-auto gpu-scroll">
               <table className="w-full text-xs">
                 <thead>
                   <tr className="text-muted-foreground">

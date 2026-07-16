@@ -71,7 +71,7 @@ function HadithIndex() {
         <div className="relative">
           <h1 className="font-quran heading-page">مكتبة الحديث الشريف</h1>
           <p className="text-sm opacity-80 mt-1">الأربعون النووية وأمهات كتب الحديث</p>
-          <div className="mt-4 flex items-center gap-2 rounded-2xl bg-white/10 backdrop-blur px-4 py-3">
+          <div className="mt-4 flex items-center gap-2 rounded-2xl bg-white/10 px-4 py-3">
             <Search className="h-4 w-4 opacity-70 shrink-0" />
             <input
               value={q}
