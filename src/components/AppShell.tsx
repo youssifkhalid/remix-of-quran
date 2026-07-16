@@ -10,6 +10,7 @@ import { AudioPlayerProvider } from "@/contexts/AudioPlayerContext";
 import { MiniPlayer } from "@/components/MiniPlayer";
 import { AuthProvider, useAuth } from "@/hooks/useAuth";
 import { DesignStudio } from "@/components/DesignStudio/DesignStudio";
+import { SakinahLogo } from "@/components/SakinahLogo";
 
 /* ─── Navigation config ─── */
 const PRIMARY_NAV = [
@@ -137,8 +138,8 @@ function AppShellInner({ children }: { children: ReactNode }) {
     <AudioPlayerProvider>
 
       <div className="relative min-h-dvh bg-background text-foreground">
-        {/* Ambient gradient background */}
-        <div aria-hidden className="pointer-events-none fixed inset-0 -z-10" style={{
+        {/* Ambient gradient background — painted once, isolated on its own GPU layer */}
+        <div aria-hidden className="ambient-bg" style={{
           background: `
             radial-gradient(ellipse 80% 45% at 50% -10%,
               color-mix(in oklab, var(--primary-glow) 18%, transparent), transparent 70%),
@@ -153,14 +154,14 @@ function AppShellInner({ children }: { children: ReactNode }) {
         <div className="lg:flex lg:min-h-dvh">
 
           {/* ══ DESKTOP / TABLET SIDEBAR ══ */}
-          <aside className="hidden lg:flex lg:flex-col lg:w-[248px] xl:w-[272px] shrink-0
+          <aside className="fixed-chrome hidden lg:flex lg:flex-col lg:w-[248px] xl:w-[272px] shrink-0
             sticky top-0 h-dvh border-l border-border/30 overflow-y-auto scroll-area
             bg-background/95 z-40">
 
             {/* Logo */}
             <Link to="/" className="flex items-center gap-3 px-5 pt-6 pb-5">
-              <div className="relative grid h-11 w-11 place-items-center rounded-[14px] gradient-primary text-primary-foreground shadow-glow">
-                <span className="font-quran text-2xl leading-none">س</span>
+              <div className="relative">
+                <SakinahLogo size={44} className="text-background/90" />
                 <span className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full bg-emerald-400 border-2 border-background" />
               </div>
               <div>
@@ -211,11 +212,9 @@ function AppShellInner({ children }: { children: ReactNode }) {
           {/* ══ MAIN CONTENT ══ */}
           <main className="flex-1 min-w-0 lg:overflow-y-auto lg:h-dvh scroll-area">
             {!isAiChat && (
-              <div className="mobile-shell-bar lg:hidden">
+              <div className="mobile-shell-bar fixed-chrome lg:hidden">
                 <Link to="/" className="flex min-w-0 items-center gap-2 text-right">
-                  <span className="grid h-10 w-10 shrink-0 place-items-center rounded-2xl gradient-primary text-primary-foreground shadow-glow">
-                    <span className="font-quran text-xl leading-none">س</span>
-                  </span>
+                  <SakinahLogo size={38} className="shrink-0 text-background/90" />
                   <span className="min-w-0">
                     <span className="block font-quran text-xl leading-none">سكينة</span>
                     <span className="block truncate text-[10px] text-muted-foreground">تطبيقك الإسلامي الشامل</span>
@@ -255,7 +254,7 @@ function AppShellInner({ children }: { children: ReactNode }) {
           <button
             type="button"
             onClick={() => setMenuOpen(true)}
-            className="mobile-menu-trigger lg:hidden fixed left-3 top-[max(env(safe-area-inset-top),0.75rem)] z-50"
+            className="mobile-menu-trigger fixed-chrome lg:hidden fixed left-3 top-[max(env(safe-area-inset-top),0.75rem)] z-50"
             aria-label="فتح قائمة الصفحات"
           >
             <Menu className="h-5 w-5" />
@@ -263,7 +262,7 @@ function AppShellInner({ children }: { children: ReactNode }) {
         )}
 
         {menuOpen && (
-          <div className="lg:hidden fixed inset-0 z-[70] bg-background/95">
+          <div className="fixed-chrome lg:hidden fixed inset-0 z-[70] bg-background/95">
             <div className="flex items-center justify-between border-b border-border px-4 py-3 pt-[max(env(safe-area-inset-top),0.75rem)]">
               <div>
                 <p className="font-quran text-2xl leading-none">سكينة</p>
@@ -297,7 +296,7 @@ function AppShellInner({ children }: { children: ReactNode }) {
         )}
 
         {/* ══ MOBILE BOTTOM NAV ══ */}
-        {!isAiChat && <nav aria-label="التنقل" className="lg:hidden fixed inset-x-0 bottom-0 z-50
+        {!isAiChat && <nav aria-label="التنقل" className="fixed-chrome lg:hidden fixed inset-x-0 bottom-0 z-50
           px-2 pb-[max(env(safe-area-inset-bottom),6px)] pt-1">
           <div className="mobile-bottom-nav-panel flex items-end justify-between">
             {PRIMARY_NAV.map(({ to, icon: Icon, label, badge }: any) => {
