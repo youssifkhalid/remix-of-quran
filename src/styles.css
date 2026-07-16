@@ -903,21 +903,75 @@
     filter: none !important;
   }
 
+  /* Blur / backdrop-filter is the #1 cause of tiled, pixelated repaint
+     corruption on Android + low-end mobile GPUs. Strip it everywhere on
+     mobile and rely on the solid/semi-transparent fills instead. */
   .backdrop-blur,
   .backdrop-blur-sm,
   .backdrop-blur-md,
   .backdrop-blur-lg,
   .backdrop-blur-xl,
+  .backdrop-blur-2xl,
+  .backdrop-blur-3xl,
+  .blur,
+  .blur-sm,
+  .blur-md,
+  .blur-lg,
   .blur-xl,
   .blur-2xl,
   .blur-3xl {
     filter: none !important;
     backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  /* mix-blend-mode forces an expensive isolated compositing pass and is
+     a frequent trigger of the same tiling glitch. */
+  [class*="mix-blend-"] {
+    mix-blend-mode: normal !important;
   }
 }
 
 @media (min-width: 1024px) {
   .mobile-shell-bar { display: none; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   GPU / COMPOSITING STABILITY
+   Fixed, sticky and overlay chrome get their own dedicated compositor
+   layer so they are never re-rastered together with scrolling content
+   beneath them — this is the root cause of the tearing / "broken TV"
+   glitch seen on scroll and when opening menus on mobile.
+   ═══════════════════════════════════════════════════════════════════ */
+.gpu-layer {
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  will-change: transform;
+  isolation: isolate;
+}
+
+/* Ambient background: painted once, never repainted per scroll frame. */
+.ambient-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -10;
+  pointer-events: none;
+  contain: strict;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  backface-visibility: hidden;
+  will-change: transform;
+}
+
+/* Any fixed/sticky chrome (bars, nav, overlays, mini-player). */
+.fixed-chrome {
+  contain: layout style paint;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  backface-visibility: hidden;
+  will-change: transform;
 }
 
 /* ── Tooltip ── */
