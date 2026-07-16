@@ -188,7 +188,7 @@
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
     scroll-behavior: smooth;
-    overflow-x: hidden;
+    overflow-x: clip;
     background: var(--color-background);
   }
 
@@ -206,10 +206,9 @@
     font-family: var(--font-sans);
     font-weight: 450;
     font-feature-settings: "ss01", "kern";
-    overscroll-behavior: none;
     -webkit-overflow-scrolling: touch;
-    overflow-x: hidden;
     margin: 0;
+    min-height: 100dvh;
   }
 
   #root,
