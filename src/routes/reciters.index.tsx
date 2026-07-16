@@ -124,9 +124,7 @@ function RecitersIndex() {
             {filtered.slice(0, 8).map((r) => (
               <Link key={r.id} to="/reciters/$id" params={{ id: r.id }}
                 className="shrink-0 flex flex-col items-center gap-2 rounded-2xl bg-card border border-border p-3 w-24 text-center active:scale-95 transition shadow-soft">
-                <div className="grid h-12 w-12 place-items-center rounded-full gradient-primary text-primary-foreground text-lg font-bold">
-                  {r.name.slice(0, 1)}
-                </div>
+                <ReciterAvatar name={r.name} size={12} />
                 <p className="text-[10px] leading-tight line-clamp-2">{r.name}</p>
                 <span className="text-[9px] text-muted-foreground">{r.totalSurahs ?? "—"} سورة</span>
               </Link>
@@ -145,9 +143,7 @@ function RecitersIndex() {
                 <li key={r.id}>
                   <Link to="/reciters/$id" params={{ id: r.id }}
                     className="flex items-center gap-3 rounded-2xl bg-card border border-border/40 p-3.5 shadow-soft transition active:scale-[0.98]">
-                    <div className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl gradient-primary text-primary-foreground text-lg font-bold shadow-glow">
-                      {r.name.slice(0, 1)}
-                    </div>
+                    <ReciterAvatar name={r.name} size={12} rounded="2xl" />
                     <div className="flex-1 min-w-0">
                       <p className="font-quran text-lg truncate">{r.name}</p>
                       <p className="text-xs text-muted-foreground mt-0.5 truncate">
@@ -161,6 +157,39 @@ function RecitersIndex() {
                 </li>
               ))}
       </ul>
+    </div>
+  );
+}
+
+const AVATAR_GRADIENTS = [
+  "linear-gradient(135deg, oklch(0.52 0.14 162), oklch(0.35 0.12 170))",
+  "linear-gradient(135deg, oklch(0.60 0.16 30), oklch(0.42 0.14 20))",
+  "linear-gradient(135deg, oklch(0.55 0.16 260), oklch(0.38 0.14 250))",
+  "linear-gradient(135deg, oklch(0.60 0.14 85), oklch(0.45 0.13 70))",
+  "linear-gradient(135deg, oklch(0.55 0.15 320), oklch(0.40 0.14 300))",
+  "linear-gradient(135deg, oklch(0.55 0.13 200), oklch(0.40 0.12 210))",
+  "linear-gradient(135deg, oklch(0.58 0.15 140), oklch(0.42 0.13 130))",
+  "linear-gradient(135deg, oklch(0.60 0.15 50), oklch(0.44 0.14 40))",
+];
+
+function hashName(s: string): number {
+  let h = 0;
+  for (let i = 0; i < s.length; i++) h = ((h << 5) - h + s.charCodeAt(i)) | 0;
+  return Math.abs(h);
+}
+
+function ReciterAvatar({ name, rounded = "full" }: { name: string; size?: number; rounded?: "full" | "2xl" }) {
+  const cleaned = name.replace(/^(الشيخ|الشيخة|القارئ|القارىء|الدكتور|د\.|أ\.)\s*/u, "").trim();
+  const parts = cleaned.split(/\s+/).filter(Boolean);
+  const initials = (parts[0]?.[0] ?? "") + (parts[1]?.[0] ?? "");
+  const bg = AVATAR_GRADIENTS[hashName(cleaned) % AVATAR_GRADIENTS.length];
+  const cls = rounded === "full" ? "rounded-full" : "rounded-2xl";
+  return (
+    <div
+      className={`grid h-12 w-12 shrink-0 place-items-center ${cls} text-primary-foreground font-bold shadow-soft`}
+      style={{ background: bg }}
+    >
+      <span className="font-quran text-base leading-none">{initials || "ق"}</span>
     </div>
   );
 }
