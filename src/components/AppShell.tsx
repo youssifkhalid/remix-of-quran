@@ -328,15 +328,6 @@ function AppShellInner({ children }: { children: ReactNode }) {
           </div>
         </nav>}
 
-        {/* ── FAB: quick search on mobile ── */}
-        {!isAiChat && <button
-          onClick={() => window.location.href = "/search"}
-          className="lg:hidden fixed bottom-[5.5rem] left-3 z-40
-            h-12 w-12 rounded-2xl gradient-gold text-gold-foreground shadow-gold
-            grid place-items-center transition-all active:scale-90 hover:scale-105"
-          aria-label="بحث سريع">
-          <Search className="h-5 w-5" />
-        </button>}
 
       </div>
     </AudioPlayerProvider>
