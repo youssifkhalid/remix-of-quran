@@ -12,18 +12,25 @@ import {
 import { applyOverrides } from "@/lib/design-studio/apply";
 import { buildSelector, describeElement } from "@/lib/design-studio/selector";
 
+/* ────────── Persisted customizations mount ────────── */
+
+export function DesignStudioOverrides() {
+  useEffect(() => {
+    applyOverrides(loadState());
+  }, []);
+
+  return null;
+}
+
 /* ────────── Owner-only mount ────────── */
 export function DesignStudio() {
   const [enabled, setEnabled] = useState(false);
   const [open, setOpen] = useState(false);
 
-  // Initial enable + apply saved overrides ASAP
+  // Initial enable: the studio UI is development-only, but saved overrides
+  // are applied separately by DesignStudioOverrides.
   useEffect(() => {
-    const on = isStudioEnabled();
-    setEnabled(on);
-    // Apply overrides regardless — the user's customizations should always
-    // render, whether or not the studio panel is currently visible.
-    applyOverrides(loadState());
+    setEnabled(isStudioEnabled());
   }, []);
 
   // Keyboard shortcut: Ctrl/Cmd + Shift + D

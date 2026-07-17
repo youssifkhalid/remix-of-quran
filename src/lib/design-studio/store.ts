@@ -27,7 +27,7 @@ const EMPTY_STATE: StudioState = {
 
 /* ── Enablement (owner unlock) ── */
 export function isStudioEnabled(): boolean {
-  if (typeof window === "undefined") return false;
+  if (!import.meta.env.DEV || typeof window === "undefined") return false;
   try {
     if (new URLSearchParams(window.location.search).get("studio") === "1") {
       localStorage.setItem(ENABLED_KEY, "1");
