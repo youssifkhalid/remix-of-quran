@@ -9,7 +9,7 @@ import { useState, useEffect, type ReactNode } from "react";
 import { AudioPlayerProvider } from "@/contexts/AudioPlayerContext";
 import { MiniPlayer } from "@/components/MiniPlayer";
 import { AuthProvider, useAuth } from "@/hooks/useAuth";
-import { DesignStudio } from "@/components/DesignStudio/DesignStudio";
+import { DesignStudio, DesignStudioOverrides } from "@/components/DesignStudio/DesignStudio";
 import { SakinahLogo } from "@/components/SakinahLogo";
 
 /* ─── Navigation config ─── */
@@ -248,7 +248,8 @@ function AppShellInner({ children }: { children: ReactNode }) {
 
         {/* ── Global MiniPlayer ── */}
         <MiniPlayer />
-        <DesignStudio />
+        <DesignStudioOverrides />
+        {import.meta.env.DEV && <DesignStudio />}
 
         {isAiChat && (
           <button
