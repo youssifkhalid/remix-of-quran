@@ -149,7 +149,7 @@ function RadioPage() {
   const currentStation = stations.find((s) => s.id === playing);
 
   return (
-    <div className="fade-up pb-32">
+    <div className="fade-up pb-8">
       <header className="px-5 pt-6 pb-3">
         <div className="flex items-center gap-2">
           <Radio className="h-5 w-5 text-primary" />
@@ -250,7 +250,7 @@ function RadioPage() {
 
       {/* Bottom control bar */}
       {currentStation && (
-        <div className="fixed bottom-16 md:bottom-0 left-0 right-0 z-30 mx-auto max-w-3xl px-3 pb-3">
+        <div className="fixed-chrome fixed bottom-[calc(5rem+env(safe-area-inset-bottom))] md:bottom-3 left-0 right-0 z-30 mx-auto max-w-3xl px-3">
           <div className="rounded-2xl bg-card border border-border shadow-elevated p-3 flex items-center gap-3">
             <button
               onClick={toggleMute}

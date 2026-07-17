@@ -362,7 +362,7 @@ function AIChatPage() {
       </div>
 
       {/* Input area */}
-      <div className="sticky bottom-0 z-30 px-3 py-2 md:px-8 lg:px-12 bg-background/95 border-t border-border">
+      <div className="sticky bottom-0 z-30 px-3 py-2 pb-[max(env(safe-area-inset-bottom),0.5rem)] md:px-8 lg:px-12 bg-background/95 border-t border-border">
         <div className="rounded-3xl glass shadow-elevated border border-border/50 overflow-hidden">
           {/* Quick reply chips */}
           {messages.length > 0 && !loading && (
