@@ -120,7 +120,7 @@ function RecitersIndex() {
           <p className="text-xs text-muted-foreground mb-2 flex items-center gap-1">
             <Star className="h-3 w-3" /> أبرز القراء
           </p>
-          <div className="flex gap-2 overflow-x-auto hide-scrollbar pb-1">
+          <div className="rtl-scroll-row pb-1">
             {filtered.slice(0, 8).map((r) => (
               <Link key={r.id} to="/reciters/$id" params={{ id: r.id }}
                 className="shrink-0 flex flex-col items-center gap-2 rounded-2xl bg-card border border-border p-3 w-24 text-center active:scale-95 transition shadow-soft">

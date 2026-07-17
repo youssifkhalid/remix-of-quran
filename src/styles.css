@@ -584,6 +584,15 @@
 }
 .hide-scrollbar::-webkit-scrollbar { display: none; }
 
+.rtl-scroll-row {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  scroll-padding-inline: 1rem;
+  padding-inline: 1rem;
+  -webkit-overflow-scrolling: touch;
+}
+
 @utility pb-safe {
   padding-bottom: max(env(safe-area-inset-bottom), 0.75rem);
 }
