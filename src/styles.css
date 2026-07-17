@@ -54,121 +54,125 @@
   --ease-snap:     cubic-bezier(0.87, 0, 0.13, 1);
 }
 
-/* ── Light mode ── */
+/* ── Light mode (secondary) ── */
 :root {
-  --radius: 1.1rem;
+  --radius: 0.9rem;
 
-  --background:       oklch(0.985 0.010 95);
-  --foreground:       oklch(0.105 0.030 165);
+  --background:       oklch(0.985 0.006 75);
+  --foreground:       oklch(0.20 0.012 60);
 
-  --surface:          oklch(1    0.004 95);
-  --surface-elevated: oklch(0.995 0.007 95);
+  --surface:          oklch(1    0.004 75);
+  --surface-elevated: oklch(0.97 0.007 75);
 
-  --card:             oklch(1    0.004 95);
-  --card-foreground:  oklch(0.105 0.030 165);
+  --card:             oklch(1    0.004 75);
+  --card-foreground:  oklch(0.20 0.012 60);
 
-  --popover:          oklch(1    0.004 95);
-  --popover-foreground: oklch(0.105 0.030 165);
+  --popover:          oklch(1    0.004 75);
+  --popover-foreground: oklch(0.20 0.012 60);
 
-  --primary:          oklch(0.31 0.085 162);
-  --primary-foreground: oklch(0.985 0.008 95);
-  --primary-glow:     oklch(0.52 0.13  162);
+  --primary:          oklch(0.52 0.10  55);
+  --primary-foreground: oklch(0.99 0.004 75);
+  --primary-glow:     oklch(0.62 0.11  55);
 
-  --secondary:        oklch(0.94 0.020 150);
-  --secondary-foreground: oklch(0.25 0.05 162);
+  --secondary:        oklch(0.95 0.008 75);
+  --secondary-foreground: oklch(0.25 0.012 60);
 
-  --muted:            oklch(0.93 0.014 100);
-  --muted-foreground: oklch(0.36 0.035 155);
+  --muted:            oklch(0.95 0.008 75);
+  --muted-foreground: oklch(0.48 0.014 60);
 
-  --accent:           oklch(0.92 0.040  90);
-  --accent-foreground: oklch(0.25 0.05 162);
+  --accent:           oklch(0.94 0.014 65);
+  --accent-foreground: oklch(0.25 0.012 60);
 
-  --gold:             oklch(0.74 0.130  80);
-  --gold-foreground:  oklch(0.12 0.035 165);
+  --gold:             oklch(0.60 0.11  55);
+  --gold-foreground:  oklch(0.99 0.004 75);
 
-  --on-hero:          oklch(0.985 0.008 95);
-  --on-hero-muted:    oklch(0.91 0.018 95);
+  --on-hero:          oklch(0.99 0.004 75);
+  --on-hero-muted:    oklch(0.88 0.010 75);
 
-  --destructive:      oklch(0.55 0.200  27);
-  --destructive-foreground: oklch(0.98 0.010 95);
+  --destructive:      oklch(0.55 0.16  27);
+  --destructive-foreground: oklch(0.99 0.002 95);
 
-  --border:           oklch(0.88 0.018 100);
-  --input:            oklch(0.92 0.014 100);
-  --ring:             oklch(0.52 0.130 162);
+  --border:           oklch(0.90 0.010 70);
+  --input:            oklch(0.94 0.008 70);
+  --ring:             oklch(0.52 0.10 55);
+  --scrim-solid:      oklch(0.20 0.012 60 / 0.55);
 
-  /* Gradients */
-  --g-primary: linear-gradient(135deg, oklch(0.30 0.09 162), oklch(0.44 0.12 162));
-  --g-hero:    linear-gradient(165deg, oklch(0.27 0.09 163) 0%, oklch(0.16 0.06 167) 55%, oklch(0.11 0.04 170) 100%);
-  --g-gold:    linear-gradient(135deg, oklch(0.84 0.13  85), oklch(0.66 0.14  74));
-  --g-card:    linear-gradient(180deg, oklch(1    0.004 95), oklch(0.97 0.010 95));
-  --g-teal:    linear-gradient(135deg, oklch(0.60 0.10 195), oklch(0.45 0.12 200));
-  --g-rose:    linear-gradient(135deg, oklch(0.65 0.18  15), oklch(0.50 0.20  20));
-  --g-amber:   linear-gradient(135deg, oklch(0.80 0.15  80), oklch(0.65 0.16  70));
+  --g-primary: linear-gradient(160deg, oklch(0.50 0.095 55), oklch(0.56 0.105 55));
+  --g-hero:    linear-gradient(165deg, oklch(0.18 0.014 60) 0%, oklch(0.12 0.010 60) 100%);
+  --g-gold:    linear-gradient(160deg, oklch(0.58 0.105 55), oklch(0.52 0.11 55));
+  --g-card:    linear-gradient(180deg, oklch(1 0.004 75), oklch(0.98 0.006 75));
+  --g-teal:    linear-gradient(160deg, oklch(0.50 0.05 195), oklch(0.44 0.055 195));
+  --g-rose:    linear-gradient(160deg, oklch(0.55 0.09  20), oklch(0.48 0.095 18));
+  --g-amber:   linear-gradient(160deg, oklch(0.58 0.10  60), oklch(0.52 0.105 58));
 
-  /* Shadows */
-  --shadow-xs:       0 1px 2px oklch(0.17 0.04 165 / 0.03);
-  --shadow-soft:     0 2px 8px oklch(0.17 0.04 165 / 0.04), 0 1px 2px oklch(0.17 0.04 165 / 0.04);
-  --shadow-elevated: 0 8px 30px -6px oklch(0.17 0.04 165 / 0.10), 0 2px 4px oklch(0.17 0.04 165 / 0.05);
-  --shadow-glow:     0 0 0 1px oklch(0.52 0.13 162 / 0.12), 0 4px 20px -4px oklch(0.52 0.13 162 / 0.30);
-  --shadow-gold:     0 4px 24px -6px oklch(0.74 0.13 80 / 0.45);
-  --shadow-hero:     0 20px 60px -15px oklch(0.17 0.04 165 / 0.20);
-  --shadow-card:     0 1px 0 oklch(0 0 0 / 0.04) inset, 0 2px 8px oklch(0.17 0.04 165 / 0.04);
+  --shadow-xs:       0 1px 2px oklch(0.2 0.01 60 / 0.04);
+  --shadow-soft:     0 1px 2px oklch(0.2 0.01 60 / 0.05);
+  --shadow-elevated: 0 4px 16px -6px oklch(0.2 0.01 60 / 0.10);
+  --shadow-glow:     0 0 0 1px oklch(0.52 0.10 55 / 0.16);
+  --shadow-gold:     0 0 0 1px oklch(0.52 0.10 55 / 0.20);
+  --shadow-hero:     0 8px 30px -10px oklch(0.2 0.01 60 / 0.14);
+  --shadow-card:     0 1px 2px oklch(0.2 0.01 60 / 0.04);
 }
 
-/* ── Dark mode ── */
+/* ── Dark mode — warm ink, the app's primary look ──
+   "سكينة" (tranquility): a warm charcoal instead of cold pure-black,
+   softer on the eyes at night, with a single desert-amber accent
+   instead of a busy multi-color scheme. */
 .dark {
-  --background:       oklch(0.13 0.025 165);
-  --foreground:       oklch(0.985 0.008 95);
+  --background:       oklch(0.08 0.008 60);
+  --foreground:       oklch(0.94 0.010 75);
 
-  --surface:          oklch(0.17 0.028 165);
-  --surface-elevated: oklch(0.21 0.032 165);
+  --surface:          oklch(0.115 0.010 60);
+  --surface-elevated: oklch(0.15 0.012 60);
 
-  --card:             oklch(0.18 0.028 165);
-  --card-foreground:  oklch(0.985 0.008 95);
+  --card:             oklch(0.105 0.010 60);
+  --card-foreground:  oklch(0.94 0.010 75);
 
-  --popover:          oklch(0.18 0.028 165);
-  --popover-foreground: oklch(0.985 0.008 95);
+  --popover:          oklch(0.105 0.010 60);
+  --popover-foreground: oklch(0.94 0.010 75);
 
-  --primary:          oklch(0.45 0.120 162);
-  --primary-foreground: oklch(0.985 0.008 95);
-  --primary-glow:     oklch(0.68 0.145 162);
+  /* Desert amber — the single accent, used deliberately and sparingly */
+  --primary:          oklch(0.72 0.10  55);
+  --primary-foreground: oklch(0.14 0.012 60);
+  --primary-glow:     oklch(0.78 0.105 55);
 
-  --secondary:        oklch(0.25 0.038 165);
-  --secondary-foreground: oklch(0.96 0.012 95);
+  --secondary:        oklch(0.16 0.012 60);
+  --secondary-foreground: oklch(0.92 0.010 75);
 
-  --muted:            oklch(0.23 0.030 165);
-  --muted-foreground: oklch(0.82 0.014 100);
+  --muted:            oklch(0.15 0.010 60);
+  --muted-foreground: oklch(0.60 0.014 65);
 
-  --accent:           oklch(0.29 0.048 165);
-  --accent-foreground: oklch(0.96 0.012 95);
+  --accent:           oklch(0.17 0.014 62);
+  --accent-foreground: oklch(0.92 0.010 75);
 
-  --gold:             oklch(0.79 0.140  80);
-  --gold-foreground:  oklch(0.13 0.025 165);
+  --gold:             oklch(0.72 0.10  55);
+  --gold-foreground:  oklch(0.14 0.012 60);
 
-  --on-hero:          oklch(0.985 0.008 95);
-  --on-hero-muted:    oklch(0.90 0.016 95);
+  --on-hero:          oklch(0.96 0.008 75);
+  --on-hero-muted:    oklch(0.74 0.012 70);
 
-  --destructive:      oklch(0.62 0.200  27);
-  --destructive-foreground: oklch(0.98 0.010 95);
+  --destructive:      oklch(0.62 0.16  27);
+  --destructive-foreground: oklch(0.98 0.003 95);
 
-  --border:           oklch(1 0 0 / 7%);
-  --input:            oklch(1 0 0 / 11%);
-  --ring:             oklch(0.62 0.145 162);
+  --border:           oklch(1 0 0 / 8%);
+  --input:            oklch(1 0 0 / 12%);
+  --ring:             oklch(0.72 0.10 55);
+  --scrim-solid:      oklch(0.04 0.006 60 / 0.72);
 
-  --g-primary: linear-gradient(135deg, oklch(0.38 0.10 162), oklch(0.54 0.13 162));
-  --g-hero:    linear-gradient(165deg, oklch(0.21 0.05 165) 0%, oklch(0.15 0.04 168) 55%, oklch(0.09 0.025 170) 100%);
-  --g-gold:    linear-gradient(135deg, oklch(0.84 0.13 85), oklch(0.70 0.14 74));
-  --g-card:    linear-gradient(180deg, oklch(0.21 0.03 165), oklch(0.17 0.028 165));
-  --g-teal:    linear-gradient(135deg, oklch(0.55 0.11 195), oklch(0.40 0.12 200));
-  --g-rose:    linear-gradient(135deg, oklch(0.60 0.19 15), oklch(0.46 0.20 20));
-  --g-amber:   linear-gradient(135deg, oklch(0.78 0.15 80), oklch(0.63 0.16 70));
+  --g-primary: linear-gradient(160deg, oklch(0.66 0.095 55), oklch(0.76 0.105 55));
+  --g-hero:    linear-gradient(165deg, oklch(0.13 0.010 60) 0%, oklch(0.07 0.006 60) 100%);
+  --g-gold:    linear-gradient(160deg, oklch(0.76 0.10 55), oklch(0.68 0.105 55));
+  --g-card:    linear-gradient(180deg, oklch(0.12 0.010 60), oklch(0.10 0.010 60));
+  --g-teal:    linear-gradient(160deg, oklch(0.48 0.055 195), oklch(0.42 0.06 195));
+  --g-rose:    linear-gradient(160deg, oklch(0.54 0.10 20), oklch(0.47 0.105 18));
+  --g-amber:   linear-gradient(160deg, oklch(0.74 0.10 60), oklch(0.66 0.105 58));
 
-  --shadow-soft:     0 2px 8px oklch(0 0 0 / 0.30), 0 1px 2px oklch(0 0 0 / 0.20);
-  --shadow-elevated: 0 8px 40px -8px oklch(0 0 0 / 0.55), 0 2px 6px oklch(0 0 0 / 0.30);
-  --shadow-glow:     0 0 0 1px oklch(0.62 0.145 162 / 0.20), 0 4px 24px -4px oklch(0.62 0.145 162 / 0.38);
-  --shadow-gold:     0 4px 24px -6px oklch(0.79 0.14 80 / 0.38);
-  --shadow-hero:     0 20px 60px -15px oklch(0 0 0 / 0.60);
-  --shadow-card:     0 1px 0 oklch(1 0 0 / 0.06) inset, 0 2px 8px oklch(0 0 0 / 0.25);
+  --shadow-soft:     0 1px 2px oklch(0 0 0 / 0.4);
+  --shadow-elevated: 0 4px 20px -8px oklch(0 0 0 / 0.6);
+  --shadow-glow:     0 0 0 1px oklch(0.72 0.10 55 / 0.22);
+  --shadow-gold:     0 0 0 1px oklch(0.72 0.10 55 / 0.28);
+  --shadow-hero:     0 12px 40px -14px oklch(0 0 0 / 0.7);
+  --shadow-card:     0 1px 2px oklch(0 0 0 / 0.35);
 }
 
 /* ═══════════════════════════════════════════════════════════════════
@@ -357,17 +361,22 @@
 /* ═══════════════════════════════════════════════════════════════════
    GLASS EFFECTS
    ═══════════════════════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════════════════════
+   SOLID SURFACE UTILITIES (renamed from "glass" — no blur, no
+   transparency, no color-mix alpha: 100% opaque hex fills only,
+   per the strict no-blend/no-blur requirement)
+   ═══════════════════════════════════════════════════════════════════ */
 @utility glass {
-  background: color-mix(in oklab, var(--surface) 97%, transparent);
-  border: 1px solid color-mix(in oklab, var(--foreground) 7%, transparent);
+  background: var(--surface-elevated);
+  border: 1px solid var(--border);
 }
 @utility glass-dark {
-  background: color-mix(in oklab, var(--background) 97%, var(--surface));
-  border: 1px solid color-mix(in oklab, var(--gold) 10%, transparent);
+  background: var(--card);
+  border: 1px solid var(--border);
 }
 @utility glass-gold {
-  background: color-mix(in oklab, var(--gold) 8%, var(--card));
-  border: 1px solid color-mix(in oklab, var(--gold) 20%, transparent);
+  background: var(--surface-elevated);
+  border: 1px solid var(--gold);
 }
 
 /* ═══════════════════════════════════════════════════════════════════
@@ -854,9 +863,8 @@
   justify-content: space-between;
   gap: 0.75rem;
   padding: max(env(safe-area-inset-top), 0.5rem) 0.875rem 0.5rem;
-  background: color-mix(in oklab, var(--background) 96%, var(--surface));
-  border-bottom: 1px solid color-mix(in oklab, var(--border) 72%, transparent);
-  box-shadow: var(--shadow-xs);
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
 }
 
 .mobile-menu-trigger {
@@ -869,7 +877,6 @@
   background: var(--color-card);
   color: var(--color-foreground);
   border: 1px solid var(--color-border);
-  box-shadow: var(--shadow-soft);
 }
 
 .mobile-shell-content {
@@ -881,9 +888,8 @@
   min-height: 4.25rem;
   border-radius: 1.35rem;
   padding: 0.45rem 0.45rem 0.5rem;
-  background: color-mix(in oklab, var(--surface) 98%, var(--background));
-  border: 1px solid color-mix(in oklab, var(--border) 75%, transparent);
-  box-shadow: var(--shadow-elevated);
+  background: var(--surface-elevated);
+  border: 1px solid var(--border);
 }
 
 @media (max-width: 1023px) {
@@ -965,13 +971,65 @@
   will-change: transform;
 }
 
-/* Any fixed/sticky chrome (bars, nav, overlays, mini-player). */
+/* Horizontal scroll containers: force their own compositor layer so
+   momentum scrolling never tears against the fixed chrome above them. */
+.gpu-scroll {
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-overflow-scrolling: touch;
+  contain: layout style paint;
+}
+
 .fixed-chrome {
   contain: layout style paint;
   transform: translateZ(0);
   -webkit-transform: translateZ(0);
   backface-visibility: hidden;
   will-change: transform;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   DRAWER / SHEET — GPU-only slide transition (transform, never left/right)
+   plus a 100%-solid scrim (no backdrop-filter, no alpha blending glitch)
+   ═══════════════════════════════════════════════════════════════════ */
+.drawer-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  background: var(--scrim-solid);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 220ms var(--ease-smooth);
+  transform: translateZ(0);
+  will-change: opacity;
+}
+.drawer-scrim[data-open="true"] {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.drawer-panel {
+  position: fixed;
+  inset-block: 0;
+  inset-inline-start: 0;
+  z-index: 71;
+  width: min(86vw, 22rem);
+  background: var(--color-surface);
+  transform: translate3d(-100%, 0, 0);
+  transition: transform 260ms var(--ease-smooth);
+  will-change: transform;
+  backface-visibility: hidden;
+  contain: layout style paint;
+}
+[dir="rtl"] .drawer-panel {
+  inset-inline-start: auto;
+  inset-inline-end: 0;
+  transform: translate3d(100%, 0, 0);
+}
+.drawer-panel[data-open="true"] {
+  transform: translate3d(0, 0, 0);
 }
 
 /* ── Tooltip ── */

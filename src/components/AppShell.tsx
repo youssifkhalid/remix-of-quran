@@ -3,63 +3,60 @@ import {
   BookOpen, Home, MoonStar, Sparkles, Bot, Search,
   Compass, BookMarked, Trophy, Map,
   Settings, Heart, Star, CalendarDays, Mic2,
-  Radio, Moon, Flame, LogIn, Menu, X
+  Radio, Moon, Flame, LogIn, Menu, X, Circle, ListChecks,
 } from "lucide-react";
-import { useState, useEffect, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { AudioPlayerProvider } from "@/contexts/AudioPlayerContext";
 import { MiniPlayer } from "@/components/MiniPlayer";
 import { AuthProvider, useAuth } from "@/hooks/useAuth";
 import { DesignStudio } from "@/components/DesignStudio/DesignStudio";
-import { SakinahLogo } from "@/components/SakinahLogo";
 
-/* ─── Navigation config ─── */
-const PRIMARY_NAV = [
-  { to: "/",        icon: Home,     label: "الرئيسية", kbd: "H" },
-  { to: "/quran",   icon: BookOpen, label: "القرآن",   kbd: "Q" },
-  { to: "/ai-chat", icon: Bot,      label: "مساعد AI", kbd: "A", badge: true },
-  { to: "/prayer",  icon: MoonStar, label: "الصلاة",   kbd: "P" },
-  { to: "/adhkar",  icon: Sparkles, label: "الأذكار",  kbd: "D" },
+/* ═══════════════════════════════════════════════════════════════════
+   NAVIGATION — flat, single-hierarchy, Egyptian-friendly copy.
+   Bottom tab bar = the 5 things people open most. Everything else
+   lives one tap away in "المزيد" (not a stiff "القائمة/الإعدادات").
+   ═══════════════════════════════════════════════════════════════════ */
+const TABS = [
+  { to: "/",        icon: Home,     label: "الرئيسية" },
+  { to: "/quran",   icon: BookOpen, label: "القرآن" },
+  { to: "/ai-chat", icon: Bot,      label: "المساعد", badge: true },
+  { to: "/prayer",  icon: MoonStar, label: "الصلاة" },
+  { to: "/adhkar",  icon: Sparkles, label: "الأذكار" },
 ] as const;
 
-const SECONDARY_NAV = [
-  { group: "قرآن وذكر",    items: [
-    { to: "/search",    icon: Search,      label: "البحث الذكي",     kbd: "K" },
-    { to: "/hadith",    icon: BookOpen,    label: "مكتبة الحديث"         },
-    { to: "/dua",       icon: Heart,       label: "الأدعية"              },
-    { to: "/radio",     icon: Radio,       label: "إذاعة القرآن"         },
-    { to: "/reciters",  icon: Mic2,        label: "الشيوخ والقراء"       },
+const MORE_SECTIONS = [
+  { title: "القرآن والذكر", items: [
+    { to: "/search",    icon: Search,     label: "دور على أي حاجة" },
+    { to: "/hadith",    icon: BookOpen,   label: "مكتبة الحديث" },
+    { to: "/dua",       icon: Heart,      label: "الأدعية" },
+    { to: "/radio",     icon: Radio,      label: "إذاعة القرآن" },
+    { to: "/reciters",  icon: Mic2,       label: "الشيوخ والقُرّاء" },
   ]},
-  { group: "عبادة وتخطيط", items: [
-    { to: "/wird",      icon: Flame,       label: "الورد اليومي"         },
-    { to: "/khatmah",   icon: Trophy,      label: "ختمة القرآن"          },
-    { to: "/fasting",   icon: Moon,        label: "صيام رمضان"           },
-    { to: "/qibla",     icon: Compass,     label: "القبلة"               },
-    { to: "/bookmarks", icon: BookMarked,  label: "الإشارات"             },
+  { title: "عبادتك اليومية", items: [
+    { to: "/wird",      icon: Flame,      label: "الورد اليومي" },
+    { to: "/khatmah",   icon: Trophy,     label: "ختمة القرآن" },
+    { to: "/fasting",   icon: Moon,       label: "صيام رمضان" },
+    { to: "/qibla",     icon: Compass,    label: "اتجاه القبلة" },
+    { to: "/tasbeeh",   icon: Circle,     label: "المسبحة" },
+    { to: "/rakaat",    icon: ListChecks, label: "عداد الركعات" },
+    { to: "/bookmarks", icon: BookMarked, label: "الإشارات المرجعية" },
   ]},
-  { group: "أدوات",         items: [
-    { to: "/calendar",  icon: CalendarDays, label: "التقويم الهجري"     },
-    { to: "/names",     icon: Star,         label: "أسماء إسلامية"      },
-    { to: "/tools",     icon: Map,          label: "أدوات إسلامية"      },
-    { to: "/settings",  icon: Settings,     label: "الإعدادات"           },
+  { title: "أدوات", items: [
+    { to: "/calendar",  icon: CalendarDays, label: "التقويم الهجري" },
+    { to: "/names",     icon: Star,         label: "أسماء الله الحسنى" },
+    { to: "/tools",     icon: Map,          label: "أدوات إسلامية" },
+    { to: "/settings",  icon: Settings,     label: "الإعدادات" },
   ]},
 ] as const;
 
-type NavEntry = { to: string; icon: any; label: string; kbd?: string; badge?: boolean };
-
-const ALL_NAV: NavEntry[] = [
-  ...PRIMARY_NAV,
-  ...SECONDARY_NAV.flatMap((group) => [...group.items]),
-];
-
-
-/* ─── Keyboard shortcuts ─── */
+/* ─── Keyboard shortcuts (desktop) ─── */
 function useKeyboardShortcuts() {
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       const inInput = e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement;
       if (inInput) return;
-      if ((e.metaKey || e.ctrlKey)) {
-        const map: Record<string, string> = { k:"/search", q:"/quran", a:"/ai-chat", p:"/prayer", h:"/", d:"/adhkar" };
+      if (e.metaKey || e.ctrlKey) {
+        const map: Record<string, string> = { k: "/search", q: "/quran", a: "/ai-chat", p: "/prayer", h: "/", d: "/adhkar" };
         if (map[e.key]) { e.preventDefault(); window.location.href = map[e.key]; }
       }
     };
@@ -68,40 +65,18 @@ function useKeyboardShortcuts() {
   }, []);
 }
 
-/* ─── Responsive hook ─── */
-function useIsDesktop() {
-  const [ok, setOk] = useState(false);
-  useEffect(() => {
-    const mq = window.matchMedia("(min-width: 768px)");
-    setOk(mq.matches);
-    mq.addEventListener("change", e => setOk(e.matches));
-    return () => mq.removeEventListener("change", () => {});
-  }, []);
-  return ok;
-}
-
-/* ─── Sidebar NavItem ─── */
-function SideNavItem({ to, icon: Icon, label, kbd, badge, active }: {
-  to: string; icon: any; label: string; kbd?: string; badge?: boolean; active: boolean;
-}) {
+/* ─── Sidebar nav row (desktop) ─── */
+function SideNavItem({ to, icon: Icon, label, active }: { to: string; icon: any; label: string; active: boolean }) {
   return (
-    <Link to={to as any}
-      className={`flex items-center gap-3 px-3 py-2.5 rounded-2xl text-sm transition-all duration-200 group ${
-        active
-          ? "gradient-primary text-primary-foreground shadow-glow font-semibold"
-          : "text-muted-foreground hover:text-foreground hover:bg-primary/6"
+    <Link
+      to={to as any}
+      className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-[13.5px] transition-colors duration-150 ${
+        active ? "bg-primary text-primary-foreground font-semibold" : "text-muted-foreground hover:text-foreground hover:bg-accent"
       }`}
-      aria-current={active ? "page" : undefined}>
-      <span className={`grid h-7 w-7 place-items-center rounded-xl shrink-0 transition-all ${
-        active ? "bg-white/20" : "bg-card group-hover:bg-primary/10 group-hover:text-primary"
-      }`}>
-        <Icon className="h-4 w-4" />
-      </span>
-      <span className="flex-1 leading-none">{label}</span>
-      {badge && <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse shrink-0" />}
-      {kbd && !active && (
-        <span className="hidden xl:flex kbd shrink-0">⌘{kbd}</span>
-      )}
+      aria-current={active ? "page" : undefined}
+    >
+      <Icon className="h-4 w-4 shrink-0" strokeWidth={active ? 2.4 : 1.8} />
+      <span className="flex-1 leading-none truncate">{label}</span>
     </Link>
   );
 }
@@ -111,101 +86,112 @@ function ProfilePill() {
   if (loading) return null;
   if (!user) {
     return (
-      <Link to="/auth" className="flex items-center gap-2 rounded-2xl bg-primary/10 text-primary px-3 py-2 text-xs font-semibold hover:bg-primary/20 transition">
-        <LogIn className="h-4 w-4" />
-        تسجيل الدخول
+      <Link to="/auth" className="flex items-center justify-center gap-2 rounded-xl border border-border px-3 py-2.5 text-xs font-semibold text-foreground hover:border-primary/50 transition-colors">
+        <LogIn className="h-3.5 w-3.5" />
+        سجّل دخولك
       </Link>
     );
   }
   const initial = (user.email ?? "?")[0]?.toUpperCase();
   return (
-    <Link to="/profile" className="flex items-center gap-2 rounded-2xl bg-card border border-border/60 px-2 py-2 hover:border-primary/40 transition">
-      <span className="grid h-7 w-7 place-items-center rounded-xl gradient-primary text-primary-foreground text-xs font-bold">{initial}</span>
-      <span className="text-xs font-semibold truncate max-w-[110px]">{user.email}</span>
+    <Link to="/profile" className="flex items-center gap-2.5 rounded-xl border border-border bg-card px-2.5 py-2 hover:border-primary/50 transition-colors">
+      <span className="grid h-7 w-7 shrink-0 place-items-center rounded-lg bg-primary text-primary-foreground text-xs font-bold">{initial}</span>
+      <span className="text-xs font-semibold truncate">{user.email}</span>
+    </Link>
+  );
+}
+
+/* ─── Brand mark: shared by sidebar + mobile bar + drawer ───
+   The official mark already contains the "سكينة" wordmark, so we
+   render it alone — no duplicate text label riding beside it. */
+function Brand({ size = 44, tagline = false }: { size?: number; tagline?: boolean }) {
+  return (
+    <Link to="/" className="flex items-center gap-2.5 min-w-0">
+      <img
+        src="/sakinah-logo.png"
+        alt="سكينة"
+        className="shrink-0 object-contain"
+        style={{ height: size, width: "auto" }}
+      />
+      {tagline && (
+        <span className="min-w-0 leading-none border-s border-border ps-2.5">
+          <span className="block truncate text-[11px] text-muted-foreground">لحظة هدوء في يومك</span>
+        </span>
+      )}
     </Link>
   );
 }
 
 function AppShellInner({ children }: { children: ReactNode }) {
-  const pathname = useRouterState({ select: s => s.location.pathname });
-  const [menuOpen, setMenuOpen] = useState(false);
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const [moreOpen, setMoreOpen] = useState(false);
+  const closeBtnRef = useRef<HTMLButtonElement>(null);
   useKeyboardShortcuts();
 
-  const isActive = (to: string) => to === "/" ? pathname === "/" : pathname.startsWith(to);
+  const isActive = (to: string) => (to === "/" ? pathname === "/" : pathname.startsWith(to));
   const isAiChat = pathname.startsWith("/ai-chat");
+
+  // Lock body scroll while the drawer is open; focus the close button.
+  useEffect(() => {
+    if (moreOpen) {
+      document.body.style.overflow = "hidden";
+      closeBtnRef.current?.focus();
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => { document.body.style.overflow = ""; };
+  }, [moreOpen]);
+
+  // Close drawer on route change.
+  useEffect(() => { setMoreOpen(false); }, [pathname]);
 
   return (
     <AudioPlayerProvider>
-
       <div className="relative min-h-dvh bg-background text-foreground">
-        {/* Ambient gradient background — painted once, isolated on its own GPU layer */}
-        <div aria-hidden className="ambient-bg" style={{
-          background: `
-            radial-gradient(ellipse 80% 45% at 50% -10%,
-              color-mix(in oklab, var(--primary-glow) 18%, transparent), transparent 70%),
-            radial-gradient(ellipse 40% 30% at 90% 90%,
-              color-mix(in oklab, var(--gold) 6%, transparent), transparent 55%),
-            radial-gradient(ellipse 30% 20% at 5% 60%,
-              color-mix(in oklab, var(--primary) 4%, transparent), transparent 50%)
-          `
-        }} />
+        {/* Ambient wash — painted once, own GPU layer, never repaints on scroll */}
+        <div
+          aria-hidden
+          className="ambient-bg"
+          style={{
+            background: `radial-gradient(ellipse 70% 40% at 50% -8%, color-mix(in oklab, var(--primary-glow) 10%, transparent), transparent 70%)`,
+          }}
+        />
 
-        {/* ─── Layout ─── */}
         <div className="lg:flex lg:min-h-dvh">
+          {/* ══ DESKTOP SIDEBAR ══ */}
+          <aside className="fixed-chrome hidden lg:flex lg:flex-col lg:w-[264px] shrink-0 sticky top-0 h-dvh border-e border-border bg-surface z-40">
+            <div className="px-5 pt-6 pb-5">
+              <Brand size={52} tagline />
+            </div>
 
-          {/* ══ DESKTOP / TABLET SIDEBAR ══ */}
-          <aside className="fixed-chrome hidden lg:flex lg:flex-col lg:w-[248px] xl:w-[272px] shrink-0
-            sticky top-0 h-dvh border-l border-border/30 overflow-y-auto scroll-area
-            bg-background/95 z-40">
-
-            {/* Logo */}
-            <Link to="/" className="flex items-center gap-3 px-5 pt-6 pb-5">
-              <div className="relative">
-                <SakinahLogo size={44} className="text-background/90" />
-                <span className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full bg-emerald-400 border-2 border-background" />
-              </div>
-              <div>
-                <p className="font-quran text-xl leading-none">سكينة</p>
-                <p className="text-[10px] text-muted-foreground mt-0.5 leading-none">تطبيقك الإسلامي الشامل</p>
-              </div>
+            <Link
+              to="/search"
+              className="mx-4 mb-5 flex items-center gap-2.5 rounded-xl border border-border bg-background px-3 py-2.5 text-sm text-muted-foreground hover:border-primary/50 hover:text-foreground transition-colors"
+            >
+              <Search className="h-4 w-4 shrink-0" />
+              <span className="flex-1 text-right">دور على أي حاجة</span>
+              <span className="kbd">⌘K</span>
             </Link>
 
-            {/* Primary nav */}
-            <div className="px-3 space-y-0.5 mb-1">
-              <p className="text-[9px] font-bold text-muted-foreground/50 uppercase tracking-widest px-3 mb-2">رئيسي</p>
-              {PRIMARY_NAV.map(nav => (
-                <SideNavItem key={nav.to} {...nav} badge={"badge" in nav ? nav.badge : false} active={isActive(nav.to)} />
+            <nav className="flex-1 overflow-y-auto scroll-area px-3 space-y-5 pb-4">
+              <div className="space-y-0.5">
+                {TABS.map((t) => (
+                  <SideNavItem key={t.to} to={t.to} icon={t.icon} label={t.label} active={isActive(t.to)} />
+                ))}
+              </div>
+
+              {MORE_SECTIONS.map((section) => (
+                <div key={section.title} className="space-y-0.5">
+                  <p className="px-3 mb-1.5 text-[10px] font-bold text-muted-foreground/60 uppercase tracking-wider">{section.title}</p>
+                  {section.items.map((it) => (
+                    <SideNavItem key={it.to} to={it.to} icon={it.icon} label={it.label} active={isActive(it.to)} />
+                  ))}
+                </div>
               ))}
-            </div>
+            </nav>
 
-            {/* Secondary nav groups */}
-            {SECONDARY_NAV.map(group => (
-              <div key={group.group} className="px-3 mt-3 mb-1 space-y-0.5">
-                <p className="text-[9px] font-bold text-muted-foreground/50 uppercase tracking-widest px-3 mb-2">{group.group}</p>
-                {(group.items as unknown as any[]).map((nav: any) => (
-                  <SideNavItem key={nav.to} {...nav} badge={false} active={isActive(nav.to)} />
-                ))}
-              </div>
-            ))}
-
-            {/* Profile pill */}
-            <div className="mt-auto px-3 pt-4">
+            <div className="px-3 pb-5 pt-3 border-t border-border">
               <ProfilePill />
-            </div>
-
-            {/* Kbd shortcuts hint */}
-            <div className="mx-3 mt-3 mb-5">
-              <div className="rounded-2xl bg-card border border-border/60 p-3 space-y-2">
-                <p className="text-[9px] font-bold text-muted-foreground/60 uppercase tracking-wider">اختصارات</p>
-                {[
-                  ["⌘K","بحث"],["⌘Q","قرآن"],["⌘A","AI"],["⌘P","صلاة"],
-                ].map(([key,lbl]) => (
-                  <div key={key} className="flex items-center justify-between">
-                    <span className="text-[10px] text-muted-foreground">{lbl}</span>
-                    <span className="kbd">{key}</span>
-                  </div>
-                ))}
-              </div>
             </div>
           </aside>
 
@@ -213,121 +199,155 @@ function AppShellInner({ children }: { children: ReactNode }) {
           <main className="flex-1 min-w-0 lg:overflow-y-auto lg:h-dvh scroll-area">
             {!isAiChat && (
               <div className="mobile-shell-bar fixed-chrome lg:hidden">
-                <Link to="/" className="flex min-w-0 items-center gap-2 text-right">
-                  <SakinahLogo size={38} className="shrink-0 text-background/90" />
-                  <span className="min-w-0">
-                    <span className="block font-quran text-xl leading-none">سكينة</span>
-                    <span className="block truncate text-[10px] text-muted-foreground">تطبيقك الإسلامي الشامل</span>
-                  </span>
-                </Link>
+                <Brand size={40} />
                 <div className="flex items-center gap-2">
-                  <Link
-                    to="/search"
-                    className="mobile-menu-trigger"
-                    aria-label="بحث سريع"
-                  >
+                  <Link to="/search" className="mobile-menu-trigger" aria-label="دور على أي حاجة">
                     <Search className="h-5 w-5" />
                   </Link>
                   <button
                     type="button"
-                    onClick={() => setMenuOpen(true)}
+                    onClick={() => setMoreOpen(true)}
                     className="mobile-menu-trigger"
-                    aria-label="فتح قائمة الصفحات"
+                    aria-label="افتح المزيد"
+                    aria-expanded={moreOpen}
                   >
                     <Menu className="h-5 w-5" />
                   </button>
                 </div>
               </div>
             )}
-            <div className={`mobile-shell-content mx-auto w-full ${isAiChat ? "max-w-none h-dvh pb-0" : "max-w-2xl pb-36 lg:pb-10"}`}>
+            <div className={`mobile-shell-content mx-auto w-full ${isAiChat ? "max-w-none h-dvh pb-0" : "max-w-2xl pb-32 lg:pb-10"}`}>
               {children}
             </div>
           </main>
-
         </div>
 
         {/* ── Global MiniPlayer ── */}
         <MiniPlayer />
-        <DesignStudio />
+        {/* Dev-only design token editor — never ships to production users */}
+        {import.meta.env.DEV && <DesignStudio />}
 
         {isAiChat && (
           <button
             type="button"
-            onClick={() => setMenuOpen(true)}
-            className="mobile-menu-trigger fixed-chrome lg:hidden fixed left-3 top-[max(env(safe-area-inset-top),0.75rem)] z-50"
-            aria-label="فتح قائمة الصفحات"
+            onClick={() => setMoreOpen(true)}
+            className="mobile-menu-trigger fixed-chrome lg:hidden fixed start-3 top-[max(env(safe-area-inset-top),0.75rem)] z-50"
+            aria-label="افتح المزيد"
           >
             <Menu className="h-5 w-5" />
           </button>
         )}
 
-        {menuOpen && (
-          <div className="fixed-chrome lg:hidden fixed inset-0 z-[70] bg-background/95">
-            <div className="flex items-center justify-between border-b border-border px-4 py-3 pt-[max(env(safe-area-inset-top),0.75rem)]">
-              <div>
-                <p className="font-quran text-2xl leading-none">سكينة</p>
-                <p className="text-xs text-muted-foreground">كل الصفحات في مكان واحد</p>
-              </div>
-              <button
-                type="button"
-                onClick={() => setMenuOpen(false)}
-                className="grid h-11 w-11 place-items-center rounded-2xl bg-card border border-border"
-                aria-label="إغلاق القائمة"
-              >
-                <X className="h-5 w-5" />
-              </button>
-            </div>
-            <div className="grid grid-cols-2 gap-3 overflow-y-auto p-4 pb-24">
-              {ALL_NAV.map(({ to, icon: Icon, label }: any) => (
+        {/* ══ "المزيد" DRAWER — solid scrim, transform-only GPU slide, no blur ══ */}
+        <div
+          className="drawer-scrim lg:hidden"
+          data-open={moreOpen}
+          onClick={() => setMoreOpen(false)}
+          aria-hidden={!moreOpen}
+        />
+        <div
+          className="drawer-panel lg:hidden gpu-layer flex flex-col"
+          data-open={moreOpen}
+          role="dialog"
+          aria-modal="true"
+          aria-label="المزيد"
+          inert={!moreOpen ? true : undefined}
+        >
+          <div className="flex items-center justify-between border-b border-border px-4 py-4 pt-[max(env(safe-area-inset-top),1rem)]">
+            <Brand size={38} />
+            <button
+              ref={closeBtnRef}
+              type="button"
+              onClick={() => setMoreOpen(false)}
+              className="grid h-10 w-10 place-items-center rounded-xl bg-card border border-border"
+              aria-label="قفل المزيد"
+            >
+              <X className="h-5 w-5" />
+            </button>
+          </div>
+
+          <div className="flex-1 overflow-y-auto scroll-area px-4 py-4 space-y-6">
+            <div className="grid grid-cols-4 gap-2">
+              {TABS.map(({ to, icon: Icon, label }) => (
                 <Link
                   key={to}
                   to={to as any}
-                  onClick={() => setMenuOpen(false)}
-                  className={`flex min-h-20 items-center gap-3 rounded-2xl border p-3 text-right shadow-soft ${isActive(to) ? "gradient-primary text-primary-foreground border-transparent" : "bg-card text-foreground border-border"}`}
+                  onClick={() => setMoreOpen(false)}
+                  className={`flex flex-col items-center gap-1.5 rounded-xl border p-2.5 text-center ${
+                    isActive(to) ? "bg-primary text-primary-foreground border-transparent" : "bg-card text-foreground border-border"
+                  }`}
                 >
-                  <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-primary/10 text-primary">
-                    <Icon className="h-5 w-5" />
-                  </span>
-                  <span className="text-sm font-bold leading-snug">{label}</span>
+                  <Icon className="h-4 w-4" />
+                  <span className="text-[10px] font-semibold leading-tight">{label}</span>
                 </Link>
               ))}
             </div>
-          </div>
-        )}
 
-        {/* ══ MOBILE BOTTOM NAV ══ */}
-        {!isAiChat && <nav aria-label="التنقل" className="fixed-chrome lg:hidden fixed inset-x-0 bottom-0 z-50
-          px-2 pb-[max(env(safe-area-inset-bottom),6px)] pt-1">
-          <div className="mobile-bottom-nav-panel flex items-end justify-between">
-            {PRIMARY_NAV.map(({ to, icon: Icon, label, badge }: any) => {
-              const active = isActive(to);
-              const isCenter = to === "/ai-chat";
-              return (
-                <Link key={to} to={to}
-                  className="group relative flex min-w-0 flex-1 flex-col items-center gap-1 touch-manipulation"
-                  aria-current={active ? "page" : undefined}>
-                  <span className={`relative grid place-items-center rounded-2xl
-                    transition-all duration-300
-                    ${isCenter
-                      ? `h-11 w-11 shadow-soft ${active ? "gradient-gold text-gold-foreground" : "gradient-primary text-primary-foreground"}`
-                      : `h-10 w-10 ${active ? "gradient-primary text-primary-foreground shadow-soft" : "text-muted-foreground/70"}`
-                    }`}
+            {MORE_SECTIONS.map((section) => (
+              <div key={section.title}>
+                <p className="mb-2 text-[10px] font-bold text-muted-foreground/60 uppercase tracking-wider">{section.title}</p>
+                <div className="space-y-1">
+                  {section.items.map(({ to, icon: Icon, label }) => (
+                    <Link
+                      key={to}
+                      to={to as any}
+                      onClick={() => setMoreOpen(false)}
+                      className={`flex items-center gap-3 rounded-xl border p-3 ${
+                        isActive(to) ? "bg-primary text-primary-foreground border-transparent font-semibold" : "bg-card text-foreground border-border"
+                      }`}
+                    >
+                      <span className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-muted">
+                        <Icon className="h-4 w-4" />
+                      </span>
+                      <span className="text-sm">{label}</span>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            ))}
+
+            <div className="pt-1">
+              <ProfilePill />
+            </div>
+          </div>
+        </div>
+
+        {/* ══ MOBILE BOTTOM TAB BAR ══ */}
+        {!isAiChat && (
+          <nav
+            aria-label="التنقل الأساسي"
+            className="fixed-chrome lg:hidden fixed inset-x-0 bottom-0 z-50 px-2 pb-[max(env(safe-area-inset-bottom),6px)] pt-1"
+          >
+            <div className="mobile-bottom-nav-panel flex items-center justify-between">
+              {TABS.map(({ to, icon: Icon, label, badge }) => {
+                const active = isActive(to);
+                const isCenter = to === "/ai-chat";
+                return (
+                  <Link
+                    key={to}
+                    to={to}
+                    className="group relative flex min-w-0 flex-1 flex-col items-center gap-1 touch-manipulation"
+                    aria-current={active ? "page" : undefined}
                   >
-                    <Icon className={`transition-all ${isCenter ? "h-5 w-5" : active ? "h-[19px] w-[19px]" : "h-[17px] w-[17px]"}`}
-                      strokeWidth={active ? 2.5 : 2} />
-                    {badge && <span className="absolute -top-0.5 -right-0.5 h-2.5 w-2.5 rounded-full bg-emerald-400 border-2 border-background animate-pulse" />}
-                    {active && !isCenter && <span className="absolute -bottom-1 left-[calc(50%-0.125rem)] h-1 w-1 rounded-full bg-gold" />}
-                  </span>
-                  <span className={`max-w-full truncate text-[9px] leading-none font-medium transition-colors ${active ? "text-foreground font-bold" : "text-muted-foreground/60"}`}>
-                    {label}
-                  </span>
-                </Link>
-              );
-            })}
-          </div>
-        </nav>}
-
-
+                    <span
+                      className={`relative grid place-items-center rounded-full transition-colors duration-150 ${
+                        isCenter
+                          ? `h-11 w-11 ${active ? "bg-primary text-primary-foreground" : "bg-accent text-foreground"}`
+                          : `h-9 w-9 ${active ? "bg-primary text-primary-foreground" : "text-muted-foreground"}`
+                      }`}
+                    >
+                      <Icon className={isCenter ? "h-5 w-5" : "h-[18px] w-[18px]"} strokeWidth={active ? 2.4 : 1.8} />
+                      {badge && <span className="absolute -top-0.5 -end-0.5 h-2 w-2 rounded-full bg-primary border-2 border-surface" />}
+                    </span>
+                    <span className={`max-w-full truncate text-[9.5px] leading-none font-medium ${active ? "text-foreground font-bold" : "text-muted-foreground/70"}`}>
+                      {label}
+                    </span>
+                  </Link>
+                );
+              })}
+            </div>
+          </nav>
+        )}
       </div>
     </AudioPlayerProvider>
   );
@@ -340,4 +360,3 @@ export function AppShell({ children }: { children: ReactNode }) {
     </AuthProvider>
   );
 }
-
