@@ -44,8 +44,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1" },
-      { name: "theme-color", content: "#1a3a2a", media: "(prefers-color-scheme: light)" },
-      { name: "theme-color", content: "#0d1f18", media: "(prefers-color-scheme: dark)" },
+      { name: "theme-color", content: "#fdfaf6", media: "(prefers-color-scheme: light)" },
+      { name: "theme-color", content: "#070403", media: "(prefers-color-scheme: dark)" },
       { name: "apple-mobile-web-app-capable", content: "yes" },
       { name: "apple-mobile-web-app-status-bar-style", content: "black-translucent" },
       { name: "apple-mobile-web-app-title", content: "سكينة" },
@@ -55,7 +55,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:description", content: "تطبيق إسلامي شامل للقرآن والأذكار والصلاة والقبلة والإذاعة." },
       { property: "og:type", content: "website" },
       { property: "og:locale", content: "ar_SA" },
+      { property: "og:image", content: "/sakinah-logo.png" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:image", content: "/sakinah-logo.png" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },

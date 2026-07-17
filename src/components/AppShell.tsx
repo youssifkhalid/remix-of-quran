@@ -10,7 +10,6 @@ import { AudioPlayerProvider } from "@/contexts/AudioPlayerContext";
 import { MiniPlayer } from "@/components/MiniPlayer";
 import { AuthProvider, useAuth } from "@/hooks/useAuth";
 import { DesignStudio } from "@/components/DesignStudio/DesignStudio";
-import { SakinahLogo } from "@/components/SakinahLogo";
 
 /* ═══════════════════════════════════════════════════════════════════
    NAVIGATION — flat, single-hierarchy, Egyptian-friendly copy.
@@ -47,9 +46,6 @@ const MORE_SECTIONS = [
     { to: "/settings",  icon: Settings,     label: "الإعدادات" },
   ]},
 ] as const;
-
-type NavEntry = { to: string; icon: any; label: string };
-const ALL_MORE: NavEntry[] = MORE_SECTIONS.flatMap((s) => [...s.items]);
 
 /* ─── Keyboard shortcuts (desktop) ─── */
 function useKeyboardShortcuts() {
@@ -103,15 +99,21 @@ function ProfilePill() {
   );
 }
 
-/* ─── Brand mark: shared by sidebar + mobile bar + drawer ─── */
-function Brand({ size = 36, compact = false }: { size?: number; compact?: boolean }) {
+/* ─── Brand mark: shared by sidebar + mobile bar + drawer ───
+   The official mark already contains the "سكينة" wordmark, so we
+   render it alone — no duplicate text label riding beside it. */
+function Brand({ size = 44, tagline = false }: { size?: number; tagline?: boolean }) {
   return (
     <Link to="/" className="flex items-center gap-2.5 min-w-0">
-      <SakinahLogo size={size} className="shrink-0 text-foreground" />
-      {!compact && (
-        <span className="min-w-0 leading-none">
-          <span className="block font-quran text-lg leading-none">سكينة</span>
-          <span className="block truncate text-[10px] text-muted-foreground mt-0.5">لحظة هدوء في يومك</span>
+      <img
+        src="/sakinah-logo.png"
+        alt="سكينة"
+        className="shrink-0 object-contain"
+        style={{ height: size, width: "auto" }}
+      />
+      {tagline && (
+        <span className="min-w-0 leading-none border-s border-border ps-2.5">
+          <span className="block truncate text-[11px] text-muted-foreground">لحظة هدوء في يومك</span>
         </span>
       )}
     </Link>
@@ -157,7 +159,7 @@ function AppShellInner({ children }: { children: ReactNode }) {
           {/* ══ DESKTOP SIDEBAR ══ */}
           <aside className="fixed-chrome hidden lg:flex lg:flex-col lg:w-[264px] shrink-0 sticky top-0 h-dvh border-e border-border bg-surface z-40">
             <div className="px-5 pt-6 pb-5">
-              <Brand size={40} />
+              <Brand size={52} tagline />
             </div>
 
             <Link
@@ -195,7 +197,7 @@ function AppShellInner({ children }: { children: ReactNode }) {
           <main className="flex-1 min-w-0 lg:overflow-y-auto lg:h-dvh scroll-area">
             {!isAiChat && (
               <div className="mobile-shell-bar fixed-chrome lg:hidden">
-                <Brand size={34} />
+                <Brand size={40} />
                 <div className="flex items-center gap-2">
                   <Link to="/search" className="mobile-menu-trigger" aria-label="دور على أي حاجة">
                     <Search className="h-5 w-5" />
@@ -249,7 +251,7 @@ function AppShellInner({ children }: { children: ReactNode }) {
           inert={!moreOpen ? true : undefined}
         >
           <div className="flex items-center justify-between border-b border-border px-4 py-4 pt-[max(env(safe-area-inset-top),1rem)]">
-            <Brand size={32} />
+            <Brand size={38} />
             <button
               ref={closeBtnRef}
               type="button"
