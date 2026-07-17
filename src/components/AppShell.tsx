@@ -68,18 +68,6 @@ function useKeyboardShortcuts() {
   }, []);
 }
 
-/* ─── Responsive hook ─── */
-function useIsDesktop() {
-  const [ok, setOk] = useState(false);
-  useEffect(() => {
-    const mq = window.matchMedia("(min-width: 768px)");
-    setOk(mq.matches);
-    mq.addEventListener("change", e => setOk(e.matches));
-    return () => mq.removeEventListener("change", () => {});
-  }, []);
-  return ok;
-}
-
 /* ─── Sidebar NavItem ─── */
 function SideNavItem({ to, icon: Icon, label, kbd, badge, active }: {
   to: string; icon: any; label: string; kbd?: string; badge?: boolean; active: boolean;
