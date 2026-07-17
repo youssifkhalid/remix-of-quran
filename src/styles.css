@@ -217,6 +217,17 @@
     overflow-x: clip;
   }
 
+  .mobile-shell-content {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  /* Production layering policy: global chrome and transient overlays should stay
+     at or below z-50. Reserve higher z-index values for dev-only tooling. */
+  .app-production-overlay {
+    z-index: 50;
+  }
+
   img,
   svg,
   video,
