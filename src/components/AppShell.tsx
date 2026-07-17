@@ -3,7 +3,7 @@ import {
   BookOpen, Home, MoonStar, Sparkles, Bot, Search,
   Compass, BookMarked, Trophy, Map,
   Settings, Heart, Star, CalendarDays, Mic2,
-  Radio, Moon, Flame, LogIn, Menu, X,
+  Radio, Moon, Flame, LogIn, Menu, X, Circle, ListChecks,
 } from "lucide-react";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { AudioPlayerProvider } from "@/contexts/AudioPlayerContext";
@@ -37,9 +37,11 @@ const MORE_SECTIONS = [
     { to: "/khatmah",   icon: Trophy,     label: "ختمة القرآن" },
     { to: "/fasting",   icon: Moon,       label: "صيام رمضان" },
     { to: "/qibla",     icon: Compass,    label: "اتجاه القبلة" },
+    { to: "/tasbeeh",   icon: Circle,     label: "المسبحة" },
+    { to: "/rakaat",    icon: ListChecks, label: "عداد الركعات" },
     { to: "/bookmarks", icon: BookMarked, label: "الإشارات المرجعية" },
   ]},
-  { title: "أدوات ", items: [
+  { title: "أدوات", items: [
     { to: "/calendar",  icon: CalendarDays, label: "التقويم الهجري" },
     { to: "/names",     icon: Star,         label: "أسماء الله الحسنى" },
     { to: "/tools",     icon: Map,          label: "أدوات إسلامية" },
@@ -222,7 +224,8 @@ function AppShellInner({ children }: { children: ReactNode }) {
 
         {/* ── Global MiniPlayer ── */}
         <MiniPlayer />
-        <DesignStudio />
+        {/* Dev-only design token editor — never ships to production users */}
+        {import.meta.env.DEV && <DesignStudio />}
 
         {isAiChat && (
           <button
