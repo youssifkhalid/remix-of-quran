@@ -133,6 +133,9 @@ function AppShellInner({ children }: { children: ReactNode }) {
 
   const isActive = (to: string) => to === "/" ? pathname === "/" : pathname.startsWith(to);
   const isAiChat = pathname.startsWith("/ai-chat");
+  const isRadio = pathname.startsWith("/radio");
+  const showDesignStudio = import.meta.env.DEV;
+  const showMiniPlayer = !isAiChat && !isRadio;
 
   return (
     <AudioPlayerProvider>
@@ -247,14 +250,14 @@ function AppShellInner({ children }: { children: ReactNode }) {
         </div>
 
         {/* ── Global MiniPlayer ── */}
-        <MiniPlayer />
-        <DesignStudio />
+        {showMiniPlayer && <MiniPlayer />}
+        {showDesignStudio && <DesignStudio />}
 
         {isAiChat && (
           <button
             type="button"
             onClick={() => setMenuOpen(true)}
-            className="mobile-menu-trigger fixed-chrome lg:hidden fixed left-3 top-[max(env(safe-area-inset-top),0.75rem)] z-50"
+            className="mobile-menu-trigger fixed-chrome lg:hidden fixed left-3 top-[max(env(safe-area-inset-top),0.75rem)] z-40"
             aria-label="فتح قائمة الصفحات"
           >
             <Menu className="h-5 w-5" />
@@ -262,7 +265,7 @@ function AppShellInner({ children }: { children: ReactNode }) {
         )}
 
         {menuOpen && (
-          <div className="fixed-chrome lg:hidden fixed inset-0 z-[70] bg-background/95">
+          <div className="fixed-chrome lg:hidden fixed inset-0 z-50 bg-background/95">
             <div className="flex items-center justify-between border-b border-border px-4 py-3 pt-[max(env(safe-area-inset-top),0.75rem)]">
               <div>
                 <p className="font-quran text-2xl leading-none">سكينة</p>
