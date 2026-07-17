@@ -18,7 +18,7 @@ export function MiniPlayer() {
 
   return (
     <div className="fixed-chrome fixed inset-x-0 bottom-[5.5rem] z-40 px-3 pointer-events-none">
-      <div className="mx-auto max-w-screen-sm pointer-events-auto rounded-2xl glass shadow-elevated border border-border/40 overflow-hidden">
+      <div className="mx-auto max-w-screen-sm pointer-events-auto rounded-2xl glass shadow-soft border border-border overflow-hidden">
         {/* Progress bar */}
         <div
           className="h-0.5 bg-muted cursor-pointer"
@@ -48,7 +48,7 @@ export function MiniPlayer() {
           </button>
           <button
             onClick={toggle}
-            className="grid h-10 w-10 place-items-center rounded-full gradient-primary text-primary-foreground shadow-glow"
+            className="grid h-10 w-10 place-items-center rounded-full gradient-primary text-primary-foreground"
             aria-label={playing ? "إيقاف" : "تشغيل"}
           >
             {loading ? (

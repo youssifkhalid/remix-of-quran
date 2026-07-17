@@ -25,8 +25,8 @@ export function SakinahLogo({ size = 40, className = "", withWordmark = false }:
     >
       <defs>
         <linearGradient id="sakinah-g" x1="6" y1="6" x2="42" y2="42" gradientUnits="userSpaceOnUse">
-          <stop offset="0" stopColor="var(--gold, #d4af37)" />
-          <stop offset="1" stopColor="var(--primary, #16a570)" />
+          <stop offset="0" stopColor="var(--primary-glow, #d9a463)" />
+          <stop offset="1" stopColor="var(--primary, #b8823f)" />
         </linearGradient>
       </defs>
 
