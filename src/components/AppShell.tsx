@@ -239,7 +239,7 @@ function AppShellInner({ children }: { children: ReactNode }) {
                 </div>
               </div>
             )}
-            <div className={`mobile-shell-content mx-auto w-full ${isAiChat ? "max-w-none h-dvh pb-0" : "max-w-2xl pb-36 lg:pb-10"}`}>
+            <div className={`mobile-shell-content mx-auto w-full ${isAiChat ? "max-w-none h-dvh pb-0" : "max-w-2xl content-safe-bottom lg:pb-10"}`}>
               {children}
             </div>
           </main>

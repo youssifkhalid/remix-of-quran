@@ -588,6 +588,10 @@
   padding-bottom: max(env(safe-area-inset-bottom), 0.75rem);
 }
 
+@utility content-safe-bottom {
+  padding-bottom: calc(7rem + env(safe-area-inset-bottom));
+}
+
 /* Smooth card hover */
 @utility card-hover {
   transition: transform 200ms var(--ease-spring), box-shadow 200ms var(--ease-spring);
